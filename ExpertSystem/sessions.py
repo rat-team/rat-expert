@@ -1,9 +1,9 @@
 SESSION_KEY = "ExpertSystem"
 
 
-def init_session(request):
+def init_session(request, system_id):
     SESSION = {
-        "system_id": -1,
+        "system_id": system_id,
         "selected_params": [],
         "asked_questions": [],
     }
