@@ -51,15 +51,6 @@ class ParameterValue(models.Model):
         db_table="parameter_value"
 
 
-class AttributeValue(models.Model):
-    system = models.ForeignKey(System)
-    attr = models.ForeignKey(Attribute)
-    value = models.CharField(max_length=50)
-
-    class Meta:
-        db_table="attribute_value"
-
-
 class Answer(models.Model):
     question = models.ForeignKey(Question)
     body = models.TextField()
@@ -67,6 +58,15 @@ class Answer(models.Model):
 
     class Meta:
         db_table="answer"
+
+
+class AttributeValue(models.Model):
+    system = models.ForeignKey(System)
+    attr = models.ForeignKey(Attribute)
+    value = models.CharField(max_length=50)
+
+    class Meta:
+        db_table="attribute_value"
 
 
 class SysObject(models.Model):

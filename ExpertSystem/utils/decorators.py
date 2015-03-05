@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
-from sessions import SESSION_KEY
+
+from ExpertSystem.utils.sessions import SESSION_KEY
 
 
 def require_session():

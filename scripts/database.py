@@ -1,4 +1,5 @@
 # coding=utf-8
+from django.http import HttpResponse
 
 from ExpertSystem.models import Question, System, Parameter, ParameterValue
 
@@ -8,6 +9,7 @@ __author__ = 'maxim'
 def insert_es():
     es = System(name="Экспертная система по выбору дерьма")
     es.save()
+
 
 def insert_parameters():
     es = System.objects.first()
