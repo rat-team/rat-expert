@@ -7,11 +7,13 @@
 			</div>
 			<form action="{% url 'answer' %}" method="POST">
 				{% csrf_token %}
+                <input id="question_id" name="question_id" value="{{ question.id }}" type="hidden"/>
 				{% for answer in answers %}
 				<div class="answer">
-					<h3><input id="{{ answer.body }}" type="radio" name="{{ answer.parameter_value.param.id }}" value="{{ answer.parameter_value.id }}"> <label for="{{ answer.body }}"> {{ answer.body }} </label></h3>
+					<h3><input id="{{ answer.body }}" type="radio" name="answer" value="{{ answer.id }}"> <label for="{{ answer.body }}"> {{ answer.body }} </label></h3>
 				</div>
 				{% endfor %}
+                <h3><input id="dont_know" type="radio" name="answer" value="dont_know"> <label for="dont_know"> Затрудняюсь ответить </label></h3>
 				<button type="submit" class="question__submit-button btn btn-success btn-lg">САБМИТ!</button>
 			</form>
 	

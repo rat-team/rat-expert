@@ -8,6 +8,7 @@ from ExpertSystem.models import Answer
 from ExpertSystem.models import Parameter
 from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_session
+from ExpertSystem.utils.decorators import require_post_params
 
 
 def index(request):
@@ -55,9 +56,23 @@ def next_question(request):
     return HttpResponse("THE END")
 
 @require_session()
+@require_post_params("answer", "question_id")
 def answer(request):
+    answer_id = request.POST.get("answer")
+    question_id = request.POST.get("question_id")
 
-    #session.set
+    session = request.session.get(sessions.SESSION_KEY)
+    if answer_id == "dont_know":
+        sessions.add_to_session(request, asked_questions=[question_id])
+        return next_question(request)
+
+    answer = Answer.objects.get(id=answer_id)
+    param_value = answer.parameter_value
+
+    #MAX(session, param_value)
+    #ILUHA(session)
+
+    sessions.add_to_session(request, asked_questions=question_id)
 
     return next_question(request)
 
