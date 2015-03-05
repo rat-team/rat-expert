@@ -42,15 +42,6 @@ class Question(models.Model):
         db_table="question"
 
 
-class Answer(models.Model):
-    question = models.ForeignKey(Question)
-    body = models.TextField()
-    parameter_value = models.ForeignKey(ParameterValue)
-
-    class Meta:
-        db_table="answer"
-
-
 class ParameterValue(models.Model):
     system = models.ForeignKey(System)
     param = models.ForeignKey(Parameter)
@@ -58,6 +49,15 @@ class ParameterValue(models.Model):
 
     class Meta:
         db_table="parameter_value"
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question)
+    body = models.TextField()
+    parameter_value = models.ForeignKey(ParameterValue)
+
+    class Meta:
+        db_table="answer"
 
 
 class AttributeValue(models.Model):
