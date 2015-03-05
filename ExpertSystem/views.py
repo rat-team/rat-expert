@@ -1,3 +1,6 @@
+# coding=utf-8
+from django.http import HttpResponse
+
 from django.shortcuts import render
 
 from ExpertSystem.models import System
@@ -31,24 +34,26 @@ def next_question(request):
     system = System.objects.get(id=system_id)
     all_parameters = Parameter.objects.filter(system=system)
 
+    #Берем все параметры
     for param in all_parameters:
 
+        #Находим, какие еще не выясняли
         if param.id not in selected_params:
 
             questions = Question.objects.filter(parameter=param)
 
+            #Проходим все вопросы у каждого параметра, смотрим какие еще не задавали и спрашиваем
             for question in questions:
                 if question not in asked_questions:
                     answers = Answer.objects.filter(question=question)
-
                     ctx = {
                         "question": question,
                         "answers": answers,
                     }
-
                     return render(request, ctx)
 
-    pass
+
+    return HttpResponse("THE END")
 
 
 def answer(request):
