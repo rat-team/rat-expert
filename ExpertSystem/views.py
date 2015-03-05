@@ -12,9 +12,9 @@ from ExpertSystem.utils.decorators import require_session
 
 def index(request):
 
-    if not request.GET.has_key("system") and not request.session.has_key(sessions.SESSION_KEY):
+    if not request.GET.has_key("system_id") and not request.session.has_key(sessions.SESSION_KEY):
         systems = System.objects.all()
-        return render(request, "index.html", {"systems": systems})
+        return render(request, "systems.html", {"systems": systems})
 
     if not request.session.has_key(sessions.SESSION_KEY):
         system_id = request.session.get("system")
@@ -49,7 +49,7 @@ def next_question(request):
                         "question": question,
                         "answers": answers,
                     }
-                    return render(request, ctx)
+                    return render(request, "question.html", ctx)
 
 
     return HttpResponse("THE END")
