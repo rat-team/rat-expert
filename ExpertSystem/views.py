@@ -17,7 +17,7 @@ def index(request):
         return render(request, "systems.html", {"systems": systems})
 
     if not request.session.has_key(sessions.SESSION_KEY):
-        system_id = request.session.get("system")
+        system_id = request.GET.get("system_id")
         sessions.init_session(request, system_id)
 
     return next_question(request)
@@ -54,7 +54,7 @@ def next_question(request):
 
     return HttpResponse("THE END")
 
-
+@require_session()
 def answer(request):
 
     #session.set
