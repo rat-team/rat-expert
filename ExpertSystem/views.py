@@ -1,9 +1,8 @@
 # coding=utf-8
 from django.http import HttpResponse
-
 from django.shortcuts import render
-
 from ExpertSystem.models import System
+from scripts.database import run
 from ExpertSystem.models import Question
 from ExpertSystem.models import Answer
 from ExpertSystem.models import Parameter
@@ -61,3 +60,8 @@ def answer(request):
     #session.set
 
     return next_question(request)
+
+
+def create_db(request):
+    run()
+    return HttpResponse(content="OK")

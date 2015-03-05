@@ -33,7 +33,7 @@ class Question(models.Model):
         (NUMBER, "Напишите число"),
     )
     #Атрибут, к которому привязан вопрос
-    parameter = models.ForeignKey(Attribute)
+    parameter = models.ForeignKey(Parameter)
     body = models.TextField()
     system = models.ForeignKey(System)
     type = models.IntegerField(choices=CHOICES)
@@ -70,7 +70,7 @@ class AttributeValue(models.Model):
 
 
 class SysObject(models.Model):
-    name = models
+    name = models.TextField()
     #Список атрибутов и их значений у объекта
     attributes = models.ManyToManyField(AttributeValue)
 
