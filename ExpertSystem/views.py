@@ -2,6 +2,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from ExpertSystem.models import System
+from ExpertSystem.queries import add_weight_to_objects
 from scripts.database import run
 from ExpertSystem.models import Question
 from ExpertSystem.models import Answer
@@ -53,6 +54,13 @@ def next_question(request):
 
 
     return HttpResponse("THE END")
+
+
+def update_session_attributes(session, attributes):
+    for obj in session['objects']:
+        session['objects'][obj] = 0
+    for attr in attributes:
+        add_weight_to_objects(session['objects'], attr, attributes[attr])
 
 
 def answer(request):

@@ -6,7 +6,7 @@ class System(models.Model):
     name = models.CharField(max_length=50)
 
     class Meta:
-        db_table="system"
+        db_table = "system"
 
 
 class Attribute(models.Model):
@@ -14,7 +14,10 @@ class Attribute(models.Model):
     system = models.ForeignKey(System)
 
     class Meta:
-        db_table="attribute"
+        db_table = "attribute"
+
+    def __unicode__(self):
+        return self.name
 
 
 class Parameter(models.Model):
@@ -22,7 +25,7 @@ class Parameter(models.Model):
     system = models.ForeignKey(System)
 
     class Meta:
-        db_table="parameter"
+        db_table = "parameter"
 
 
 class Question(models.Model):
@@ -39,7 +42,7 @@ class Question(models.Model):
     type = models.IntegerField(choices=CHOICES)
 
     class Meta:
-        db_table="question"
+        db_table = "question"
 
 
 class ParameterValue(models.Model):
@@ -48,7 +51,7 @@ class ParameterValue(models.Model):
     value = models.CharField(max_length=50)
 
     class Meta:
-        db_table="parameter_value"
+        db_table = "parameter_value"
 
 
 class Answer(models.Model):
@@ -57,7 +60,7 @@ class Answer(models.Model):
     parameter_value = models.ForeignKey(ParameterValue)
 
     class Meta:
-        db_table="answer"
+        db_table = "answer"
 
 
 class AttributeValue(models.Model):
@@ -66,17 +69,22 @@ class AttributeValue(models.Model):
     value = models.CharField(max_length=50)
 
     class Meta:
-        db_table="attribute_value"
+        db_table = "attribute_value"
 
+    def __unicode__(self):
+        return self.attr.name + " : " + self.value
 
 class SysObject(models.Model):
     name = models.TextField()
     #Список атрибутов и их значений у объекта
-    attributes = models.ManyToManyField(AttributeValue)
+    attributes = models.ManyToManyField(AttributeValue, null=True, blank=True)
+    system = models.ForeignKey(System)
 
     class Meta:
-        db_table="sys_object"
+        db_table = "sys_object"
 
+    def __unicode__(self):
+        return self.name
 
 class Rule(models.Model):
     PARAM_RULE = 0
@@ -90,5 +98,5 @@ class Rule(models.Model):
     type = models.IntegerField(choices=CHOICES)
 
     class Meta:
-        db_table="rule"
+        db_table = "rule"
 
