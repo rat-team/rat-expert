@@ -8,10 +8,10 @@ from ExpertSystem.models import Answer
 from ExpertSystem.models import Parameter
 from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_session
+from ExpertSystem.utils.parser import *
 
 
 def index(request):
-
     if not request.GET.has_key("system_id") and not request.session.has_key(sessions.SESSION_KEY):
         systems = System.objects.all()
         return render(request, "systems.html", {"systems": systems})
@@ -33,10 +33,10 @@ def next_question(request):
     system = System.objects.get(id=system_id)
     all_parameters = Parameter.objects.filter(system=system)
 
-    #Берем все параметры
+    # Берем все параметры
     for param in all_parameters:
 
-        #Находим, какие еще не выясняли
+        # Находим, какие еще не выясняли
         if param.id not in selected_params:
 
             questions = Question.objects.filter(parameter=param)
@@ -51,17 +51,17 @@ def next_question(request):
                     }
                     return render(request, "question.html", ctx)
 
-
     return HttpResponse("THE END")
+
 
 @require_session()
 def answer(request):
-
-    #session.set
-
     return next_question(request)
 
 
 def create_db(request):
-    run()
+    # run()
+    get_attributes(Answer.objects.first())
     return HttpResponse(content="OK")
+
+
