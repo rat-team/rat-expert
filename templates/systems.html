@@ -12,8 +12,10 @@
       <img src="{% static "img/dsc_5965.jpg" %}" class="thumbnail__avatar" alt="...">
       <div class="caption">
         <h3 class="thumbnail__title">{{system.name}}</h3>
-        <p class="thumbnail__text">Попробуйте нашу лучшую систему по подбору кое-чего! Так как эта система никто вам не поможет выбрать кое-что!</p>
-        <p><a href="/index/?system_id={{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Попробовать</a></p>
+        <p class="thumbnail__text">Попробуйте лучшее из всего, что Вы когда-либо видели! <br/>
+         <b>{{system.name}}!</b> <br/>
+          Так как эта система, никто вам не поможет выбрать!</p>
+        <p><a href="/index?system_id={{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Попробовать</a></p>
       </div>
     </div>
   </div>
