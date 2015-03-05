@@ -14,7 +14,7 @@ def index(request):
 
     if not request.GET.has_key("system") and not request.session.has_key(sessions.SESSION_KEY):
         systems = System.objects.all()
-        return render(request, "index.html", {"systems": systems})
+        return render(request, "systems.html", {"systems": systems})
 
     if not request.session.has_key(sessions.SESSION_KEY):
         system_id = request.session.get("system")
