@@ -9,7 +9,7 @@
 				{% csrf_token %}
 				{% for answer in answers %}
 				<div class="answer">
-					<h3><input id="{{ answer.body }}" type="radio" name="{{ answer.parameter_value.param.name }}" value="{{ answer.parameter_value.value }}"> <label for="{{ answer.body }}"> {{ answer.body }} </label></h3>
+					<h3><input id="{{ answer.body }}" type="radio" name="{{ answer.parameter_value.param.id }}" value="{{ answer.parameter_value.id }}"> <label for="{{ answer.body }}"> {{ answer.body }} </label></h3>
 				</div>
 				{% endfor %}
 				<button type="submit" class="question__submit-button btn btn-success btn-lg">САБМИТ!</button>
