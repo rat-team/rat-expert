@@ -7,7 +7,7 @@
 </div> -->
 <div class="row">
 	{% for system in systems %}
-  <div class="col-sm-6 col-md-4">
+  <div class="col-sm-6 col-md-4 {% cycle 'col-md-offset-1' 'col-md-offset-1' %}">
     <div class="thumbnail">
       <img src="{% static "img/dsc_5965.jpg" %}" class="thumbnail__avatar" alt="...">
       <div class="caption">
