@@ -32,7 +32,7 @@ class Question(models.Model):
         (SELECT, "Выберите ответ"),
         (NUMBER, "Напишите число"),
     )
-    #Атрибут, к которому привязан вопрос
+    #Параметр, к которому привязан вопрос
     parameter = models.ForeignKey(Parameter)
     body = models.TextField()
     system = models.ForeignKey(System)
