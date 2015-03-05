@@ -72,7 +72,7 @@ class AttributeValue(models.Model):
 class SysObject(models.Model):
     name = models.TextField()
     #Список атрибутов и их значений у объекта
-    attributes = models.ManyToManyField(AttributeValue)
+    attributes = models.ManyToManyField(AttributeValue, related_name='sys_objects')
 
     class Meta:
         db_table="sys_object"

@@ -134,13 +134,20 @@ def insert_parameters():
 
     q = Question(system=es, body="Что вы любите есть?", type=Question.SELECT, parameter=p)
     q.save()
+
     pv = ParameterValue(system=es, param=p, value="В говне")
     pv.save()
     parametr_values.append(pv)
 
+    answer = Answer(body="Говно", question=q, parameter_value=pv)
+    answer.save()
+
     pv = ParameterValue(system=es, param=p, value="Чистый")
     pv.save()
     parametr_values.append(pv)
+
+    answer = Answer(body="Сыр", question=q, parameter_value=pv)
+    answer.save()
 
     pv = ParameterValue(system=es, param=p, value="Отрезанный")
     pv.save()
@@ -159,6 +166,9 @@ def insert_parameters():
     pv.save()
     parametr_values.append(pv)
 
+    answer = Answer(body="Пиво", question=q, parameter_value=pv)
+    answer.save()
+
     pv = ParameterValue(system=es, param=p, value="Прореженные лишаем")
     pv.save()
     parametr_values.append(pv)
@@ -169,13 +179,35 @@ def insert_parameters():
     q = Question(system=es, body="Что вы любите бить?", type=Question.SELECT, parameter=p)
     q.save()
 
-    pv = ParameterValue(system=es, param=p, value="Длинные")
+    pv = ParameterValue(system=es, param=p, value="Длинный")
     pv.save()
     parametr_values.append(pv)
+
+    answer = Answer(body="Какой-то ответ", question=q, parameter_value=pv)
+    answer.save()
 
     pv = ParameterValue(system=es, param=p, value="Обрубили каблуком")
     pv.save()
     parametr_values.append(pv)
+
+
+def insert_objects():
+    object = SysObject(name="Крыса")
+    object.save()
+    add_object_attribute(object)
+
+    object = SysObject(name="Собака")
+    object.save()
+    add_object_attribute(object)
+
+    object = SysObject(name="Кошка")
+    object.save()
+    add_object_attribute(object)
+
+
+def add_object_attribute(object):
+    for x in xrange(random.randint(1,4)):
+        object.attributes.add(random.choice(attributes_values))
 
 
 def run():
@@ -184,3 +216,4 @@ def run():
     insert_parameters()
     insert_attr()
     insert_rules()
+    insert_objects()
