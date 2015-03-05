@@ -2,6 +2,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from ExpertSystem.models import System
+from ExpertSystem.queries import add_weight_to_objects, update_session_attributes
 from scripts.database import run
 from ExpertSystem.models import Question
 from ExpertSystem.models import Answer
@@ -9,6 +10,7 @@ from ExpertSystem.models import Parameter
 from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_session
 from ExpertSystem.utils.parser import *
+from ExpertSystem.utils.decorators import require_post_params
 
 
 def index(request):
@@ -53,15 +55,31 @@ def next_question(request):
 
     return HttpResponse("THE END")
 
-
 @require_session()
+@require_post_params("answer", "question_id")
 def answer(request):
+    answer_id = request.POST.get("answer")
+    question_id = request.POST.get("question_id")
+
+    session = request.session.get(sessions.SESSION_KEY)
+    if answer_id == "dont_know":
+        sessions.add_to_session(request, asked_questions=[question_id])
+        return next_question(request)
+
+    answer = Answer.objects.get(id=answer_id)
+
+    attrs = get_attributes(answer)
+    update_session_attributes(session, attrs)
+    #MAX(session, param_value)
+    #ILUHA(session)
+
+    sessions.add_to_session(request, asked_questions=question_id)
+
     return next_question(request)
 
 
 def create_db(request):
-    # run()
-    get_attributes(Answer.objects.first())
+    run()
     return HttpResponse(content="OK")
 
 
