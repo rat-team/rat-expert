@@ -57,11 +57,6 @@ def next_question(request):
     return HttpResponse("THE END")
 
 
-def update_session_attributes(session, attributes):
-    for obj in session['objects']:
-        session['objects'][obj] = 0
-    for attr in attributes:
-        add_weight_to_objects(session['objects'], attr, attributes[attr])
 
 @require_session()
 @require_post_params("answer", "question_id")
