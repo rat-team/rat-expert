@@ -32,7 +32,7 @@ class Question(models.Model):
         (SELECT, "Выберите ответ"),
         (NUMBER, "Напишите число"),
     )
-    #Атрибут, к которому привязан вопрос
+    #Параметр, к которому привязан вопрос
     parameter = models.ForeignKey(Parameter)
     body = models.TextField()
     system = models.ForeignKey(System)
@@ -72,7 +72,7 @@ class AttributeValue(models.Model):
 class SysObject(models.Model):
     name = models.TextField()
     #Список атрибутов и их значений у объекта
-    attributes = models.ManyToManyField(AttributeValue)
+    attributes = models.ManyToManyField(AttributeValue, related_name='sys_objects')
 
     class Meta:
         db_table="sys_object"
