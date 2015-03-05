@@ -9,7 +9,7 @@ def init_session(request, system_id):
         "objects": []
     }
 
-    request.session.set(SESSION_KEY, session)
+    request.session[SESSION_KEY] = session
 
 
 def parse_session(session):

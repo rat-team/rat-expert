@@ -13,12 +13,12 @@ from ExpertSystem.utils.decorators import require_session
 
 def index(request):
 
-    if not request.GET.has_key("system") and not request.session.has_key(sessions.SESSION_KEY):
+    if not request.GET.has_key("system_id") and not request.session.has_key(sessions.SESSION_KEY):
         systems = System.objects.all()
         return render(request, "systems.html", {"systems": systems})
 
     if not request.session.has_key(sessions.SESSION_KEY):
-        system_id = request.session.get("system")
+        system_id = request.GET.get("system_id")
         sessions.init_session(request, system_id)
 
     return next_question(request)
@@ -50,7 +50,7 @@ def next_question(request):
                         "question": question,
                         "answers": answers,
                     }
-                    return render(request, ctx)
+                    return render(request, "question.html", ctx)
 
 
     return HttpResponse("THE END")
@@ -62,7 +62,7 @@ def update_session_attributes(session, attributes):
     for attr in attributes:
         add_weight_to_objects(session['objects'], attr, attributes[attr])
 
-
+@require_session()
 def answer(request):
 
     #session.set
