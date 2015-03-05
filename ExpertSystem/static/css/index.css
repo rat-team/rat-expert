@@ -8,3 +8,9 @@
 	font-family: Verdana;
 	font-size: 16px;
 }
+.answer{
+	font-family: Verdana;
+}
+.question__submit-button{
+	margin-top: 25px;
+}

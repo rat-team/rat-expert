@@ -2,10 +2,18 @@
 {% block content %}
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2 ">
-			{{ question }}
-			{% for answer in answers %}
-				<input type="radio" name="answer" value="firefox">
-			{% endfor %}
+			<div class="page-header">
+				<h1>{{ question.body }}</h1>
+			</div>
+			<form action="{% url 'answer' %}" method="POST">
+				{% csrf_token %}
+				{% for answer in answers %}
+				<div class="answer">
+					<h3><input id="{{ answer.body }}" type="radio" name="{{ answer.parameter_value.param.name }}" value="{{ answer.parameter_value.value }}"> <label for="{{ answer.body }}"> {{ answer.body }} </label></h3>
+				</div>
+				{% endfor %}
+				<button type="submit" class="question__submit-button btn btn-success btn-lg">САБМИТ!</button>
+			</form>
 	
 	</div>
 {% endblock %}
