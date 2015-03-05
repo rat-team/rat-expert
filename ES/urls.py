@@ -12,6 +12,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^create/', create_db),
-    url(r'^index', index, "index"),
+    url(r'^index$', index, "index"),
     url(r'^$', index, name="index"),
 )
