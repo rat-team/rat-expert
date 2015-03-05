@@ -1,9 +1,9 @@
 from ExpertSystem.models import AttributeValue
 
 
-def add_weight_to_objects(objects, attribute, values):
+def add_weight_to_objects(objects, attribute_id, values_ids):
 
-    all_attr_values = AttributeValue.objects.filter(attr__name=attribute, value__in=values)
+    all_attr_values = AttributeValue.objects.filter(attr__id=attribute_id, id__in=values_ids)
     base_weight = 0
     if len(all_attr_values) != 0:
         base_weight = 1 / float(len(all_attr_values))
