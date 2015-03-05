@@ -2,6 +2,7 @@ from django.shortcuts import render
 from ExpertSystem import sessions
 from ExpertSystem.models import System
 from decorators import require_session
+from scripts.database import run
 
 
 def index(request):
@@ -29,3 +30,7 @@ def answer(request):
     #session.set
 
     return next_question(request)
+
+
+def create_db(request):
+    run()

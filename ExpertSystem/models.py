@@ -33,22 +33,13 @@ class Question(models.Model):
         (NUMBER, "Напишите число"),
     )
     #Атрибут, к которому привязан вопрос
-    parameter = models.ForeignKey(Attribute)
+    parameter = models.ForeignKey(Parameter)
     body = models.TextField()
     system = models.ForeignKey(System)
     type = models.IntegerField(choices=CHOICES)
 
     class Meta:
         db_table="question"
-
-
-class Answer(models.Model):
-    question = models.ForeignKey(Question)
-    body = models.TextField()
-    parameter_value = models.ForeignKey(ParameterValue)
-
-    class Meta:
-        db_table="answer"
 
 
 class ParameterValue(models.Model):
@@ -69,8 +60,17 @@ class AttributeValue(models.Model):
         db_table="attribute_value"
 
 
+class Answer(models.Model):
+    question = models.ForeignKey(Question)
+    body = models.TextField()
+    parameter_value = models.ForeignKey(ParameterValue)
+
+    class Meta:
+        db_table="answer"
+
+
 class SysObject(models.Model):
-    name = models
+    name = models.TextField()
     #Список атрибутов и их значений у объекта
     attributes = models.ManyToManyField(AttributeValue)
 
