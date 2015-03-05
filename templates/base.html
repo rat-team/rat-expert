@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Ratus-Expertus</title>
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static "css/lib/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/index.css" %}">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<nav class="navbar navbar-default" role="navigation">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			      <a class="navbar-brand" href="/">Ratus-Expertus</a>
+			    </div>
+
+			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			      <ul class="nav navbar-nav">
+			        <li class="active"><a href="#">Системы</a></li>
+			        <li><a href="#">Создатели</a></li>
+			      </ul>
+			      
+			      <ul class="nav navbar-nav navbar-right">
+			        <li><a href="#">Account</a></li>
+			      </ul>
+			    </div>
+			  </div>
+			</nav>
+			{%block navbar%}
+			{%endblock navbar%}
+			<div class="col-md-12">
+				{%block content%}
+				{%endblock content%}
+			</div>
+		</div>
+		<!-- <script src="{% static "js/lib/bootstrap.min.js" %}"></script> -->
+	</div>
+</body>
+</html>

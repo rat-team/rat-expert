@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
-from ExpertSystem.views import index, create_db
+from ExpertSystem.views import index, create_db, answer
 
 admin.autodiscover()
 
@@ -12,6 +12,10 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^create/', create_db),
-    url(r'^index', index, "index"),
+
+    url(r'^index$', index, name="index"),
     url(r'^$', index, name="index"),
+
+    url(r'^answer/$', answer, name="answer"),
+
 )

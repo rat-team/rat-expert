@@ -1,0 +1,10 @@
+.thumbnail__avatar{
+	width: 200px;
+}
+.thumbnail__title{
+	text-align: center;
+}
+.thumbnail__text{
+	font-family: Verdana;
+	font-size: 16px;
+}
