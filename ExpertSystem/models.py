@@ -28,7 +28,7 @@ class Parameter(models.Model):
 class Question(models.Model):
     SELECT = 0
     NUMBER = 1
-    CHOISES = (
+    CHOICES = (
         (SELECT, "Выберите ответ"),
         (NUMBER, "Напишите число"),
     )
@@ -36,7 +36,7 @@ class Question(models.Model):
     parameter = models.ForeignKey(Attribute)
     body = models.TextField()
     system = models.ForeignKey(System)
-    type = models.IntegerField(choices=CHOISES)
+    type = models.IntegerField(choices=CHOICES)
 
     class Meta:
         db_table="question"
@@ -66,7 +66,7 @@ class AttributeValue(models.Model):
     value = models.CharField(max_length=50)
 
     class Meta:
-        db_table="attrubite_value"
+        db_table="attribute_value"
 
 
 class SysObject(models.Model):
@@ -81,13 +81,13 @@ class SysObject(models.Model):
 class Rule(models.Model):
     PARAM_RULE = 0
     ATTR_RULE = 1
-    CHOISES = (
+    CHOICES = (
         (PARAM_RULE, "Правило для параметра"),
         (ATTR_RULE, "Правило для атрибута"),
     )
     condition = models.TextField()
     result = models.TextField()
-    type = models.IntegerField(choices=CHOISES)
+    type = models.IntegerField(choices=CHOICES)
 
     class Meta:
         db_table="rule"

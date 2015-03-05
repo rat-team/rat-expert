@@ -19,6 +19,8 @@ def index(request):
 
 @require_session()
 def next_question(request):
+    system = request.session.get(sessions.SESSION_KEY)
+
     pass
 
 
