@@ -13,7 +13,7 @@ def add_weight_to_objects(objects, attribute, values):
     obj_weight = 0
     for obj in objects:
         for attr_value in all_attr_values:
-            if attr_value.sysobject_set.filter(name=obj):
+            if attr_value.sys_objects.filter(name=obj):
                 obj_weight += 1
         objects[obj] += base_weight * obj_weight
         obj_weight = 0
