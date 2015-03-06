@@ -40,7 +40,22 @@ def add_system(request, **kwargs):
 
 @require_creation_session()
 def add_attributes(request):
-    return render(request, "add_system/add_attributes.html")
+    session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
+    system = System.objects.get(id=session["system_id"])
+    all_attributes = Attribute.objects.filter(system=system)
+
+    attributes = []
+    for attribute in all_attributes:
+        attr_values = AttributeValue.objects.filter(attr=attribute)
+        values = []
+        for value in attr_values:
+            values.append(value.value)
+        attributes.append({
+            "name": attribute.name,
+            "values": values,
+        })
+
+    return render(request, "add_system/add_attributes.html", {"attributes": attributes})
 
 
 @require_http_methods(["POST"])
