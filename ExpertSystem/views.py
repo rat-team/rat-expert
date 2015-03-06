@@ -88,3 +88,8 @@ def answer(request):
 def create_db(request):
     run()
     return HttpResponse(content="OK")
+
+def add_system(request, page):
+    page = page if page else 0
+    temp = "add_system." + page + ".html"
+    return render(request, "add_system." + page + ".html")
