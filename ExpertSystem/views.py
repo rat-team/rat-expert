@@ -60,16 +60,20 @@ def next_question(request):
                     ctx = {
                         "question": question,
                         "answers": answers,
+                        "table": session_dict["objects"]
                     }
                     return render(request, "question.html", ctx)
 
-    return HttpResponse("THE END")
+    return HttpResponseRedirect("/reset")
 
 @require_session()
 @require_post_params("answer", "question_id")
 def answer(request):
     answer_id = request.POST.get("answer")
     question_id = request.POST.get("question_id")
+    answer = Answer.objects.get(id=answer_id)
+
+    attrs = get_attributes(answer)
 
     session = request.session.get(sessions.SESSION_KEY)
     system_id = session["system_id"]
@@ -85,16 +89,13 @@ def answer(request):
     if answer_id == "dont_know":
         sessions.add_to_session(request,
                                 asked_questions=[question_id, ],
-                                objects=objects)
+                                objects=objects if attrs else None)
         return next_question(request)
-
-    answer = Answer.objects.get(id=answer_id)
 
     sessions.add_to_session(request, asked_questions=[int(question_id), ],
                             selected_params=[answer.parameter_value.id, ],
-                            objects=objects)
+                            objects=objects if attrs else None)
 
-    attrs = get_attributes(answer)
     request.session[sessions.SESSION_KEY] = update_session_attributes(
         request.session.get(sessions.SESSION_KEY), attrs
     )
