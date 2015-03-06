@@ -47,7 +47,7 @@
 	</div>
 </div>
 
-<form action="/add_system" method="POST" class="form-horizontal">
+<form action="{% url 'insert_attributes' %}" method="POST" class="form-horizontal">
 	<input name="form_data" type="hidden">
 	{% csrf_token %}
 	<div class="row">

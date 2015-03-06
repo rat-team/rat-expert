@@ -13,6 +13,9 @@
          <b>{{system.name}}!</b> <br/>
           Так как эта система, никто вам не поможет выбрать!</p>
         <p><a href="/index?system_id={{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Попробовать бесплатно!</a></p>
+
+          <p><a href="/add_system/{{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Редактировать</a></p>
+
       </div>
     </div>
   </div>
@@ -20,7 +23,7 @@
   <div class="col-sm-6 col-md-4 col-md-offset-1">
     <div class="thumbnail">
       <div class="thumbnail__add">
-      	<a href="/add_system/0">
+      	<a href="{% url "add_system" %}">
       		<span class="glyphicon glyphicon-plus"></span>
       	</a>
       </div>

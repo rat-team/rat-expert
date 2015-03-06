@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+{% load tags %}
+<ul class="nav nav-pills">
+    <li class="{% active request 'add_system' %}">
+        <a href="{% url "add_system" %}">Система</a>
+    </li>
+    <li class="{% active request 'add_attributes' %}">
+        <a href="{% url "add_attributes" %}">Атрибуты</a>
+    </li>
+    <li class="{% active request 'add_objects' %}">
+        <a href="#">Объекты</a>
+    </li>
+    <li class="{% active request 'add_parameters' %}">
+        <a href="#">Параметры</a>
+    </li>
+    <li class="{% active request 'add_questions' %}">
+        <a href="#">Вопросы</a>
+    </li>
+    <li class="{% active request 'add_logic' %}">
+        <a href="#">Логика</a>
+    </li>
+</ul>
+
+    {% block add_page %}
+    {% endblock %}
+
+{% endblock %}
