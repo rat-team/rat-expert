@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+	<h1>Добавление объектов</h1>
+</div>
+<!-- <ul class="pagination">
+  <li><a href="0">1</a></li>
+  <li class="active"><a href="1">2</a></li>
+  <li><a href="2">3</a></li>
+  <li><a href="3">4</a></li>
+</ul> -->
+<!-- <div class="js-attributes__item-template attributes__item hide col-md-5">
+	<div class="form-group">
+		<label for="inputEmail3" class="col-md-3 control-label">Название атрибута</label>
+		<div class="col-md-9">
+			<input name="attr_name[1]" type="text" class="form-control" id="inputEmail3" placeholder="Нос">
+		</div>
+	</div>
+	<div class="form-group attributes__item__value">
+		<label for="inputEmail3" class="col-md-3 control-label">Значение</label>
+		<div class="col-md-7">
+			<input name="attr_value[0]" type="text" class="form-control" id="inputEmail3" placeholder="Чистый">
+		</div>
+		<div class="col-md-2">
+			<button type="button" class="js-attributes__item__add-value btn btn-warning">
+		<i class="glyphicon-plus glyphicon"></i></button>
+		</div>
+	</div>
+</div> -->
+
+<form action="/add_system" method="POST" class="form-horizontal">
+	<input name="form_data" type="hidden">
+	{% csrf_token %}
+	<div class="row">
+		<div class="col-md-12 js-attributes__column">
+			<div class="row js-attributes attributes">
+				<!-- <h2 class="attributes__title">Атрибуты:</h2> -->
+				<div class="js-attributes__item attributes__item col-md-5" data-id="0">
+					<div class="form-group">
+						<label for="inputEmail3" class="col-md-3 control-label">Название объекта</label>
+						<div class="col-md-9">
+							<input name="name" type="text" class="form-control" id="inputEmail3" placeholder="Нос" data-id="0">
+						</div>
+					</div>
+					{% for attr in attributes %}
+					<div class="form-group attributes__item__value">
+						<label for="inputEmail3" class="col-md-3 control-label">{{ attr.name }}</label>
+						<div class="col-md-7">
+							<select class="form-control">
+								{% for value in attr.values %}
+								<option class="form-control">{{ value }}</option>
+								{% endfor %}
+							</select>
+							<!-- <input name="value" type="text" class="form-control" id="inputEmail3" placeholder="Чистый"> -->
+						</div>
+						<div class="col-md-2">
+							<button type="button" class="js-attributes__item__add-value btn btn-warning">
+						<i class="glyphicon-plus glyphicon"></i></button>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					<button type="button" class="js-attributes__add-item attributes__add-item btn btn-warning btn-lg"><i class="glyphicon-plus glyphicon"></i></button></button>
+					<button type="submit" class="btn btn-success btn-lg">Сабмит!</button></button>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="col-md-6 col-md-offset-1">
+			<div class="row js-objects">
+				<h2 class="attributes__title">Объекты:</h2>
+				<div class="js-objects__item attributes__item">
+					<h3 class="attributes__item__title">Название: <input type="text" class="form-control attributes__item__title-input" placeholder="Крыса"></h3>
+					<div class="form-group">
+						<label for="inputEmail3" class="col-md-2 control-label">Нос</label>
+						<div class="col-md-10">
+							<input type="text" class="form-control" id="inputEmail3" placeholder="Чистый">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2 col-md-offset-10 attributes__add-item__wrapper">
+					<button type="button" class="js-objects__add-item attributes__add-item btn btn-warning btn-lg"><i class="glyphicon-plus glyphicon"></i></button></button>
+				</div>
+			</div>
+		</div> -->
+	</div>
+</form>
+<script>
+	$('.js-attributes__item__add-value').on('click', addAttributeValue);
+	var self = this
+	function addAttributeValue (evt) {
+		var $target = $(evt.target),
+			$block = $target.closest('.attributes__item__value'),
+			$blockClone = $block.clone();
+
+		$blockClone.find('.js-attributes__item__add-value').on('click', addAttributeValue);
+		$blockClone.find('input').val('');
+		$block.closest('.attributes__item').append($blockClone);
+		// $block.find('.js-attributes__item__add-value').off('click', addAttribute);
+		$target.closest('button').remove();
+	}
+
+	$('.js-attributes__add-item').on('click', addAttribute);
+	function addAttribute (evt) {
+		var $target = $(evt.target),
+			$block = $('.js-attributes__item-template').eq(0),
+			$blockClone = $block.clone();
+		$blockClone.removeClass('js-attributes__item-template').addClass('js-attributes__item');
+		$blockClone.find('.js-attributes__item__add-value').on('click', addAttributeValue);
+		$blockClone.find('input').val('');
+		$('.js-attributes').append($blockClone);
+		$blockClone.removeClass('hide');
+	}
+
+	$('form').on('submit', function(evt) {
+		var submitData = [];
+		var attrItems = $('.js-attributes__item');
+		var attrs = [];
+		_.each(attrItems, function(item) {
+			var attrJSON = {
+				name: $(item).find('input[name=name]').val(),
+				values: []
+			};
+			_.each($(item).find('input[name=value]'), function(attrValueInput) {
+				attrJSON.values.push($(attrValueInput).val());
+			})	
+			attrs.push(attrJSON);
+		})
+		$('form').find('input[name=form_data]').val(JSON.stringify(attrs));
+		console.log(attrs);
+	});
+
+	// $('.js-objects__add-item').on('click', addObject);
+	// function addObject (evt) {
+	// 	var $target = $(evt.target),
+	// 		$block = $('.js-objects__item').eq(0),
+	// 		$blockClone = $block.clone();
+
+	// 	$block.closest('.js-objects').append($blockClone);
+	// }
+</script>
+{% endblock %}
