@@ -28,14 +28,6 @@ def add_to_session(request, selected_params=None, asked_questions=None, objects=
         session["selected_params"] += selected_params
     if asked_questions:
         session["asked_questions"] += asked_questions
-    if objects:
-        session_objects = session["objects"]
-        result = []
-        session_objects.extend(objects)
-        for myDict in session_objects:
-            if myDict not in result:
-                result.append(myDict)
-        session["objects"] = result
 
 
 def clear_session(request):

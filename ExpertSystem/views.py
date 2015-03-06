@@ -65,7 +65,7 @@ def next_question(request):
                     }
                     return render(request, "question.html", ctx)
 
-    return HttpResponseRedirect("/reset")
+    return render(request, "final.html", {"table": session_dict["objects"]})
 
 @require_session()
 @require_post_params("answer", "question_id")
@@ -76,36 +76,19 @@ def answer(request):
 
     attrs = get_attributes(answer)
 
-    session = request.session.get(sessions.SESSION_KEY)
-    system_id = session["system_id"]
-    system = System.objects.get(id=system_id)
-    sys_objects = SysObject.objects.filter(system=system)
-    objects=[]
-    for object in sys_objects:
-        objects.append({
-            "name": object.name,
-            "weight": 0,
-        })
-
     if answer_id == "dont_know":
         sessions.add_to_session(request,
-                                asked_questions=[question_id, ],
-                                objects=objects if attrs else None)
+                                asked_questions=[question_id, ])
         return next_question(request)
 
     sessions.add_to_session(request, asked_questions=[int(question_id), ],
-                            selected_params=[answer.parameter_value.id, ],
-                            objects=objects if attrs else None)
+                            selected_params=[answer.parameter_value.id, ])
 
     request.session[sessions.SESSION_KEY] = update_session_attributes(
         request.session.get(sessions.SESSION_KEY), attrs
     )
 
-    #MAX(session, param_value)
-    #ILUHA(session)
-
-
-    return next_question(request)
+    return HttpResponseRedirect("/index")
 
 
 def create_db(request):
