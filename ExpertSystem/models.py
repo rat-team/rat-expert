@@ -74,6 +74,7 @@ class AttributeValue(models.Model):
     def __unicode__(self):
         return self.attr.name + " : " + self.value
 
+
 class SysObject(models.Model):
     name = models.TextField()
     #Список атрибутов и их значений у объекта

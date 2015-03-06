@@ -50,7 +50,7 @@ def insert_attr():
     attr = Attribute(system=es, name="Цвет")
     attr.save()
 
-    attributeV = AttributeValue(system=es, attr=attr, value="Синий")
+    attributeV = AttributeValue(system=es, attr=attr, value="Коричневый")
     attributeV.save()
     attributes_values.append(attributeV)
 
@@ -58,7 +58,7 @@ def insert_attr():
     attributeV.save()
     attributes_values.append(attributeV)
 
-    attributeV = AttributeValue(system=es, attr=attr, value="Черный")
+    attributeV = AttributeValue(system=es, attr=attr, value="Красный")
     attributeV.save()
     attributes_values.append(attributeV)
 
@@ -70,10 +70,6 @@ def insert_attr():
     attributes_values.append(attributeV)
 
     attributeV = AttributeValue(system=es, attr=attr, value="Редкая")
-    attributeV.save()
-    attributes_values.append(attributeV)
-
-    attributeV = AttributeValue(system=es, attr=attr, value="Прореженная лишаем")
     attributeV.save()
     attributes_values.append(attributeV)
 
@@ -129,78 +125,38 @@ def get_attribute():
 def insert_parameters():
     es = System.objects.first()
 
-    p = Parameter(system=es, name="Нос")
+    p = Parameter(system=es, name="Цвета")
     p.save()
 
-    q = Question(system=es, body="Что вы любите есть?", type=Question.SELECT, parameter=p)
+    q = Question(system=es, body="Ваш любимые цвета?", type=Question.SELECT, parameter=p)
     q.save()
 
-    pv = ParameterValue(system=es, param=p, value="В говне")
+    pv = ParameterValue(system=es, param=p, value="холодные")
     pv.save()
     parametr_values.append(pv)
 
-    answer = Answer(body="Говно", question=q, parameter_value=pv)
+    answer = Answer(body="Холодные", question=q, parameter_value=pv)
     answer.save()
 
-    pv = ParameterValue(system=es, param=p, value="Чистый")
+    pv = ParameterValue(system=es, param=p, value="Теплые")
     pv.save()
     parametr_values.append(pv)
 
-    answer = Answer(body="Сыр", question=q, parameter_value=pv)
+    answer = Answer(body="Теплые", question=q, parameter_value=pv)
     answer.save()
-
-    pv = ParameterValue(system=es, param=p, value="Отрезанный")
-    pv.save()
-    parametr_values.append(pv)
-
-    p = Parameter(system=es, name="Усы")
-    p.save()
-
-    q = Question(system=es, body="Что вы любите пить?", type=Question.SELECT, parameter=p)
-    q.save()
-    pv = ParameterValue(system=es, param=p, value="Длинные")
-    pv.save()
-    parametr_values.append(pv)
-
-    pv = ParameterValue(system=es, param=p, value="Обпаленные")
-    pv.save()
-    parametr_values.append(pv)
-
-    answer = Answer(body="Пиво", question=q, parameter_value=pv)
-    answer.save()
-
-    pv = ParameterValue(system=es, param=p, value="Прореженные лишаем")
-    pv.save()
-    parametr_values.append(pv)
-
-    p = Parameter(system=es, name="Хвост")
-    p.save()
-
-    q = Question(system=es, body="Что вы любите бить?", type=Question.SELECT, parameter=p)
-    q.save()
-
-    pv = ParameterValue(system=es, param=p, value="Длинный")
-    pv.save()
-    parametr_values.append(pv)
-
-    answer = Answer(body="Какой-то ответ", question=q, parameter_value=pv)
-    answer.save()
-
-    pv = ParameterValue(system=es, param=p, value="Обрубили каблуком")
-    pv.save()
-    parametr_values.append(pv)
 
 
 def insert_objects():
-    object = SysObject(name="Крыса")
+    es = System.objects.first()
+    object = SysObject(name="Курица", system=es)
     object.save()
     add_object_attribute(object)
 
-    object = SysObject(name="Собака")
+    object = SysObject(name="Собака", system=es)
     object.save()
     add_object_attribute(object)
 
-    object = SysObject(name="Кошка")
+    object = SysObject(name="Кошка", system=es)
     object.save()
     add_object_attribute(object)
 
