@@ -72,14 +72,15 @@ def next_question(request):
 def answer(request):
     answer_id = request.POST.get("answer")
     question_id = request.POST.get("question_id")
-    answer = Answer.objects.get(id=answer_id)
-
-    attrs = get_attributes(answer)
 
     if answer_id == "dont_know":
         sessions.add_to_session(request,
                                 asked_questions=[question_id, ])
-        return next_question(request)
+        return HttpResponseRedirect("/index")
+
+    answer = Answer.objects.get(id=answer_id)
+
+    attrs = get_attributes(answer)
 
     sessions.add_to_session(request, asked_questions=[int(question_id), ],
                             selected_params=[answer.parameter_value.id, ])
