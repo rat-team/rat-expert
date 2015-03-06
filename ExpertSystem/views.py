@@ -49,13 +49,13 @@ def next_question(request):
     for param in all_parameters:
 
         # Находим, какие еще не выясняли
-        if str(param.id) not in selected_params:
+        if param.id not in selected_params:
 
             questions = Question.objects.filter(parameter=param)
 
             #Проходим все вопросы у каждого параметра, смотрим какие еще не задавали и спрашиваем
             for question in questions:
-                if str(question.id) not in asked_questions:
+                if question.id not in asked_questions:
                     answers = Answer.objects.filter(question=question)
                     ctx = {
                         "question": question,
@@ -71,18 +71,21 @@ def answer(request):
     answer_id = request.POST.get("answer")
     question_id = request.POST.get("question_id")
 
-    session = request.session.get(sessions.SESSION_KEY)
     if answer_id == "dont_know":
         sessions.add_to_session(request, asked_questions=[question_id, ])
         return next_question(request)
 
     answer = Answer.objects.get(id=answer_id)
 
-    sessions.add_to_session(request, asked_questions=[question_id, ],
+    sessions.add_to_session(request, asked_questions=[int(question_id), ],
                             selected_params=[answer.parameter_value.id, ])
 
+    session = request.session.get(sessions.SESSION_KEY)
     attrs = get_attributes(answer)
-    update_session_attributes(session, attrs)
+    request.session[sessions.SESSION_KEY] = update_session_attributes(
+        request.session.get(sessions.SESSION_KEY), attrs
+    )
+
     #MAX(session, param_value)
     #ILUHA(session)
 
