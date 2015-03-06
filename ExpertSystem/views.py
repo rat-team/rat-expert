@@ -1,8 +1,10 @@
 # coding=utf-8
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from ExpertSystem.models import System
 from ExpertSystem.queries import add_weight_to_objects
+from ExpertSystem.utils.sessions import clear_session
 from scripts.database import run
 from ExpertSystem.models import Question
 from ExpertSystem.models import Answer
@@ -25,6 +27,14 @@ def index(request):
     return next_question(request)
 
 
+def reset(request):
+    """
+    Очищает сессию, стартует тестирование заново
+    """
+    clear_session(request)
+    return HttpResponseRedirect("/index")
+
+
 @require_session()
 def next_question(request):
     session_dict = request.session.get(sessions.SESSION_KEY)
@@ -45,7 +55,7 @@ def next_question(request):
 
             #Проходим все вопросы у каждого параметра, смотрим какие еще не задавали и спрашиваем
             for question in questions:
-                if question not in asked_questions:
+                if str(question.id) not in asked_questions:
                     answers = Answer.objects.filter(question=question)
                     ctx = {
                         "question": question,
@@ -71,7 +81,7 @@ def answer(request):
 
     session = request.session.get(sessions.SESSION_KEY)
     if answer_id == "dont_know":
-        sessions.add_to_session(request, asked_questions=[question_id])
+        sessions.add_to_session(request, asked_questions=[question_id, ])
         return next_question(request)
 
     answer = Answer.objects.get(id=answer_id)

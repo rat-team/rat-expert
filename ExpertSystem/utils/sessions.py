@@ -22,5 +22,5 @@ def add_to_session(request, selected_params=None, asked_questions=None, objects=
         session["objects"].extend(objects)
 
 
-def parse_session(session):
-    return
+def clear_session(request):
+    request.session.clear()
