@@ -2,7 +2,7 @@ from ES.settings import QUERIES_DEBUG
 from ExpertSystem.models import AttributeValue, Attribute
 
 
-def add_weight_to_objects(objects, attribute_id, values_ids):
+def add_weight_to_objects(session, objects, attribute_id, values_ids):
 
     all_attr_values = AttributeValue.objects.filter(attr__id=attribute_id, id__in=values_ids)
     base_weight = 0
@@ -14,17 +14,19 @@ def add_weight_to_objects(objects, attribute_id, values_ids):
     obj_weight = 0
     for obj in objects:
         for attr_value in all_attr_values:
-            if attr_value.sys_objects.filter(name=obj):
+            if attr_value.sys_objects.filter(name=obj['name']):
                 obj_weight += 1
-        objects[obj] += base_weight * obj_weight
+        obj['weight'] += base_weight * obj_weight
         if QUERIES_DEBUG:
             print (str(obj) + ". Object weight " + str(obj_weight))
         obj_weight = 0
 
+    session["objects"] = objects
+
 
 def update_session_attributes(session, attributes):
-    for obj in session['objects']:
-        session['objects'][obj] = 0
+    # for obj in session['objects']:
+    #     session['objects'][obj] = 0
     for attr in attributes:
-        add_weight_to_objects(session['objects'], attr, attributes[attr])
+        add_weight_to_objects(session, session['objects'], attr, attributes[attr])
     return session
