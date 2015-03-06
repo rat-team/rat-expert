@@ -13,6 +13,7 @@ from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_session
 from ExpertSystem.utils.parser import *
 from ExpertSystem.utils.decorators import require_post_params
+from scripts.recreate import recreate
 
 
 def index(request):
@@ -108,7 +109,7 @@ def answer(request):
 
 
 def create_db(request):
-    run()
+    recreate()
     return HttpResponse(content="OK")
 
 def add_system(request, page):

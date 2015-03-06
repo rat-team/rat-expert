@@ -66,6 +66,8 @@ def compare_param_values(relation, v1, v2):
 
 def process_logic_expression(logic_ops, boolean_list):
     # возвращает результат логического выражения литералов
+    if len(logic_ops) == 0:
+        return boolean_list[0]
     if len(logic_ops) > 0 and len(logic_ops) == len(boolean_list) - 1:
         expression_str = ''
         for x in xrange(len(boolean_list)):
