@@ -49,7 +49,7 @@ def next_question(request):
     for param in all_parameters:
 
         # Находим, какие еще не выясняли
-        if param.id not in selected_params:
+        if str(param.id) not in selected_params:
 
             questions = Question.objects.filter(parameter=param)
 
@@ -78,12 +78,14 @@ def answer(request):
 
     answer = Answer.objects.get(id=answer_id)
 
+    sessions.add_to_session(request, asked_questions=[question_id, ],
+                            selected_params=[answer.parameter_value.id, ])
+
     attrs = get_attributes(answer)
     update_session_attributes(session, attrs)
     #MAX(session, param_value)
     #ILUHA(session)
 
-    sessions.add_to_session(request, asked_questions=question_id)
 
     return next_question(request)
 
