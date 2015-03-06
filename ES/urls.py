@@ -7,6 +7,7 @@ from ExpertSystem.views import index
 from ExpertSystem.views import create_db
 from ExpertSystem.views import answer
 from ExpertSystem.views import reset
+from ExpertSystem.views import add_system
 
 admin.autodiscover()
 
@@ -21,6 +22,8 @@ urlpatterns = patterns('',
 
     url(r'^index$', index, name="index"),
     url(r'^$', index, name="index"),
+    
+    url(r'^add_system/(?P<page>\d+)$', add_system, name="index"),
 
     url(r'^answer/$', answer, name="answer"),
 
