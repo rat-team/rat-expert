@@ -9,8 +9,9 @@ __author__ = 'maxim'
 
 parametr_values = []
 attributes_values = []
-relations= ['<', '<=', '>', '>=', '=', '!=']
+relations= ['=', '!=']
 logics = ['and', 'or']
+
 
 def clear_db():
     Parameter.objects.all().delete()
@@ -86,26 +87,27 @@ def generate_literal():
 
 
 def insert_rules():
-    literals = []
-    logic = []
-    count = random.randint(1,5)
-    for x in xrange(count):
-        literals.append(generate_literal())
-        if count - 1 > x:
-            logic.append(random.choice(logics))
+    for x in xrange(20):
+        literals = []
+        logic = []
+        count = 1
+        for x in xrange(count):
+            literals.append(generate_literal())
+            if count - 1 > x:
+                logic.append(random.choice(logics))
 
-    conditions = {
-        'literals': literals,
-        'logic': logic,
+        conditions = {
+            'literals': literals,
+            'logic': logic,
 
-    }
+        }
 
-    results = []
-    for x in xrange(1,3):
-        results.append(get_attribute())
-    type = Rule.ATTR_RULE
-    rule = Rule(condition=json.dumps(conditions), result=json.dumps(results), type=type)
-    rule.save()
+        results = []
+        for x in xrange(1):
+            results.append(get_attribute())
+        type = Rule.ATTR_RULE
+        rule = Rule(condition=json.dumps(conditions), result=json.dumps(results), type=type)
+        rule.save()
 
 
 def get_attribute():
