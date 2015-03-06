@@ -3,19 +3,19 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from ExpertSystem.models import System
-from ExpertSystem.queries import add_weight_to_objects
 from ExpertSystem.utils.sessions import clear_session
+from ExpertSystem.queries import update_session_attributes
 from scripts.database import run
 from ExpertSystem.models import Question
 from ExpertSystem.models import Answer
 from ExpertSystem.models import Parameter
 from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_session
+from ExpertSystem.utils.parser import *
 from ExpertSystem.utils.decorators import require_post_params
 
 
 def index(request):
-
     if not request.GET.has_key("system_id") and not request.session.has_key(sessions.SESSION_KEY):
         systems = System.objects.all()
         return render(request, "systems.html", {"systems": systems})
@@ -45,10 +45,10 @@ def next_question(request):
     system = System.objects.get(id=system_id)
     all_parameters = Parameter.objects.filter(system=system)
 
-    #Берем все параметры
+    # Берем все параметры
     for param in all_parameters:
 
-        #Находим, какие еще не выясняли
+        # Находим, какие еще не выясняли
         if param.id not in selected_params:
 
             questions = Question.objects.filter(parameter=param)
@@ -63,15 +63,7 @@ def next_question(request):
                     }
                     return render(request, "question.html", ctx)
 
-
     return HttpResponse("THE END")
-
-
-def update_session_attributes(session, attributes):
-    for obj in session['objects']:
-        session['objects'][obj] = 0
-    for attr in attributes:
-        add_weight_to_objects(session['objects'], attr, attributes[attr])
 
 @require_session()
 @require_post_params("answer", "question_id")
@@ -85,8 +77,9 @@ def answer(request):
         return next_question(request)
 
     answer = Answer.objects.get(id=answer_id)
-    param_value = answer.parameter_value
 
+    attrs = get_attributes(answer)
+    update_session_attributes(session, attrs)
     #MAX(session, param_value)
     #ILUHA(session)
 
@@ -98,3 +91,5 @@ def answer(request):
 def create_db(request):
     run()
     return HttpResponse(content="OK")
+
+

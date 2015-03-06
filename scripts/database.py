@@ -84,7 +84,7 @@ def generate_literal():
 
     return {
         'param': literal_param_v.param.id,
-        'value': literal_param_v.id,
+        'value': literal_param_v.value,
         'relation': relation
     }
 
