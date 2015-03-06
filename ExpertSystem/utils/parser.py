@@ -30,8 +30,7 @@ def scan_rules(param_dict):
     rules = Rule.objects.all()
     attrs = {}
     for rule in rules:
-        condition = rule.condition
-        condition = json.loads(condition)
+        condition = json.loads(rule.condition)
         literals = condition['literals']
         logic = condition['logic']
         results_list = []  # будет храниться результат выражений литералов
@@ -44,7 +43,7 @@ def scan_rules(param_dict):
         if process_logic_expression(logic, results_list):
             results = json.loads(rule.result)
             for result in results:
-                attrs[result['attrubute']] = result['values']
+                attrs[result['attribute']] = result['values']
     return attrs
 
 

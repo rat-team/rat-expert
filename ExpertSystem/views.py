@@ -1,8 +1,10 @@
 # coding=utf-8
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from ExpertSystem.models import System
-from ExpertSystem.queries import add_weight_to_objects, update_session_attributes
+from ExpertSystem.utils.sessions import clear_session
+from ExpertSystem.queries import update_session_attributes
 from scripts.database import run
 from ExpertSystem.models import Question
 from ExpertSystem.models import Answer
@@ -25,6 +27,14 @@ def index(request):
     return next_question(request)
 
 
+def reset(request):
+    """
+    Очищает сессию, стартует тестирование заново
+    """
+    clear_session(request)
+    return HttpResponseRedirect("/index")
+
+
 @require_session()
 def next_question(request):
     session_dict = request.session.get(sessions.SESSION_KEY)
@@ -45,7 +55,7 @@ def next_question(request):
 
             #Проходим все вопросы у каждого параметра, смотрим какие еще не задавали и спрашиваем
             for question in questions:
-                if question not in asked_questions:
+                if question.id not in asked_questions:
                     answers = Answer.objects.filter(question=question)
                     ctx = {
                         "question": question,
@@ -61,19 +71,24 @@ def answer(request):
     answer_id = request.POST.get("answer")
     question_id = request.POST.get("question_id")
 
-    session = request.session.get(sessions.SESSION_KEY)
     if answer_id == "dont_know":
-        sessions.add_to_session(request, asked_questions=[question_id])
+        sessions.add_to_session(request, asked_questions=[question_id, ])
         return next_question(request)
 
     answer = Answer.objects.get(id=answer_id)
 
+    sessions.add_to_session(request, asked_questions=[int(question_id), ],
+                            selected_params=[answer.parameter_value.id, ])
+
+    session = request.session.get(sessions.SESSION_KEY)
     attrs = get_attributes(answer)
-    update_session_attributes(session, attrs)
+    request.session[sessions.SESSION_KEY] = update_session_attributes(
+        request.session.get(sessions.SESSION_KEY), attrs
+    )
+
     #MAX(session, param_value)
     #ILUHA(session)
 
-    sessions.add_to_session(request, asked_questions=question_id)
 
     return next_question(request)
 
@@ -82,4 +97,7 @@ def create_db(request):
     run()
     return HttpResponse(content="OK")
 
-
+def add_system(request, page):
+    page = page if page else 0
+    temp = "add_system." + page + ".html"
+    return render(request, "add_system." + page + ".html")

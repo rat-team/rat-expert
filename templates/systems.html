@@ -4,7 +4,7 @@
 
 <div class="row">
 	{% for system in systems %}
-  <div class="col-sm-6 col-md-4 {% cycle 'col-md-offset-1' 'col-md-offset-1' %}">
+  <div class="col-sm-6 col-md-4 {% cycle 'col-md-offset-1' 'col-md-offset-2' %}">
     <div class="thumbnail">
       <img src="{% static "img/dsc_5965.jpg" %}" class="thumbnail__avatar" alt="...">
       <div class="caption">
@@ -17,6 +17,15 @@
     </div>
   </div>
   {% endfor %}
+  <div class="col-sm-6 col-md-4 col-md-offset-1">
+    <div class="thumbnail">
+      <div class="thumbnail__add">
+      	<a href="/add_system/0">
+      		<span class="glyphicon glyphicon-plus"></span>
+      	</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

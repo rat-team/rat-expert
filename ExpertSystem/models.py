@@ -72,7 +72,7 @@ class AttributeValue(models.Model):
         db_table = "attribute_value"
 
     def __unicode__(self):
-        return self.attr.name + " : " + self.value
+        return str(self.id) + ". " + self.attr.name + " : " + self.value
 
 
 class SysObject(models.Model):

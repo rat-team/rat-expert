@@ -14,3 +14,40 @@
 .question__submit-button{
 	margin-top: 25px;
 }
+.thumbnail{
+	min-height: 580px;
+}
+.thumbnail__add{
+	text-align: center;
+	font-size: 300px;
+	color: #2ecc71;
+}
+.page-header{
+	margin-top: 20px;
+}
+.attributes{
+	border-right: 1px solid #ddd;
+	padding: 0 20px 0 0;
+}
+.attributes__item{
+	border: 1px solid #ddd;
+	padding: 20px;
+	border-radius: 10px;
+	margin-bottom: 10px; 
+}
+.attributes__item__title{
+	margin-bottom: 30px;
+}
+.attributes__item__title-input{
+	display: inline;
+	width: 77%;
+}
+.attributes__title{
+	margin: 0 0 20px;
+}
+.attributes__add-item{
+	/*margin-top: 10px;*/
+}
+.attributes__add-item__wrapper{
+	text-align: right;
+}
