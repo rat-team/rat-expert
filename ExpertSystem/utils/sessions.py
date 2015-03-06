@@ -29,6 +29,7 @@ def add_to_session(request, selected_params=None, asked_questions=None, objects=
     if asked_questions:
         session["asked_questions"] += asked_questions
 
+    request.session[SESSION_KEY] = session
 
 def clear_session(request):
     request.session.clear()
