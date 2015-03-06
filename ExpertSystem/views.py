@@ -2,7 +2,7 @@
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from ExpertSystem.models import System
+from ExpertSystem.models import System, SysObject
 from ExpertSystem.utils.sessions import clear_session
 from ExpertSystem.queries import update_session_attributes
 from scripts.database import run
@@ -71,16 +71,29 @@ def answer(request):
     answer_id = request.POST.get("answer")
     question_id = request.POST.get("question_id")
 
+    session = request.session.get(sessions.SESSION_KEY)
+    system_id = session["system_id"]
+    system = System.objects.get(id=system_id)
+    sys_objects = SysObject.objects.filter(system=system)
+    objects=[]
+    for object in sys_objects:
+        objects.append({
+            "name": object.name,
+            "weight": 0,
+        })
+
     if answer_id == "dont_know":
-        sessions.add_to_session(request, asked_questions=[question_id, ])
+        sessions.add_to_session(request,
+                                asked_questions=[question_id, ],
+                                objects=objects)
         return next_question(request)
 
     answer = Answer.objects.get(id=answer_id)
 
     sessions.add_to_session(request, asked_questions=[int(question_id), ],
-                            selected_params=[answer.parameter_value.id, ])
+                            selected_params=[answer.parameter_value.id, ],
+                            objects=objects)
 
-    session = request.session.get(sessions.SESSION_KEY)
     attrs = get_attributes(answer)
     request.session[sessions.SESSION_KEY] = update_session_attributes(
         request.session.get(sessions.SESSION_KEY), attrs
