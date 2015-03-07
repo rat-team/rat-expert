@@ -1,6 +1,59 @@
 $(document).ready(function () {
     setupAjaxDjango();
 
+    $('.delete_attr').click(deleteAttribute);
+
+    function deleteAttribute(evt) {
+        var $target = $(evt.target).closest('button'),
+            id = $target.data('id'),
+            $attribute = $target.closest('.js-attributes__item');
+
+        alert('Удаление атрибута ' + id );
+        $.ajax({
+            type: 'POST',
+            url: '/delete_attribute/',
+            data: {
+                'id': id
+            },
+            success: function(data){
+                if (data["code"] == 0) {
+                    $attribute.remove();
+                } else {
+                    toastr.error(data["msg"]);
+                }
+            },
+            error: function(msg){
+                toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
+            }
+        });
+    }
+
+    $('.delete_attr_value').click(deleteAttributeValue);
+
+    function deleteAttributeValue(evt) {
+        var $target = $(evt.target).closest('button'),
+            id = $target.data('id'),
+            $value = $target.closest('.attributes__item__value');
+        alert('Удаление значения ' + id );
+        $.ajax({
+            type: 'POST',
+            url: '/delete_attribute_value/',
+            data: {
+                'id': id
+            },
+            success: function(data){
+                if (data["code"] == 0) {
+                    $value.remove();
+                } else {
+                    toastr.error(data["msg"]);
+                }
+            },
+            error: function(msg){
+                toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
+            }
+        });
+    }
+
     $('.js-attributes__item__add-value').click(addAttributeValue);
 	var self = this;
 	function addAttributeValue (evt) {
