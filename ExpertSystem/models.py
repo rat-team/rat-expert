@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.db import models
+from django.db.models import CASCADE
 
 
 class System(models.Model):
@@ -65,7 +66,7 @@ class Answer(models.Model):
 
 class AttributeValue(models.Model):
     system = models.ForeignKey(System)
-    attr = models.ForeignKey(Attribute)
+    attr = models.ForeignKey(Attribute, on_delete=CASCADE)
     value = models.CharField(max_length=50)
 
     class Meta:

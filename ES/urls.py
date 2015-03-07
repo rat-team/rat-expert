@@ -3,8 +3,8 @@ from django.conf.urls import include
 from django.conf.urls import url
 
 from django.contrib import admin
-from ExpertSystem.creation_views import create_db, insert_attributes, insert_system, add_attributes
-from ExpertSystem.creation_views import add_system
+from ExpertSystem.redact.attributes import add_attributes, insert_attributes, delete_attribute_value, delete_attribute
+from ExpertSystem.redact.system import create_db, add_system, insert_system
 from ExpertSystem.views import index
 from ExpertSystem.views import answer
 from ExpertSystem.views import reset
@@ -30,6 +30,8 @@ urlpatterns = patterns('',
 
     url(r'^insert_system/$', insert_system, name="insert_system"),
     url(r'^insert_attributes/$', insert_attributes, name="insert_attributes"),
+    url(r'^delete_attribute_value/$',delete_attribute_value, name="delete_attribute_value"),
+    url(r'^delete_attribute/$',delete_attribute, name="delete_attribute"),
 
 
 )
