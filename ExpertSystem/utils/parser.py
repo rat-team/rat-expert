@@ -15,7 +15,7 @@ def get_attributes(answer):
     if answer == "dont_know":
         return {}
     parameter_value = answer.parameter_value
-    param_dict = make_param_dict([parameter_value])
+    param_dict = make_param_dict([parameter_value])  # взять с сессии
     return scan_rules(param_dict)
 
 def make_param_dict(params_values):

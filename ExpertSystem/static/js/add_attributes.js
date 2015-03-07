@@ -1,19 +1,18 @@
 $(document).ready(function () {
     setupAjaxDjango();
 
-    $('.js-attributes__item__add-value').on('click', addAttributeValue);
+    $('.js-attributes__item__add-value').click(addAttributeValue);
 	var self = this;
 	function addAttributeValue (evt) {
-		var $target = $(evt.target),
-			$block = $target.closest('.attributes__item__value'),
+		var $target = $(evt.target).closest('button'),
+			$block = $('#attr_value_template').children().first(),
 			$blockClone = $block.clone();
 
-		$blockClone.find('.js-attributes__item__add-value').on('click', addAttributeValue);
-		$blockClone.find('input').val('');
-		$block.closest('.attributes__item').append($blockClone);
-		// $block.find('.js-attributes__item__add-value').off('click', addAttribute);
-		$target.closest('button').remove();
-	}
+		//$blockClone.find('.js-attributes__item__add-value').on('click', addAttributeValue);
+		$blockClone.insertBefore($target);
+		//// $block.find('.js-attributes__item__add-value').off('click', addAttribute);
+		//$target.closest('button').remove();
+    }
 
 	$('.js-attributes__add-item').on('click', addAttribute);
 	function addAttribute (evt) {
