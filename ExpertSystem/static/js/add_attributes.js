@@ -27,7 +27,7 @@ $(document).ready(function () {
 		$blockClone.removeClass('hide');
 	}
 
-	$('form').on('submit', function(evt) {
+	$('#add_attributes_form').on('submit', function(evt) {
 		var submitData = [];
 		var attrItems = $('.js-attributes__item');
 		var attrs = [];
@@ -41,7 +41,7 @@ $(document).ready(function () {
 			});
 			attrs.push(attrJSON);
 		});
-		$('form').find('input[name=form_data]').val(JSON.stringify(attrs));
+		$('#add_attributes_form').find('input[name=form_data]').val(JSON.stringify(attrs));
         var formdata = new FormData($(this)[0]);
         $.ajax({
             type: 'POST',

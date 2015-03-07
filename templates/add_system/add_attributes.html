@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <form action="{% url 'insert_attributes' %}" method="POST" class="form-horizontal">
+    <form id="add_attributes_form" action="{% url 'insert_attributes' %}" method="POST" class="form-horizontal">
         <input name="form_data" type="hidden">
         {% csrf_token %}
         <div class="row">
@@ -53,7 +53,7 @@
                                         </div>
 
                                     {% endfor %}
-                                
+
                                     <div class="col-md-2">
                                         <button type="button" class="js-attributes__item__add-value btn btn-warning">
                                     <i class="glyphicon-plus glyphicon"></i></button>
