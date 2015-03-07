@@ -147,8 +147,6 @@ def recreate():
 
     rule_3 = Rule.objects.create(condition=condition, result=result, type=type)
 
-
-
     # правило - белый цвет - теплый
     condition = {
         "literals": [
@@ -165,5 +163,3 @@ def recreate():
     result = json.dumps(result)
 
     rule_4 = Rule.objects.create(condition=condition, result=result, type=type)
-
-
