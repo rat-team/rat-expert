@@ -1,6 +1,23 @@
 $(document).ready(function () {
     setupAjaxDjango();
 
+    $('.delete_attr').click(deleteAttribute);
+
+    function deleteAttribute(evt) {
+        var $target = $(evt.target).closest('button');
+        var id = $target.data('id');
+        alert('Удаление атрибута ' + id );
+    }
+
+    $('.delete_attr_value').click(deleteAttributeValue);
+
+    function deleteAttributeValue(evt) {
+        var $target = $(evt.target).closest('button');
+        var id = $target.data('id');
+        alert('Удаление значения ' + id );
+    }
+
+
     $('.js-attributes__item__add-value').click(addAttributeValue);
 	var self = this;
 	function addAttributeValue (evt) {
