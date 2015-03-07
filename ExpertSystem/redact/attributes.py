@@ -1,5 +1,6 @@
 # coding=utf-8
 import json
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
@@ -32,6 +33,7 @@ def add_attributes(request):
 @require_http_methods(["POST"])
 @require_post_params("form_data")
 @require_creation_session()
+@transaction.atomic
 def insert_attributes(request):
     """
     Добавление/редактирование атрибутов
@@ -86,6 +88,7 @@ def insert_attributes(request):
 @require_http_methods(["POST"])
 @require_creation_session()
 @require_post_params("id")
+@transaction.atomic
 def delete_attribute_value(request):
     """
     Удаляет значение атрибута
@@ -126,6 +129,7 @@ def _delete_attribute_value(attribute_value_id):
 @require_http_methods(["POST"])
 @require_creation_session()
 @require_post_params("id")
+@transaction.atomic
 def delete_attribute(request):
     """
     Удаление атрибута
@@ -167,6 +171,3 @@ def delete_attribute(request):
     }
 
     return HttpResponse(json.dumps(response), content_type="application/json")
-
-
-
