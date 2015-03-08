@@ -4,7 +4,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
-from ExpertSystem.models import System, Parameter
+from ExpertSystem.models import System, Parameter, Rule
 from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_creation_session, require_post_params
 
@@ -91,6 +91,31 @@ def delete_parameter(request):
             "code": 0,
         }
         return HttpResponse(json.dumps(response), content_type="application/json")
+
+    rules = Rule.objects.all()
+    for rule in rules:
+        results = json.loads(rule.result)
+        condition = json.loads(rule.condition)
+
+        param_in_condition = False
+        for literal in condition['literals']:
+            if literal['param'] == parameter.id:
+                param_in_condition = True
+                rule.delete()
+                break
+
+        if param_in_condition or rule.type != Rule.PARAM_RULE:
+            continue
+        else:
+            for result in results:
+                if result['parameter'] == parameter.id:
+                    results.remove(result)
+
+            if not results:
+                rule.delete()
+            else:
+                rule.result = json.dumps(results)
+                rule.save()
 
     parameter.delete()
 
