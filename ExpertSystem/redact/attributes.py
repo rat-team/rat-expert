@@ -1,5 +1,6 @@
 # coding=utf-8
 import json
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
@@ -32,6 +33,7 @@ def add_attributes(request):
 @require_http_methods(["POST"])
 @require_post_params("form_data")
 @require_creation_session()
+@transaction.atomic
 def insert_attributes(request):
     """
     Добавление/редактирование атрибутов
@@ -86,6 +88,7 @@ def insert_attributes(request):
 @require_http_methods(["POST"])
 @require_creation_session()
 @require_post_params("id")
+@transaction.atomic
 def delete_attribute_value(request):
     """
     Удаляет значение атрибута
@@ -108,16 +111,18 @@ def _delete_attribute_value(attribute_value_id):
 
     rules = Rule.objects.all()
     for rule in rules:
-        for result in rule.result:
+        results = json.loads(rule.result)
+        for result in results:
 
             updated_values = []
 
             for value in result["values"]:
-                if value != attribute_value_id:
+                if value != int(attribute_value_id):
                     updated_values.append(value)
 
             result["values"] = updated_values
 
+        rule.result = json.dumps(results)
         rule.save()
 
     attribute_value.delete()
@@ -126,6 +131,7 @@ def _delete_attribute_value(attribute_value_id):
 @require_http_methods(["POST"])
 @require_creation_session()
 @require_post_params("id")
+@transaction.atomic
 def delete_attribute(request):
     """
     Удаление атрибута
@@ -134,7 +140,7 @@ def delete_attribute(request):
     """
     attribute_id = request.POST.get("id")
     attribute = Attribute.objects.get(id=attribute_id)
-    attribute_values = attribute.attributevalue_set
+    attribute_values = attribute.attributevalue_set.all()
     attribute_values_ids = []
     for attr_val in attribute_values:
         attribute_values_ids.append(attr_val.id)
@@ -143,13 +149,12 @@ def delete_attribute(request):
     for rule in rules:
 
         updated_results = []
-        for result in rule.result:
+        results = json.loads(rule.result)
+        for result in results:
             if result["attribute"] != attribute_id:
                 updated_results.append(result)
 
-        rule.result = updated_results
-
-        for result in rule.result:
+        for result in updated_results:
             updated_values = []
 
             for value in result["values"]:
@@ -158,6 +163,7 @@ def delete_attribute(request):
 
             result["values"] = updated_values
 
+        rule.result = json.dumps(updated_results)
         rule.save()
 
     attribute.delete()
@@ -167,6 +173,3 @@ def delete_attribute(request):
     }
 
     return HttpResponse(json.dumps(response), content_type="application/json")
-
-
-
