@@ -12,7 +12,7 @@ $(document).ready(function () {
         if(id != '') {
             $.ajax({
                 type: 'POST',
-                url: '/delete_attribute/',
+                url: $(this).data("href"),
                 data: {
                     'id': id
                 },
@@ -42,7 +42,7 @@ $(document).ready(function () {
         if(id != '') {
             $.ajax({
                 type: 'POST',
-                url: '/delete_attribute_value/',
+                url: $(this).data("href"),
                 data: {
                     'id': id
                 },
@@ -117,7 +117,7 @@ $(document).ready(function () {
         var formdata = new FormData($(this)[0]);
         $.ajax({
             type: 'POST',
-            url: '/insert_attributes/',
+            url: this.action,
             data: formdata,
             processData: false,
             contentType: false,

@@ -4,7 +4,7 @@
         <input name="name" type="text" class="form-control" id="inputEmail3">
         <input name="id" type="hidden" class="form-control" value="-1">
     </div>
-    <button type="button" class="btn btn-danger delete_attr" data-id = {{ attr.id }}><i class="glyphicon glyphicon-remove"></i></button>
+    <button type="button" class="btn btn-danger delete_attr" data-href="/delete_attribute/" data-id = {{ attr.id }}><i class="glyphicon glyphicon-remove"></i></button>
 </div>
 <div class="form-group attributes__item__value">
     <label for="inputEmail3" class="col-md-3 control-label">Значение</label>
@@ -12,6 +12,6 @@
         <input name="value" type="text" class="form-control" id="inputEmail3">
         <input name="id" type="hidden" class="form-control" value="-1">
     </div>
-    <button type="button" class="btn btn-danger delete_attr_value" data-id = {{ value.id }}><i class="glyphicon glyphicon-remove"></i></button>
+    <button type="button" class="btn btn-danger delete_attr_value" data-href="/delete_attribute_value/" data-id = {{ value.id }}><i class="glyphicon glyphicon-remove"></i></button>
 </div>
 <button type="button" class="col-md-2 js-attributes__item__add-value btn btn-warning"><i class="glyphicon-plus glyphicon"></i></button>
