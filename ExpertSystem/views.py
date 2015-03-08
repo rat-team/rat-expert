@@ -90,3 +90,7 @@ def answer(request):
     )
 
     return HttpResponseRedirect("/index")
+
+
+def creators(request):
+    return render(request, "creators.html")

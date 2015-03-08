@@ -6,9 +6,7 @@ from django.contrib import admin
 from ExpertSystem.redact.attributes import add_attributes, insert_attributes, delete_attribute_value, delete_attribute
 from ExpertSystem.redact.parameters import add_parameters, insert_parameters, delete_parameter
 from ExpertSystem.redact.system import create_db, add_system, insert_system
-from ExpertSystem.views import index
-from ExpertSystem.views import answer
-from ExpertSystem.views import reset
+from ExpertSystem.views import index, creators, answer, reset
 
 admin.autodiscover()
 
@@ -21,8 +19,9 @@ urlpatterns = patterns('',
     url(r'^create/', create_db),
     url(r'^reset', reset, name="reset"),
 
-    url(r'^index$', index, name="index"),
     url(r'^$', index, name="index"),
+    url(r'^index$', index, name="index"),
+    url(r'^creators/$', creators, name="creators"),
     url(r'^answer/$', answer, name="answer"),
 
     url(r'^add_system/(?P<system_id>[a-zA-Z0-9._-]+)/$', add_system, name="add_system"),
