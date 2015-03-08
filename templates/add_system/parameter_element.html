@@ -1,0 +1,8 @@
+<div class="form-group">
+    <label for="inputEmail3" class="col-md-3 control-label">Название параметра</label>
+    <div class="col-md-6">
+        <input name="name" type="text" class="form-control" id="inputEmail3" value="{{ param.name }}" data-id="0">
+        <input name="id" type="hidden" class="form-control" value="{% if param and param.id %}{{ param.id }}{% else %}-1{% endif %}">
+    </div>
+    <button type="button" class="btn btn-danger delete_attr" data-href="/delete_parameter/" data-id = {{ param.id }}><i class="glyphicon glyphicon-remove"></i></button>
+</div>

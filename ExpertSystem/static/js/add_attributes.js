@@ -123,7 +123,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(data){
                 if (data["code"] == 0) {
-                    toastr.success('Атрибуты обновлены', 'Успех!');
+                    toastr.success('Данные обновлены', 'Успех!');
                 }else{
                     toastr.error(data["msg"]);
                 }
