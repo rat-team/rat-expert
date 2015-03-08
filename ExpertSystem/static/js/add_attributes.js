@@ -83,7 +83,7 @@ $(document).ready(function () {
 			$blockClone = $block.clone();
 		$blockClone.removeClass('js-attributes__item-template').addClass('js-attributes__item');
 		$blockClone.find('.js-attributes__item__add-value').on('click', addAttributeValue);
-		$blockClone.find('input').val('');
+		//$blockClone.find('input').val('');
 		$blockClone.find('.delete_attr').click(deleteAttribute);
 		$blockClone.find('.delete_attr_value').click(deleteAttributeValue);
 		$('.js-attributes').append($blockClone);
@@ -96,12 +96,21 @@ $(document).ready(function () {
 		var attrs = [];
 		_.each(attrItems, function(item) {
 			var attrJSON = {
+				id: $(item).find('input[name=id]').val(),
 				name: $(item).find('input[name=name]').val(),
 				values: []
 			};
-			_.each($(item).find('input[name=value]'), function(attrValueInput) {
-				attrJSON.values.push($(attrValueInput).val());
-			});
+
+            _.each($(item).find('.attributes__item__value'), function(attributeValue){
+                var attributeValueJSON = {
+                    id: $(attributeValue).find('input[name=id]').val(),
+                    value: $(attributeValue).find('input[name=value]').val()
+                };
+                attrJSON.values.push(attributeValueJSON);
+            });
+			//_.each($(item).find('input[name=value]'), function(attrValueInput) {
+			//	attrJSON.values.push($(attrValueInput).val());
+			//});
 			attrs.push(attrJSON);
 		});
 		$('#add_attributes_form').find('input[name=form_data]').val(JSON.stringify(attrs));

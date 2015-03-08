@@ -59,14 +59,14 @@ def insert_attributes(request):
 
     form_data = json.loads(request.POST.get("form_data"))
     for attr_json in form_data:
-        if attr_json["id"] and attr_json["id"] != -1:
+        if attr_json["id"] and int(attr_json["id"]) != -1:
             #Редактируем атрибут
             attribute = Attribute.objects.get(id=attr_json["id"])
             attribute.name = attr_json["name"]
             attribute.save()
             #Обновляем значения:
             for val in attr_json["values"]:
-                if val["id"] and val["id"] != -1:
+                if val["id"] and int(val["id"]) != -1:
                     attribute_value = AttributeValue.objects.get(id=val["id"])
                 else:
                     attribute_value = AttributeValue(system=system, attr=attribute)
