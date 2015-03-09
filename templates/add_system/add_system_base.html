@@ -15,7 +15,7 @@
             <a href="{% url "add_parameters" %}">Параметры</a>
         </li>
         <li class="{% active request 'add_questions' %}">
-            <a href="#">Вопросы</a>
+            <a href="{% url "add_questions" %}">Вопросы</a>
         </li>
 
         <li class="{% active request 'add_answers' %}">
@@ -26,7 +26,6 @@
             <a href="#">Логика</a>
         </li>
     </ul>
-
     {% block add_page %}
     {% endblock %}
 
