@@ -1,0 +1,15 @@
+<div class="col-md-5 attributes__item parameter_questions_element">
+    <div class="form-group">
+        <label class="col-md-3 control-label">Параметр</label>
+        <div>{{ parameter.name }}</div>
+        <input name="id" type="hidden" class="form-control" value="{{ parameter.id }}">
+    </div>
+
+    {% for question in parameter.questions %}
+        {% include "add_system/questions_page/question_element.html" %}
+    {% endfor %}
+
+    <button type="button" class="col-md-2 parameter__add_question btn btn-warning">
+        <i class="glyphicon-plus glyphicon"></i>
+    </button>
+</div>

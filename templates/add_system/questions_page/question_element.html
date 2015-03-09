@@ -1,0 +1,26 @@
+<div class="form-group parameter__question_formgroup">
+
+    <label class="col-md-3 control-label">Вопрос</label>
+
+    <div class="parameter__question col-md-6">
+        <input name="question_id" type="hidden" disabled class="form-control" id="inputEmail3"
+               value="{% if question and question.id %}{{ question.id }}{% else %}-1{% endif %}" data-id="0">
+        <textarea name="body" class="form-control" id="inputEmail3" data-id="0">{{ question.body }}</textarea>
+
+        <select name="type">
+            <option value="0" {% ifequal question.type 0 %}selected="selected"{% endifequal %}>
+                С выбором ответа
+            </option>
+            <option value="1" {% ifequal question.type 1 %}selected="selected"{% endifequal %}>
+                Со свободным вводом
+            </option>
+        </select>
+    </div>
+
+    <button type="button" class="btn btn-danger parameter__delete_question"
+            data-id="{{ question.id }}"
+            data-href="{% url "delete_question" %}">
+        <i class="glyphicon glyphicon-remove"></i>
+    </button>
+
+</div>
