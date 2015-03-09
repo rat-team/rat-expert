@@ -1,0 +1,17 @@
+<div class="select__object_new_attribute_value">
+
+    <select name="object__attribute_value" class="col-md-9">
+        {% for attr_value in attribute_values %}
+            {% ifequal attr_value.id attribute_value.id %}
+                <option value="{{attribute_value.id}}" selected="selected">{{attr_value.attr.name}}: {{attr_value.value}}</option>
+            {% else %}
+                <option value="{{attr_value.id}}">{{attr_value.attr.name}}: {{attr_value.value}}</option>
+            {% endifequal %}
+        {% endfor %}
+    </select>
+
+    <button type="button" class="btn btn-danger delete_select_object_attribute_value">
+        <i class="glyphicon glyphicon-remove"></i>
+    </button>
+
+</div>
