@@ -1,12 +1,13 @@
 $(document).ready(function () {
     setupAjaxDjango();
 
-    //Удаляем селекторы с AttributeValue
+    //Удаляем AttributeValue
     var delete_attribute_value_btn = $('.delete_select_object_attribute_value');
     delete_attribute_value_btn.click(deleteAttributeValue);
     function deleteAttributeValue(event){
-        var selector = $(event.target).closest('.select__object_new_attribute_value');
-        selector.remove();
+        var $target = $(event.target).closest('.btn');
+        var formgroup = $target.parent('.attribute_value_formgroup');
+        formgroup.remove();
     }
 
 

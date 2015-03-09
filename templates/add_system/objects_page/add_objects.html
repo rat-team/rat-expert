@@ -21,15 +21,15 @@
                     {% for object in objects %}
                         {% include "add_system/objects_page/object_element.html" %}
                     {% empty %}
-{#                        <div class="col-md-5" data-id="0">#}
-{#                            {% include "add_system/parameter_template.html" %}#}
-{#                        </div>#}
+
                     {% endfor %}
 
                 </div>
                 <div class="row">
                     <div class="col-md-2">
-                        <button type="button"><i class="glyphicon-plus glyphicon add_new_object"></i></button>
+                        <button type="button" class="add_new_object">
+                            <i class="glyphicon-plus glyphicon"></i>
+                        </button>
                         <button type="submit" class="btn btn-success btn-lg">Сабмит!</button>
                     </div>
                 </div>

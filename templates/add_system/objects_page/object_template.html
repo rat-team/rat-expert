@@ -7,15 +7,10 @@
         </div>
         <button type="button" class="btn btn-danger delete_object" data-href="/delete_object/" data-id = {{ object.id }}><i class="glyphicon glyphicon-remove"></i></button>
     </div>
-    <div class="form-group">
-        <label class="col-md-3 control-label">Значения</label>
-        <div class="col-md-6 object__attributes_values">
 
-                {% include "add_system/objects_page/attribute_value_template.html" %}
+    {% include "add_system/objects_page/attribute_value_template.html" %}
 
-            <button type="button" class="col-md-2 object__add_attribute_value btn btn-warning">
-                <i class="glyphicon-plus glyphicon"></i>
-            </button>
-        </div>
-    </div>
+    <button type="button" class="col-md-2 object__add_attribute_value btn btn-warning">
+        <i class="glyphicon-plus glyphicon"></i>
+    </button>
 </div>
