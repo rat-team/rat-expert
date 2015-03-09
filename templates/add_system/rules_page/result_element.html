@@ -1,0 +1,19 @@
+{% if type == 1 %}
+
+    {% for res in rule.result %}
+        {% include "add_system/rules_page/result_attribute_element.html" %}
+
+        {% empty %}
+        {% include "add_system/rules_page/result_attribute_element.html" %}
+
+    {% endfor %}
+
+{% elif type == 0 %}
+    {% for res in rule.result %}
+        {% include "add_system/rules_page/result_parameter_element.html" %}
+
+        {% empty %}
+        {% include "add_system/rules_page/result_parameter_element.html" %}
+
+    {% endfor %}
+{% endif %}

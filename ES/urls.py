@@ -8,6 +8,7 @@ from ExpertSystem.redact.attributes import add_attributes, insert_attributes, de
 from ExpertSystem.redact.objects import add_objects, insert_objects
 from ExpertSystem.redact.parameters import add_parameters, insert_parameters, delete_parameter
 from ExpertSystem.redact.questions import add_questions, insert_questions, delete_question
+from ExpertSystem.redact.rules import add_rules, insert_rules
 from ExpertSystem.redact.system import create_db, add_system, insert_system
 from ExpertSystem.views import index, creators, answer, reset
 
@@ -34,6 +35,7 @@ urlpatterns = patterns('',
     url(r'^add_objects$', add_objects, name="add_objects"),
     url(r'^add_answers$', add_answers, name="add_answers"),
     url(r'^add_questions$', add_questions, name="add_questions"),
+    url(r'^add_rules$', add_rules, name="add_rules"),
 
     url(r'^insert_system/$', insert_system, name="insert_system"),
     url(r'^insert_attributes/$', insert_attributes, name="insert_attributes"),
@@ -41,6 +43,8 @@ urlpatterns = patterns('',
     url(r'^insert_objects/$', insert_objects, name="insert_objects"),
     url(r'^insert_answers/$', insert_answers, name="insert_answers"),
     url(r'^insert_questions/$', insert_questions, name="insert_questions"),
+    url(r'^insert_rules/$', insert_rules, name="insert_rules"),
+
 
     # url(r'^insert_objects/$', insert_objects, name="insert_objects"),
     url(r'^delete_attribute_value/$', delete_attribute_value, name="delete_attribute_value"),

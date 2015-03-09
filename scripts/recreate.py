@@ -109,7 +109,7 @@ def recreate():
 
     result = json.dumps(result)
 
-    rule_1 = Rule.objects.create(condition=condition, result=result, type=type)
+    rule_1 = Rule.objects.create(condition=condition, result=result, type=type, system=system)
 
 
 
@@ -128,9 +128,7 @@ def recreate():
     }]
     result = json.dumps(result)
 
-    rule_2 = Rule.objects.create(condition=condition, result=result, type=type)
-
-
+    rule_2 = Rule.objects.create(condition=condition, result=result, type=type, system=system)
 
     # правило - черный цвет - холодный
     condition = {
@@ -149,7 +147,7 @@ def recreate():
 
     result = json.dumps(result)
 
-    rule_3 = Rule.objects.create(condition=condition, result=result, type=type)
+    rule_3 = Rule.objects.create(condition=condition, result=result, type=type, system=system)
 
     # правило - белый цвет - теплый
     condition = {
@@ -166,16 +164,17 @@ def recreate():
     }]
     result = json.dumps(result)
 
-    rule_4 = Rule.objects.create(condition=condition, result=result, type=type)
+    rule_4 = Rule.objects.create(condition=condition, result=result, type=type, system=system)
 
     # правило - длинная шерсть - не склонен к аллергии
     param_type = Rule.PARAM_RULE
 
     condition = {
         "literals": [
-            {"param": fur_param.id, "relation": "=", 'value': long_fur.value}
+            {"param": fur_param.id, "relation": "=", 'value': long_fur.value},
+            {"param": fur_param.id, "relation": "<=", 'value': short_fur.value},
         ],
-        'logic': []
+        'logic': ["or"]
     }
     condition = json.dumps(condition)
 
@@ -185,4 +184,4 @@ def recreate():
     }]
     result = json.dumps(result)
 
-    rule_5 = Rule.objects.create(condition=condition, result=result, type=param_type)
+    rule_5 = Rule.objects.create(condition=condition, result=result, type=param_type, system=system)
