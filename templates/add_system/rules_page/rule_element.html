@@ -1,0 +1,32 @@
+<div class="form-group rule_formgroup attributes__item">
+
+    <input name="type" type="hidden" value="{{ type }}">
+
+    <button type="button" class="btn btn-danger rule__delete">
+        <i class="glyphicon glyphicon-remove"></i>
+    </button>
+
+    <div class="form-group condition_formgroup">
+
+        {% for literal, logic in rule.condition.zipped_literal_logic %}
+            {% include "add_system/rules_page/condition_element.html" %}
+            {% empty %}
+            {% include "add_system/rules_page/condition_element.html" %}
+        {% endfor %}
+
+        <button type="button" class="col-md-1 rule__add_condition btn btn-warning">
+            <i class="glyphicon-plus glyphicon"></i>
+        </button>
+    </div>
+
+    <div class="form-group result_formgroup">
+
+
+        {% include "add_system/rules_page/result_element.html" with rule=rule%}
+
+        <button type="button" class="col-md-1 rule__add_result btn btn-warning" data-type="{{ type }}">
+            <i class="glyphicon-plus glyphicon"></i>
+        </button>
+    </div>
+
+</div>

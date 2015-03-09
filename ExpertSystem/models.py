@@ -99,6 +99,7 @@ class Rule(models.Model):
     condition = models.TextField()
     result = models.TextField()
     type = models.IntegerField(choices=CHOICES)
+    system = models.ForeignKey(System)
 
     class Meta:
         db_table = "rule"

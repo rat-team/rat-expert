@@ -22,8 +22,8 @@
             <a href="{% url "add_answers" %}">Ответы</a>
         </li>
 
-        <li class="{% active request 'add_logic' %}">
-            <a href="#">Логика</a>
+        <li class="{% active request 'add_rules' %}">
+            <a href="{% url "add_rules" %}">Логика</a>
         </li>
     </ul>
     {% block add_page %}
