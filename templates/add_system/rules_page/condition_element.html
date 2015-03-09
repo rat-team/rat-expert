@@ -1,5 +1,4 @@
 <!-- приходит condition и parameters, которые есть в системе -->
-{% for literal, logic in condition.zipped_literal_logic %}
 <div class="rule_condition col-md-9">
 <label class="col-md-3 control-label">ЕСЛИ: </label>
     <div class="literal_block">
@@ -22,27 +21,3 @@
         <i class="glyphicon glyphicon-remove"></i>
     </button>
 </div>
-
-{% empty %}
-<div class="rule_condition col-md-9">
-<label class="col-md-3 control-label">ЕСЛИ: </label>
-    <div class="literal_block">
-        {% if logic %}
-            <select name="select_logic">
-                <option value="and" {% ifequal logic "and" %}selected="selected"{% endifequal %}>
-                    И
-                </option>
-                <option value="or" {% ifequal logic "or" %}selected="selected"{% endifequal %}>
-                    ИЛИ
-                </option>
-            </select>
-        {% endif %}
-        {% include "add_system/rules_page/literal_element.html"%}
-    </div>
-    <button type="button" class="btn btn-danger rule__delete_condition"
-            data-id="{{ question.id }}"
-            data-href="{% url "delete_question" %}">
-        <i class="glyphicon glyphicon-remove"></i>
-    </button>
-</div>
-{% endfor %}
