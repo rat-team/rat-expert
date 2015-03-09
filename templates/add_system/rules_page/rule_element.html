@@ -10,6 +10,8 @@
 
         {% for literal, logic in rule.condition.zipped_literal_logic %}
             {% include "add_system/rules_page/condition_element.html" %}
+            {% empty %}
+            {% include "add_system/rules_page/condition_element.html" %}
         {% endfor %}
 
         <button type="button" class="col-md-1 rule__add_condition btn btn-warning">
