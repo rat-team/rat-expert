@@ -36,7 +36,7 @@ class Question(models.Model):
         (SELECT, "Выберите ответ"),
         (NUMBER, "Напишите число"),
     )
-    #Параметр, к которому привязан вопрос
+    # Параметр, к которому привязан вопрос
     parameter = models.ForeignKey(Parameter)
     body = models.TextField()
     system = models.ForeignKey(System)
@@ -87,6 +87,7 @@ class SysObject(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class Rule(models.Model):
     PARAM_RULE = 0

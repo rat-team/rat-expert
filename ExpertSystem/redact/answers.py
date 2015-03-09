@@ -13,7 +13,7 @@ from ExpertSystem.utils.decorators import require_creation_session, require_post
 def add_answers(request):
     session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
     system = System.objects.get(id=session["system_id"])
-    questions = Question.objects.filter(system=system)
+    questions = Question.objects.filter(system=system, type=Question.SELECT)
     return render(request, "add_system/add_answers.html", {
         "questions": questions
     })
@@ -48,7 +48,7 @@ def insert_answers(request):
 
     form_data = json.loads(request.POST.get("form_data"))
     for question_element in form_data:
-        question = Question.objects.get(id=question_element['id'])
+        question = Question.objects.get(id=question_element['id'], system=system)
         if len(question_element['answers']) > 0:
             for answer in question_element['answers']:
                 a_id = answer['id']
@@ -66,27 +66,28 @@ def insert_answers(request):
         else:
             # удалить все ответы для этого вопроса
             Answer.objects.delete(question=question)
-        # if attr_json["id"] and int(attr_json["id"]) != -1:
-        #     #Редактируем атрибут
-        #     attribute = Attribute.objects.get(id=attr_json["id"])
-        #     attribute.name = attr_json["name"]
-        #     attribute.save()
-        #     #Обновляем значения:
-        #     for val in attr_json["values"]:
-        #         if val["id"] and int(val["id"]) != -1:
-        #             attribute_value = AttributeValue.objects.get(id=val["id"])
-        #         else:
-        #             attribute_value = AttributeValue(system=system, attr=attribute)
-        #         attribute_value.value = val["value"]
-        #         attribute_value.save()
-        # else:
-        #     # Создаем атрибут
-        #     attribute = Attribute.objects.create(name=attr_json["name"], system=system)
-        #     for val in attr_json["values"]:
-        #         AttributeValue.objects.create(system=system, attr=attribute, value=val["value"])
-
     response = {
         "code": 0,
     }
+    return HttpResponse(json.dumps(response), content_type="application/json")
 
+@require_http_methods(["POST"])
+@require_post_params("id")
+@require_creation_session()
+@transaction.atomic
+def delete_answer(request):
+    session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
+    system = System.objects.get(id=session["system_id"])
+
+    id = request.POST.get("id")
+    if id and int(id) > 0:
+        Answer.objects.filter(id=id).delete()
+        response = {
+            "code": 0,
+        }
+    else:
+        response = {
+            "code": 1,
+            "msg": "Неправильный запрос"
+        }
     return HttpResponse(json.dumps(response), content_type="application/json")

@@ -6,19 +6,19 @@ $(document).ready(function () {
     function deleteAnswer(evt) {
         var $target = $(evt.target).closest('button'),
             id = $target.data('id'),
-            $answer = $target.closest('.form-group');
+            $answer = $target.closest('.answer');
 
         alert('Удаление ответа ' + id );
         if(id != '') {
             $.ajax({
                 type: 'POST',
-                url: $(this).data("href"),
+                url: '/delete_answer/',
                 data: {
                     'id': id
                 },
                 success: function (data) {
                     if (data["code"] == 0) {
-                        $attribute.remove();
+                        $answer.remove();
                     } else {
                         toastr.error(data["msg"]);
                     }
