@@ -42,51 +42,47 @@ $(document).ready(function () {
 		$blockClone.find('.delete_answer').on('click', deleteAnswer);
 		$blockClone.insertBefore($target);
     }
-    //
-	//$('#add_attributes_form').on('submit', function(evt) {
-	//	var submitData = [];
-	//	var attrItems = $('.js-attributes__item');
-	//	var attrs = [];
-	//	_.each(attrItems, function(item) {
-	//		var attrJSON = {
-	//			id: $(item).find('input[name=id]').val(),
-	//			name: $(item).find('input[name=name]').val(),
-	//			values: []
-	//		};
-    //
-     //       _.each($(item).find('.attributes__item__value'), function(attributeValue){
-     //           var attributeValueJSON = {
-     //               id: $(attributeValue).find('input[name=id]').val(),
-     //               value: $(attributeValue).find('input[name=value]').val()
-     //           };
-     //           attrJSON.values.push(attributeValueJSON);
-     //       });
-	//		//_.each($(item).find('input[name=value]'), function(attrValueInput) {
-	//		//	attrJSON.values.push($(attrValueInput).val());
-	//		//});
-	//		attrs.push(attrJSON);
-	//	});
-	//	$('#add_attributes_form').find('input[name=form_data]').val(JSON.stringify(attrs));
-     //   var formdata = new FormData($(this)[0]);
-     //   $.ajax({
-     //       type: 'POST',
-     //       url: this.action,
-     //       data: formdata,
-     //       processData: false,
-     //       contentType: false,
-     //       success: function(data){
-     //           if (data["code"] == 0) {
-     //               toastr.success('Данные обновлены', 'Успех!');
-     //           }else{
-     //               toastr.error(data["msg"]);
-     //           }
-     //       },
-     //       error: function(msg){
-     //           toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
-     //       }
-     //   });
-    //
-     //   return false;
-	//});
+
+	$('#add_answers_form').on('submit', function(evt) {
+		var submitData = [];
+		var questionItems = $('.question');
+		var questions = [];
+		_.each(questionItems, function(item) {
+			var questionJSON = {
+				id: $(item).find('input[name=id]').val(),
+				answers: []
+			};
+
+            _.each($(item).find('.answer'), function(answer){
+                var answerJSON = {
+                    id: $(answer).find('input[name=id]').val(),
+                    body: $(answer).find('input[name=body]').val(),
+                    parameter_value: $(answer).find('input[name=parameter_value]').val()
+                };
+                questionJSON.answers.push(answerJSON);
+            });
+			questions.push(questionJSON);
+		});
+		$('#add_answer_form').find('input[name=form_data]').val(JSON.stringify(questions));
+        var formdata = new FormData($(this)[0]);
+        $.ajax({
+            type: 'POST',
+            url: this.action,
+            data: { 'form_data': JSON.stringify(questions)},
+            //processData: false,
+            //contentType: false,
+            success: function(data){
+                if (data["code"] == 0) {
+                    toastr.success('Данные обновлены', 'Успех!');
+                }else{
+                    toastr.error(data["msg"]);
+                }
+            },
+            error: function(msg){
+                toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
+            }
+        });
+        return false;
+	});
 
 });

@@ -7,14 +7,15 @@
         {% include "add_system/answer_template.html" %}
     </div>
 
-    <form id="add_attributes_form" action="{% url 'insert_answers' %}" method="POST" class="form-horizontal">
+    <form id="add_answers_form" action="/insert_answers/" method="POST" class="form-horizontal">
         <input name="form_data" type="hidden">
         {% csrf_token %}
         <div class="row">
             <div class="col-md-12 js-attributes__column">
                 <div class="row  js-attributes attributes">
                     {% for question in questions %}
-                        <div class="js-attributes__item attributes__item col-md-5">
+                        <div class="question js-attributes__item attributes__item col-md-5">
+                                <input name="id" type="hidden" value="{{ question.id }}">
                                 <h4><b>Параметр:</b> {{ question.parameter.name }}</h4>
                                 <h4><b>Вопрос:</b> {{ question.body }}</h4>
                                 <h4><b>Ответы:</b></h4>

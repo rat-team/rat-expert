@@ -4,5 +4,5 @@
         <input name="value" type="text" class="form-control" id="inputEmail3" value="{{ value.value }}">
         <input name="id" type="hidden" class="form-control" value="{% if value and value.id %}{{ value.id }}{% else %}-1{% endif %}">
     </div>
-    <button class="btn btn-danger delete_attr_value" data-href="/delete_attribute_value/" data-id = {{ value.id }}><i class="glyphicon glyphicon-remove"></i></button>
+    <button type="button" class="btn btn-danger delete_attr_value" data-href="/delete_attribute_value/" data-id = {{ value.id }}><i class="glyphicon glyphicon-remove"></i></button>
 </div>
