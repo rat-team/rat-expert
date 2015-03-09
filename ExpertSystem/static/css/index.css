@@ -51,3 +51,7 @@
 .attributes__add-item__wrapper{
 	/*text-align: right;*/
 }
+
+textarea {
+	resize: none;
+}
