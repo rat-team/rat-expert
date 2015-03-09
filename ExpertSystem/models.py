@@ -56,9 +56,9 @@ class ParameterValue(models.Model):
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question)
+    question = models.ForeignKey(Question, related_name='answers')
     body = models.TextField()
-    parameter_value = models.ForeignKey(ParameterValue)
+    parameter_value = models.TextField()
 
     class Meta:
         db_table = "answer"

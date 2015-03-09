@@ -3,6 +3,7 @@ from django.conf.urls import include
 from django.conf.urls import url
 
 from django.contrib import admin
+from ExpertSystem.redact.answers import add_answers, insert_answers
 from ExpertSystem.redact.attributes import add_attributes, insert_attributes, delete_attribute_value, delete_attribute
 from ExpertSystem.redact.objects import add_objects, insert_objects
 from ExpertSystem.redact.parameters import add_parameters, insert_parameters, delete_parameter
@@ -30,11 +31,13 @@ urlpatterns = patterns('',
     url(r'^add_attributes$', add_attributes, name="add_attributes"),
     url(r'^add_parameters$', add_parameters, name="add_parameters"),
     url(r'^add_objects$', add_objects, name="add_objects"),
+    url(r'^add_answers$', add_answers, name="add_answers"),
 
     url(r'^insert_system/$', insert_system, name="insert_system"),
     url(r'^insert_attributes/$', insert_attributes, name="insert_attributes"),
     url(r'^insert_parameters/$', insert_parameters, name="insert_parameters"),
     url(r'^insert_objects/$', insert_objects, name="insert_objects"),
+    url(r'^insert_answers/$', insert_answers, name="insert_answers"),
 
     # url(r'^insert_objects/$', insert_objects, name="insert_objects"),
     url(r'^delete_attribute_value/$', delete_attribute_value, name="delete_attribute_value"),

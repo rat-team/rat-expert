@@ -11,3 +11,7 @@
         <button type="submit" class="question__submit-button btn btn-success btn-lg">САБМИТ!</button>
     </form>
 {% endblock %}
+{% block scripts %}
+    {% load staticfiles %}
+    <script src="{% static "js/add_system.js" %}"></script>
+{% endblock %}

@@ -13,11 +13,12 @@
 	<script src="{% static "js/lib/bootstrap.min.js" %}"></script>
 	<script src="{% static "js/lib/underscore-min.js" %}"></script>
     <script src="{% static "js/lib/toastr.min.js" %}"></script>
-
     <script src="{% static "js/django_ajax.js" %}"></script>
-    <script src="{% static "js/add_system.js" %}"></script>
-    <script src="{% static "js/add_attributes.js" %}"></script>
-    <script src="{% static "js/add_objects.js" %}"></script>
+
+    {% block scripts %}
+    {% endblock %}
+
+
 </head>
 <body>
 	<div class="container">

@@ -11,7 +11,7 @@
     <label class="col-md-3 control-label">Значения</label>
     <div class="col-md-6">
         {% for value in param.values %}
-            <input type="text" class="form-control" disabled value="{{ value }}">
+            <input placeholder="Значение" type="text" class="form-control" disabled value="{{ value }}">
         {% endfor %}
     </div>
 </div>

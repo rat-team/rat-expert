@@ -44,3 +44,7 @@
         </div>
     </form>
 {% endblock %}
+{% block scripts %}
+    {% load staticfiles %}
+    <script src="{% static "js/add_attributes.js" %}"></script>
+{% endblock %}
