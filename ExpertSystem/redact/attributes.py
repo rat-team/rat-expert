@@ -151,12 +151,12 @@ def delete_attribute(request):
         updated_results = []
         results = json.loads(rule.result)
         for result in results:
-            if result["attribute"] != attribute_id:
+            if result.has_key("attribute") and result["attribute"] != attribute_id:
                 updated_results.append(result)
 
         for result in updated_results:
             updated_values = []
-
+            
             for value in result["values"]:
                 if value not in attribute_values_ids:
                     updated_values.append(value)
