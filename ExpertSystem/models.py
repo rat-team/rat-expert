@@ -1,10 +1,12 @@
 # coding=utf-8
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import CASCADE
 
 
 class System(models.Model):
     name = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "system"

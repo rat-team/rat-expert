@@ -1,5 +1,6 @@
 # coding=utf-8
 import json
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
@@ -24,9 +25,9 @@ def add_system(request, **kwargs):
         system = System.objects.get(id=system_id)
         return render(request, "add_system/add_system.html", {"system": system})
 
-    if request.session.has_key(sessions.SESSION_ES_CREATE_KEY):
+    session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
+    if session:
         # Если внутри редактирования вернулись на страницу создания системы
-        session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
         system = System.objects.get(id=session["system_id"])
         return render(request, "add_system/add_system.html", {"system": system})
 
@@ -34,7 +35,7 @@ def add_system(request, **kwargs):
     return render(request, "add_system/add_system.html")
 
 
-
+@login_required(login_url="/login/")
 @require_http_methods(["POST"])
 @require_post_params("system_name")
 def insert_system(request):
@@ -44,13 +45,13 @@ def insert_system(request):
     }
 
     system_name = request.POST.get("system_name")
-    if request.session.has_key(sessions.SESSION_ES_CREATE_KEY):
-        session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
+    session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
+    if session:
         system = System.objects.get(id=session["system_id"])
         system.name = system_name
         system.save()
         return HttpResponse(json.dumps(response), content_type="application/json")
 
-    system = System.objects.create(name=system_name)
+    system = System.objects.create(name=system_name, user=request.user)
     sessions.init_es_create_session(request, system.id)
     return HttpResponse(json.dumps(response), content_type="application/json")

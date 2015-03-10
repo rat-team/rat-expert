@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.TextField()),
-                ('attributes', models.ManyToManyField(related_name=b'sys_objects', null=True, to='ExpertSystem.AttributeValue', blank=True)),
+                ('attributes', models.ManyToManyField(related_name='sys_objects', null=True, to='ExpertSystem.AttributeValue', blank=True)),
             ],
             options={
                 'db_table': 'sys_object',
@@ -119,6 +119,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='sysobject',
+            name='system',
+            field=models.ForeignKey(to='ExpertSystem.System'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='rule',
             name='system',
             field=models.ForeignKey(to='ExpertSystem.System'),
             preserve_default=True,
@@ -156,7 +162,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='answer',
             name='question',
-            field=models.ForeignKey(to='ExpertSystem.Question'),
+            field=models.ForeignKey(related_name='answers', to='ExpertSystem.Question'),
             preserve_default=True,
         ),
     ]

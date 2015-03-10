@@ -12,6 +12,7 @@ def recreate():
         #Очистка
         cur = con.cursor()
         cur.execute("SET foreign_key_checks = 0")
+        cur.execute("DELETE FROM auth_user")
         cur.execute("DELETE FROM system")
         cur.execute("DELETE FROM attribute")
         cur.execute("DELETE FROM parameter")
@@ -23,7 +24,14 @@ def recreate():
         cur.execute("DELETE FROM rule")
         cur.execute("SET foreign_key_checks = 1")
 
-    system = System.objects.create(name="System 1")
+    user = User.objects.create(username="admin", email="admin@admin.admin")
+    user.set_password("admin")
+    user.save()
+    user2 = User.objects.create(username="maxmyalkin", email="max@myalkin.black")
+    user2.set_password("20")
+    user2.save()
+    system = System.objects.create(name="System 1", user=user)
+    system2 = System.objects.create(name="System 2", user=user2)
 
     # Параметр шерсть
     fur_param = Parameter.objects.create(system=system, name="Предпочтение в типе шерсти")
