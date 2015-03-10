@@ -1,0 +1,45 @@
+{% extends "add_system_base.html" %}
+{% block add_page %}
+    <div class="page-header">
+        <h1>Добавление ответов</h1>
+    </div>
+    <div id="answer_template" class="hide col-md-5">
+        {% include "add_system/answer_template.html" %}
+    </div>
+
+    <form id="add_answers_form" action="/insert_answers/" method="POST" class="form-horizontal">
+        <input name="form_data" type="hidden">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12 js-attributes__column">
+                <div class="row  js-attributes attributes">
+                    {% for question in questions %}
+                        <div class="question js-attributes__item attributes__item col-md-5">
+                                <input name="id" type="hidden" value="{{ question.id }}">
+                                <h4><b>Параметр:</b> {{ question.parameter.name }}</h4>
+                                <h4><b>Вопрос:</b> {{ question.body }}</h4>
+                                <h4><b>Ответы:</b></h4>
+                                {% for answer in question.answers.all%}
+                                    {% include "add_system/answer_element.html" %}
+                                {% endfor %}
+                                <button type="button" class="col-md-2 add_answer btn btn-warning">
+                                <i class="glyphicon-plus glyphicon"></i></button>
+                        </div>
+                    {% empty %}
+                        <h4>Добавьте вопросы на странице вопросов</h4>
+                    {% endfor %}
+
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success btn-lg">Сабмит!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block scripts %}
+    {% load staticfiles %}
+    <script src="{% static "js/add_answers.js" %}"></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "add_system_base.html" %}
+{% block add_page %}
+    <form id="add_system_form" action="{% url "insert_system" %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <h3><label for="inputEmail3" class="col-sm-2 control-label">Название</label></h3>
+            <div class="col-sm-10">
+              <input type="text" name="system_name" class="form-control" id="inputEmail3" value="{{ system.name }}">
+            </div>
+        </div>
+        <button type="submit" class="question__submit-button btn btn-success btn-lg">САБМИТ!</button>
+    </form>
+{% endblock %}
+{% block scripts %}
+    {% load staticfiles %}
+    <script src="{% static "js/add_system.js" %}"></script>
+{% endblock %}

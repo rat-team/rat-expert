@@ -1,0 +1,25 @@
+<!-- приходит literal и parameters, которые есть в системе -->
+<select name="select_literal_parameter_id">
+    {% for param in parameters %}
+    <option value="{{ param.id }}" {% ifequal literal.param param.id %}selected="selected"{% endifequal %}>
+        {{ param.name }}
+    </option>
+    {% endfor %}
+</select>
+
+<select name="select_literal_relation">
+    <option value="=" {% ifequal literal.relation "=" %}selected="selected"{% endifequal %}>
+        =
+    </option>
+    <option value="!=" {% ifequal literal.relation "!=" %}selected="selected"{% endifequal %}>
+        !=
+    </option>
+    <option value="<=" {% ifequal literal.relation "<=" %}selected="selected"{% endifequal %}>
+        <=
+    </option>
+    <option value=">=" {% ifequal literal.relation ">=" %}selected="selected"{% endifequal %}>
+        >=
+    </option>
+</select>
+
+<input name="literal_value" value="{{ literal.value }}">

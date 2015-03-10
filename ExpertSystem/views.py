@@ -61,10 +61,11 @@ def next_question(request):
                     ctx = {
                         "question": question,
                         "answers": answers,
+                        "table": session_dict["objects"]
                     }
                     return render(request, "question.html", ctx)
 
-    return HttpResponse("THE END")
+    return render(request, "final.html", {"table": session_dict["objects"]})
 
 @require_session()
 @require_post_params("answer", "question_id")
@@ -72,46 +73,24 @@ def answer(request):
     answer_id = request.POST.get("answer")
     question_id = request.POST.get("question_id")
 
-    session = request.session.get(sessions.SESSION_KEY)
-    system_id = session["system_id"]
-    system = System.objects.get(id=system_id)
-    sys_objects = SysObject.objects.filter(system=system)
-    objects=[]
-    for object in sys_objects:
-        objects.append({
-            "name": object.name,
-            "weight": 0,
-        })
-
     if answer_id == "dont_know":
         sessions.add_to_session(request,
-                                asked_questions=[question_id, ],
-                                objects=objects)
-        return next_question(request)
+                                asked_questions=[int(question_id), ])
+        return HttpResponseRedirect("/index")
 
     answer = Answer.objects.get(id=answer_id)
 
-    sessions.add_to_session(request, asked_questions=[int(question_id), ],
-                            selected_params=[answer.parameter_value.id, ],
-                            objects=objects)
-
     attrs = get_attributes(answer)
+
+    sessions.add_to_session(request, asked_questions=[int(question_id), ],
+                            selected_params=[answer.parameter_value.id, ])
+
     request.session[sessions.SESSION_KEY] = update_session_attributes(
         request.session.get(sessions.SESSION_KEY), attrs
     )
 
-    #MAX(session, param_value)
-    #ILUHA(session)
+    return HttpResponseRedirect("/index")
 
 
-    return next_question(request)
-
-
-def create_db(request):
-    recreate()
-    return HttpResponse(content="OK")
-
-def add_system(request, page):
-    page = page if page else 0
-    temp = "add_system." + page + ".html"
-    return render(request, "add_system." + page + ".html")
+def creators(request):
+    return render(request, "creators.html")

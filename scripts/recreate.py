@@ -26,25 +26,29 @@ def recreate():
     system = System.objects.create(name="System 1")
 
     # Параметр шерсть
-    parameter_1 = Parameter.objects.create(system=system, name="Предпочтение в типе шерсти")
-    parameter_1_value_1 = ParameterValue.objects.create(system=system, param=parameter_1, value="Длинношерстный")
-    parameter_1_value_2 = ParameterValue.objects.create(system=system, param=parameter_1, value="Короткошерстный")
+    fur_param = Parameter.objects.create(system=system, name="Предпочтение в типе шерсти")
+    long_fur = ParameterValue.objects.create(system=system, param=fur_param, value="Длинношерстный")
+    short_fur = ParameterValue.objects.create(system=system, param=fur_param, value="Короткошерстный")
 
     # Параметр цвет
-    parameter_2 = Parameter.objects.create(system=system, name="Предпочтения в цвете")
-    parameter_2_value_1 = ParameterValue.objects.create(system=system, param=parameter_2, value="Теплые цвета")
-    parameter_2_value_2 = ParameterValue.objects.create(system=system, param=parameter_2, value="Холодные цвета")
+    color_param = Parameter.objects.create(system=system, name="Предпочтения в цвете")
+    warm_color = ParameterValue.objects.create(system=system, param=color_param, value="Теплые цвета")
+    cold_color = ParameterValue.objects.create(system=system, param=color_param, value="Холодные цвета")
 
+    # Параметр аллергия (!!!! для правила параметр-параметр !!!!)
+    allerg_param = Parameter.objects.create(system=system, name="Склонность к аллергии")
+    not_prone = ParameterValue.objects.create(system=system, param=allerg_param, value="Не склонен")
+    prone = ParameterValue.objects.create(system=system, param=allerg_param, value="Склонен")
 
     # Атрибуты шерсти
-    attribute_1 = Attribute.objects.create(system=system, name="Длина шерсти")
-    attribute_1_value_1 = AttributeValue.objects.create(system=system, attr=attribute_1, value="Длинная")
-    attribute_1_value_2 = AttributeValue.objects.create(system=system, attr=attribute_1, value="Короткая")
+    fur_length_attr = Attribute.objects.create(system=system, name="Длина шерсти")
+    long_fur_attr = AttributeValue.objects.create(system=system, attr=fur_length_attr, value="Длинная")
+    short_fur_attr = AttributeValue.objects.create(system=system, attr=fur_length_attr, value="Короткая")
 
      # Атрибуты цвета
-    attribute_2 = Attribute.objects.create(system=system, name="Цвет")
-    attribute_2_value_1 = AttributeValue.objects.create(system=system, attr=attribute_2, value="Белый")
-    attribute_2_value_2 = AttributeValue.objects.create(system=system, attr=attribute_2, value="Черный")
+    color_attr = Attribute.objects.create(system=system, name="Цвет")
+    color_white_attr = AttributeValue.objects.create(system=system, attr=color_attr, value="Белый")
+    color_black_attr = AttributeValue.objects.create(system=system, attr=color_attr, value="Черный")
 
 
 
@@ -52,46 +56,46 @@ def recreate():
 
     # черная и белая кошка с короткой шерстью
     cat = SysObject.objects.create(system=system, name="Кошка")
-    cat.attributes.add(attribute_1_value_2)
-    cat.attributes.add(attribute_2_value_2)
-    cat.attributes.add(attribute_1_value_1)
+    cat.attributes.add(short_fur_attr)
+    cat.attributes.add(color_black_attr)
+    cat.attributes.add(color_white_attr)
 
     # белая собака с длинной шерстью
     dog = SysObject.objects.create(system=system, name="Собака")
-    dog.attributes.add(attribute_1_value_1)
-    dog.attributes.add(attribute_2_value_1)
+    dog.attributes.add(long_fur_attr)
+    dog.attributes.add(color_white_attr)
 
 
     question_1_parameter_1 = Question.objects.create(
-        parameter=parameter_1, body="Какие типы шерсти вам нравятся больше?",
+        parameter=fur_param, body="Какие типы шерсти вам нравятся больше?",
         system=system, type=0
     )
 
     answer_1_question_1 = Answer.objects.create(body="Больше нравится длинная шерсть",
                                                 question=question_1_parameter_1,
-                                                parameter_value=parameter_1_value_1)
+                                                parameter_value=long_fur)
     answer_2_question_1 = Answer.objects.create(body="Больше нравится короткая шерсть",
                                                 question=question_1_parameter_1,
-                                                parameter_value=parameter_1_value_2)
+                                                parameter_value=short_fur)
 
     question_2 = Question.objects.create(
-        parameter=parameter_2, body="Какие цвета вы предпочитаете?",
+        parameter=color_param, body="Какие цвета вы предпочитаете?",
         system=system, type=0
     )
 
     answer_1_question_2 = Answer.objects.create(body="Теплые",
                                                 question=question_2,
-                                                parameter_value=parameter_2_value_1)
+                                                parameter_value=warm_color)
     answer_2_question_2 = Answer.objects.create(body="Холодные",
                                                 question=question_2,
-                                                parameter_value=parameter_2_value_2)
+                                                parameter_value=cold_color)
 
     type = Rule.ATTR_RULE
 
     # правило - короткая шерсть
     condition = {
         "literals": [
-            {"param": parameter_1.id, "relation": "=", 'value': parameter_1_value_2.value}
+            {"param": fur_param.id, "relation": "=", 'value': short_fur.value}
         ],
         'logic': []
     }
@@ -99,39 +103,37 @@ def recreate():
     condition = json.dumps(condition)
 
     result = [{
-        'attribute': attribute_1.id,
-        'values': [attribute_1_value_2.id]
+        'attribute': fur_length_attr.id,
+        'values': [short_fur_attr.id]
     }]
 
     result = json.dumps(result)
 
-    rule_1 = Rule.objects.create(condition=condition, result=result, type=type)
+    rule_1 = Rule.objects.create(condition=condition, result=result, type=type, system=system)
 
 
 
     # правило - длинная шерсть
     condition = {
         "literals": [
-            {"param": parameter_1.id, "relation": "=", 'value': parameter_1_value_1.value}
+            {"param": fur_param.id, "relation": "=", 'value': long_fur.value}
         ],
         'logic': []
     }
     condition = json.dumps(condition)
 
     result = [{
-        'attribute': attribute_1.id,
-        'values': [attribute_1_value_1.id]
+        'attribute': fur_length_attr.id,
+        'values': [long_fur_attr.id]
     }]
     result = json.dumps(result)
 
-    rule_2 = Rule.objects.create(condition=condition, result=result, type=type)
-
-
+    rule_2 = Rule.objects.create(condition=condition, result=result, type=type, system=system)
 
     # правило - черный цвет - холодный
     condition = {
         "literals": [
-            {"param": parameter_2.id, "relation": "=", 'value': parameter_2_value_2.value}
+            {"param": color_param.id, "relation": "=", 'value': cold_color.value}
         ],
         'logic': []
     }
@@ -139,31 +141,47 @@ def recreate():
     condition = json.dumps(condition)
 
     result = [{
-        'attribute': attribute_2.id,
-        'values': [attribute_2_value_2.id]
+        'attribute': color_attr.id,
+        'values': [color_black_attr.id, color_white_attr.id]
     }]
 
     result = json.dumps(result)
 
-    rule_3 = Rule.objects.create(condition=condition, result=result, type=type)
-
-
+    rule_3 = Rule.objects.create(condition=condition, result=result, type=type, system=system)
 
     # правило - белый цвет - теплый
     condition = {
         "literals": [
-            {"param": parameter_2.id, "relation": "=", 'value': parameter_2_value_1.value}
+            {"param": color_param.id, "relation": "=", 'value': warm_color.value}
         ],
         'logic': []
     }
     condition = json.dumps(condition)
 
     result = [{
-        'attribute': attribute_2.id,
-        'values': [attribute_2_value_1.id]
+        'attribute': color_attr.id,
+        'values': [color_white_attr.id]
     }]
     result = json.dumps(result)
 
-    rule_4 = Rule.objects.create(condition=condition, result=result, type=type)
+    rule_4 = Rule.objects.create(condition=condition, result=result, type=type, system=system)
 
+    # правило - длинная шерсть - не склонен к аллергии
+    param_type = Rule.PARAM_RULE
 
+    condition = {
+        "literals": [
+            {"param": fur_param.id, "relation": "=", 'value': long_fur.value},
+            {"param": fur_param.id, "relation": "<=", 'value': short_fur.value},
+        ],
+        'logic': ["or"]
+    }
+    condition = json.dumps(condition)
+
+    result = [{
+        'parameter': allerg_param.id,
+        'values': not_prone.value
+    }]
+    result = json.dumps(result)
+
+    rule_5 = Rule.objects.create(condition=condition, result=result, type=param_type, system=system)

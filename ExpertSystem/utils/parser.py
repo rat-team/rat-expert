@@ -12,8 +12,10 @@ RELATION_LE = '<='
 
 def get_attributes(answer):
     # возвращает тьюпл из параметров и атрибутов - пока что только атрибуты
+    if answer == "dont_know":
+        return {}
     parameter_value = answer.parameter_value
-    param_dict = make_param_dict([parameter_value])
+    param_dict = make_param_dict([parameter_value])  # взять с сессии
     return scan_rules(param_dict)
 
 def make_param_dict(params_values):

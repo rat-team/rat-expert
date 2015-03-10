@@ -1,0 +1,28 @@
+<div class="form-group parameter__question_formgroup">
+
+    <label class="col-md-3 control-label">Вопрос</label>
+
+    <div class="parameter__question col-md-6">
+        <input name="question_id" type="hidden" disabled class="form-control"
+               value="{% if question and question.id %}{{ question.id }}{% else %}-1{% endif %}" data-id="0">
+        <div class="form-group">
+            <textarea placeholder="Вопрос" name="body" class="form-control">{{ question.body }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <select name="type" class="form-control">
+                <option value="0" {% ifequal question.type 0 %}selected="selected"{% endifequal %}>
+                    С выбором ответа
+                </option>
+                <option value="1" {% ifequal question.type 1 %}selected="selected"{% endifequal %}>
+                    Со свободным вводом
+                </option>
+            </select>
+        </div>
+    </div>
+    <button type="button" class="col-md-offset-1 btn btn-danger parameter__delete_question"
+            data-id="{{ question.id }}"
+            data-href="{% url "delete_question" %}">
+        <i class="glyphicon glyphicon-remove"></i>
+    </button>
+</div>

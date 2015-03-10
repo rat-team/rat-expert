@@ -1,0 +1,59 @@
+{% extends "add_system/add_system_base.html" %}
+{% block add_page %}
+    <div class="page-header">
+        <h1>Добавление правил</h1>
+    </div>
+
+    <div class="rule_element_attribute_template hide col-md-5">
+        {% include "add_system/rules_page/rule_element.html" with type=1 %}
+    </div>
+
+    <div class="rule_element_parameter_template hide col-md-5">
+        {% include "add_system/rules_page/rule_element.html" with type=0 %}
+    </div>
+
+    <div class="rule_condition_template hide col-md-5">
+        {% include "add_system/rules_page/condition_element.html" with type=0 logic="and" %}
+    </div>
+
+    <div class="rule_result_attribute_template hide col-md-5">
+        {% include "add_system/rules_page/result_attribute_element.html" with type=1 %}
+    </div>
+
+    <div class="rule_result_parameter_template hide col-md-5">
+        {% include "add_system/rules_page/result_parameter_element.html" with type=0 %}
+    </div>
+
+    <form id="add_rules_form" action="{% url 'insert_rules' %}" method="POST" class="form-horizontal">
+        <input name="form_data" type="hidden">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row rules">
+
+                    {% for rule in rules %}
+                        {% include "add_system/rules_page/rule_element.html" with type=rule.type %}
+                    {% empty %}
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <button type="button" class="rules__add_parameter_rule btn btn-warning btn-lg">
+                    <i class="glyphicon-plus glyphicon"></i>Параметр
+                </button>
+                <button type="button" class="rules__add_attribute_rule btn btn-warning btn-lg">
+                    <i class="glyphicon-plus glyphicon"></i>Атрибут
+                </button>
+                <button type="submit" class="btn btn-success btn-lg">Сабмит!</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block scripts %}
+    {% load staticfiles %}
+    <script src="{% static "js/add_rules.js" %}"></script>
+{% endblock %}

@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.db import models
+from django.db.models import CASCADE
 
 
 class System(models.Model):
@@ -35,7 +36,7 @@ class Question(models.Model):
         (SELECT, "Выберите ответ"),
         (NUMBER, "Напишите число"),
     )
-    #Параметр, к которому привязан вопрос
+    # Параметр, к которому привязан вопрос
     parameter = models.ForeignKey(Parameter)
     body = models.TextField()
     system = models.ForeignKey(System)
@@ -55,9 +56,9 @@ class ParameterValue(models.Model):
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question)
+    question = models.ForeignKey(Question, related_name='answers')
     body = models.TextField()
-    parameter_value = models.ForeignKey(ParameterValue)
+    parameter_value = models.TextField()
 
     class Meta:
         db_table = "answer"
@@ -65,7 +66,7 @@ class Answer(models.Model):
 
 class AttributeValue(models.Model):
     system = models.ForeignKey(System)
-    attr = models.ForeignKey(Attribute)
+    attr = models.ForeignKey(Attribute, on_delete=CASCADE)
     value = models.CharField(max_length=50)
 
     class Meta:
@@ -87,6 +88,7 @@ class SysObject(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Rule(models.Model):
     PARAM_RULE = 0
     ATTR_RULE = 1
@@ -97,6 +99,7 @@ class Rule(models.Model):
     condition = models.TextField()
     result = models.TextField()
     type = models.IntegerField(choices=CHOICES)
+    system = models.ForeignKey(System)
 
     class Meta:
         db_table = "rule"

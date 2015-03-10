@@ -1,0 +1,41 @@
+{% extends "add_system_base.html" %}
+{% block add_page %}
+    <div class="page-header">
+        <h1>Добавление параметров</h1>
+    </div>
+
+    <div class="js-attributes__item-template attributes__item hide col-md-5" data-id="0">
+        {% include "add_system/parameter_template.html" %}
+    </div>
+
+    <form id="add_attributes_form" action="{% url 'insert_parameters' %}" method="POST" class="form-horizontal">
+        <input name="form_data" type="hidden">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12 js-attributes__column">
+                <div class="row js-attributes attributes">
+                    {% for param in params %}
+                        <div class="js-attributes__item attributes__item col-md-5" data-id="0">
+                            {% include "add_system/parameter_element.html" %}
+                        </div>
+                    {% empty %}
+                        <div class="js-attributes__item attributes__item col-md-5" data-id="0">
+                            {% include "add_system/parameter_template.html" %}
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="button" class="js-attributes__add-item attributes__add-item btn btn-warning btn-lg"><i class="glyphicon-plus glyphicon"></i></button>
+                        <button type="submit" class="btn btn-success btn-lg">Сабмит!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block scripts %}
+    {% load staticfiles %}
+    <script src="{% static "js/add_attributes.js" %}"></script>
+{% endblock %}
