@@ -1,9 +1,6 @@
 <div class="col-md-5 attributes__item parameter_questions_element">
-    <div class="form-group">
-        <label class="col-md-3 control-label">Параметр</label>
-        <div>{{ parameter.name }}</div>
-        <input name="id" type="hidden" class="form-control" value="{{ parameter.id }}">
-    </div>
+    <h4><b>Параметр: </b> {{ parameter.name }}</h4>
+    <input name="id" type="hidden" class="form-control" value="{{ parameter.id }}">
 
     {% for question in parameter.questions %}
         {% include "add_system/questions_page/question_element.html" %}
