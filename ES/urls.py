@@ -10,7 +10,7 @@ from ExpertSystem.redact.parameters import add_parameters, insert_parameters, de
 from ExpertSystem.redact.questions import add_questions, insert_questions, delete_question
 from ExpertSystem.redact.rules import add_rules, insert_rules
 from ExpertSystem.redact.system import create_db, add_system, insert_system
-from ExpertSystem.views import index, creators, answer, reset
+from ExpertSystem.views import index, login_view, registration, creators, answer, reset, logout_view
 
 admin.autodiscover()
 
@@ -24,9 +24,14 @@ urlpatterns = patterns('',
     url(r'^reset', reset, name="reset"),
 
     url(r'^$', index, name="index"),
-    url(r'^index$', index, name="index"),
+    url(r'^index/$', index, name="index"),
+
     url(r'^creators/$', creators, name="creators"),
     url(r'^answer/$', answer, name="answer"),
+
+    url(r'^login/$', login_view, name="login_view"),
+    url(r'^registration/$', registration, name="registration"),
+    url(r'^logout/$', logout_view, name="logout_view"),
 
     url(r'^add_system/(?P<system_id>[a-zA-Z0-9._-]+)/$', add_system, name="add_system"),
     url(r'^add_system/$', add_system, name="add_system"),

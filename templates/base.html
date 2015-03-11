@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Ratus-Expertus</title>
+    <title>Ratus Expertus</title>
     {% load staticfiles %}
 
     <link rel="stylesheet" type="text/css" href="{% static "css/lib/bootstrap.min.css" %}">
@@ -36,7 +36,8 @@
 			      </ul>
 			      
 			      <ul class="nav navbar-nav navbar-right">
-			        <li><a href="#">Account</a></li>
+                    <li><a href="/profile/">{{ user.username }}</a></li>
+			        <li><a href="/logout/">Выйти</a></li>
 			      </ul>
 			    </div>
 			  </div>

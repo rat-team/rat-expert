@@ -1,7 +1,12 @@
 # coding=utf-8
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 from ExpertSystem.models import System, SysObject
 from ExpertSystem.utils.sessions import clear_session
 from ExpertSystem.queries import update_session_attributes
@@ -16,14 +21,15 @@ from ExpertSystem.utils.decorators import require_post_params
 from scripts.recreate import recreate
 
 
+@login_required(login_url="/login/")
 def index(request):
-    if not request.GET.has_key("system_id") and not request.session.has_key(sessions.SESSION_KEY):
-        systems = System.objects.all()
-        return render(request, "systems.html", {"systems": systems})
-
-    if not request.session.has_key(sessions.SESSION_KEY):
-        system_id = request.GET.get("system_id")
-        sessions.init_session(request, system_id)
+    if sessions.SESSION_KEY not in request.session:
+        if "system_id" not in request.GET:
+            systems = System.objects.filter(user=request.user)
+            return render(request, "systems.html", {"systems": systems})
+        else:
+            system_id = request.GET.get("system_id")
+            sessions.init_session(request, system_id)
 
     return next_question(request)
 
@@ -34,6 +40,53 @@ def reset(request):
     """
     clear_session(request)
     return HttpResponseRedirect("/index")
+
+@csrf_exempt
+@require_http_methods(["GET", "POST"])
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if not user:
+                return HttpResponse(json.dumps({"status": "ERROR", "error": u"Неправильные данные"}), content_type="application/json")
+            else:
+                login(request, user)
+                return HttpResponse(json.dumps({"status": "OK"}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"status": "ERROR", "error": u"Мало данных"}), content_type="application/json")
+    else:
+        return render(request, "auth/login.html")
+
+
+@csrf_exempt
+@require_http_methods(["GET", "POST"])
+def registration(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        if username and email and password:
+            try:
+                user = User.objects.get(username=username)
+                if user:
+                    return HttpResponse(json.dumps({"status": "ERROR", "error": u"Никнейм занят"}), content_type="application/json")
+            except User.DoesNotExist:
+                user = User.objects.create(email=email, username=username)
+                user.set_password(request.POST["password"])
+                user.save()
+
+                user = authenticate(username=username, password=password)
+                if user:
+                    login(request, user)
+                    return HttpResponse(json.dumps({"status": "OK"}), content_type="application/json")
+                else:
+                    return HttpResponse(json.dumps({"status": "ERROR", "error": u"Ошибочка вышла"}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"status": "ERROR", "error": u"Мало данных"}, content_type="application/json"))
+    else:
+        return render(request, "auth/registration.html")
 
 
 @require_session()
@@ -92,5 +145,12 @@ def answer(request):
     return HttpResponseRedirect("/index")
 
 
+@login_required(login_url="/login/")
 def creators(request):
     return render(request, "creators.html")
+
+
+@login_required(login_url="/login/")
+def logout_view(request):
+    logout(request)
+    return redirect("/login/")
