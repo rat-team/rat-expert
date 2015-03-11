@@ -55,3 +55,55 @@
 textarea {
 	resize: none;
 }
+
+.rule{
+
+}
+.rule__delete__wrapper {
+	text-align: right;
+}
+.rule__condition__literal-select{
+	display: inline-block;
+	width: auto;
+}
+.rule__condition{
+	margin-bottom: 8px;
+}
+.rule__condition__literal-select_param1{
+	max-width: 50%;
+}
+.rule__condition__literal-select_param2{
+	width: 30%;
+}
+.rule__condition__select-block{
+	display: inline-block;
+}
+.rule__condition__remove-btn{
+	position: absolute;
+	right: 30px;
+}
+
+.rule__result{
+	margin-bottom: 8px;
+}
+.rule__result__select-block{
+	display: inline-block;
+	width: auto;
+}
+.rule__result__remove-btn{
+	position: absolute;
+	right: 30px;
+}
+.rule__result__select{
+	width: auto;
+	display: inline-block;
+}
+.rule__result__input{
+	width: auto;
+	display: inline-block;
+}
+
+.rules__add-buttons{
+	margin: 30px 100px;
+	text-align: center;
+}

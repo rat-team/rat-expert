@@ -1,13 +1,17 @@
 <!-- приходит condition и parameters, которые есть в системе -->
-<div class="rule_condition col-md-9">
-<label class="col-md-3 control-label">ЕСЛИ: </label>
-    <div class="literal_block">
+<div class="js-rule__condition rule__condition  rule_condition col-md-9">
+    <label class="col-md-1 control-label">
+        {% if not template %}
+        ЕСЛИ: 
+        {% endif %}
+    </label>
+    <div class="rule__condition__select-block literal_block col-md-11">
         {% if logic %}
-            <select name="select_logic">
-                <option value="and" {% ifequal logic "and" %}selected="selected"{% endifequal %}>
+            <select name="select_logic" class="js-rule__condition__literal-select_logic rule__condition__literal-select form-control">
+                <option value="and" {% ifequal logic "and" %}selected="selected"{% endifequal %} class="form-control">
                     И
                 </option>
-                <option value="or" {% ifequal logic "or" %}selected="selected"{% endifequal %}>
+                <option value="or" {% ifequal logic "or" %}selected="selected"{% endifequal %} class="form-control">
                     ИЛИ
                 </option>
             </select>
@@ -15,9 +19,18 @@
         {% include "add_system/rules_page/literal_element.html" with literal=literal %}
     </div>
 
-    <button type="button" class="btn btn-danger rule__delete_condition"
-            data-id="{{ question.id }}"
-            data-href="{% url "delete_question" %}">
+    <button 
+        type="button" 
+        class="
+            hide
+            js-rule__condition__remove-btn
+            rule__condition__remove-btn 
+            btn btn-danger 
+            rule__delete_condition 
+        "
+        data-id="{{ question.id }}"
+        data-href="{% url "delete_question" %}"
+    >
         <i class="glyphicon glyphicon-remove"></i>
     </button>
 </div>

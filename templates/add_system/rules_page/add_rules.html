@@ -13,15 +13,15 @@
     </div>
 
     <div class="rule_condition_template hide col-md-5">
-        {% include "add_system/rules_page/condition_element.html" with type=0 logic="and" %}
+        {% include "add_system/rules_page/condition_element.html" with type=0 logic="and" template=1 %}
     </div>
 
     <div class="rule_result_attribute_template hide col-md-5">
-        {% include "add_system/rules_page/result_attribute_element.html" with type=1 %}
+        {% include "add_system/rules_page/result_attribute_element.html" with type=1 template=1 %}
     </div>
 
     <div class="rule_result_parameter_template hide col-md-5">
-        {% include "add_system/rules_page/result_parameter_element.html" with type=0 %}
+        {% include "add_system/rules_page/result_parameter_element.html" with type=0 template=1 %}
     </div>
 
     <form id="add_rules_form" action="{% url 'insert_rules' %}" method="POST" class="form-horizontal">
@@ -32,7 +32,7 @@
                 <div class="row rules">
 
                     {% for rule in rules %}
-                        {% include "add_system/rules_page/rule_element.html" with type=rule.type %}
+                        {% include "add_system/rules_page/rule_element.html" with type=rule.type  template=0 %}
                     {% empty %}
 
                     {% endfor %}
@@ -40,13 +40,13 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2">
+        <div class="row rules__add-buttons">
+            <div class="col-md-12">
                 <button type="button" class="rules__add_parameter_rule btn btn-warning btn-lg">
-                    <i class="glyphicon-plus glyphicon"></i>Параметр
+                    <i class="glyphicon-plus glyphicon"></i> Параметр-Параметр
                 </button>
                 <button type="button" class="rules__add_attribute_rule btn btn-warning btn-lg">
-                    <i class="glyphicon-plus glyphicon"></i>Атрибут
+                    <i class="glyphicon-plus glyphicon"></i> Параметр-Атрибут
                 </button>
                 <button type="submit" class="btn btn-success btn-lg">Сабмит!</button>
             </div>

@@ -1,12 +1,13 @@
-<div class="form-group rule_formgroup attributes__item">
+<div class="form-group rule_formgroup attributes__item rule js-rule" data-template="{{template}}">
 
     <input name="type" type="hidden" value="{{ type }}">
+    <div class="rule__delete__wrapper">
+        <button type="button" class="btn btn-sm btn-danger rule__delete">
+            <i class="glyphicon glyphicon-remove"></i>
+        </button>
+    </div>
 
-    <button type="button" class="btn btn-danger rule__delete">
-        <i class="glyphicon glyphicon-remove"></i>
-    </button>
-
-    <div class="form-group condition_formgroup">
+    <div class="js-rule__conditions rule__conditions form-group condition_formgroup">
 
         {% for literal, logic in rule.condition.zipped_literal_logic %}
             {% include "add_system/rules_page/condition_element.html" %}
@@ -19,7 +20,7 @@
         </button>
     </div>
 
-    <div class="form-group result_formgroup">
+    <div class="js-rule__results rule__results form-group result_formgroup">
 
 
         {% include "add_system/rules_page/result_element.html" with rule=rule%}

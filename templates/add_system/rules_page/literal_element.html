@@ -1,25 +1,45 @@
 <!-- приходит literal и parameters, которые есть в системе -->
-<select name="select_literal_parameter_id">
+<select name="select_literal_parameter_id" class="js-rule__condition__literal-select_param1 rule__condition__literal-select form-control rule__condition__literal-select_param1">
     {% for param in parameters %}
-    <option value="{{ param.id }}" {% ifequal literal.param param.id %}selected="selected"{% endifequal %}>
+    <option value="{{ param.id }}" {% ifequal literal.param param.id %}selected="selected"{% endifequal %} class="form-control">
         {{ param.name }}
     </option>
     {% endfor %}
 </select>
 
-<select name="select_literal_relation">
-    <option value="=" {% ifequal literal.relation "=" %}selected="selected"{% endifequal %}>
+<select name="select_literal_relation" class="js-rule__condition__literal-select_relation form-control rule__condition__literal-select">
+    <option 
+        value="=" 
+        {% ifequal literal.relation "=" %}
+            selected="selected"
+        {% endifequal %}
+    >
         =
     </option>
-    <option value="!=" {% ifequal literal.relation "!=" %}selected="selected"{% endifequal %}>
+    <option 
+        value="!=" 
+        {% ifequal literal.relation "!=" %}
+            selected="selected"
+        {% endifequal %}
+    >
         !=
     </option>
-    <option value="<=" {% ifequal literal.relation "<=" %}selected="selected"{% endifequal %}>
+    <option 
+        value="<=" 
+        {% ifequal literal.relation "<=" %}
+            selected="selected"
+        {% endifequal %}
+        >
         <=
     </option>
-    <option value=">=" {% ifequal literal.relation ">=" %}selected="selected"{% endifequal %}>
+    <option 
+        value=">=" 
+        {% ifequal literal.relation ">=" %}
+            selected="selected"
+        {% endifequal %}
+    >
         >=
     </option>
 </select>
 
-<input name="literal_value" value="{{ literal.value }}">
+<input name="literal_value" class="js-rule__condition__literal-select_param2 rule__condition__literal-select rule__condition__literal-select_param2 form-control" value="{{ literal.value }}">
