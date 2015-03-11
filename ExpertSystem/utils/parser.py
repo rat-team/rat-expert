@@ -10,43 +10,72 @@ RELATION_GE = '>='
 RELATION_LE = '<='
 
 
-def get_attributes(answer):
-    # возвращает тьюпл из параметров и атрибутов - пока что только атрибуты
-    if answer == "dont_know":
-        return {}
-    parameter_value = answer.parameter_value
-    param_dict = make_param_dict([parameter_value])  # взять с сессии
-    return scan_rules(param_dict)
+def get_parameters(session_parameters):
+    # добавляет в сессию параметры, пока находятся новые
+    once_more = True
+    while once_more:
+        new_parameters = {}
+        results = scan_rules(session_parameters, Rule.PARAM_RULE)
 
-def make_param_dict(params_values):
-    # создание карты которая ид параметра соотносит список его значений
-    param_to_values = {}
-    for param_value in params_values:
-        param_id = param_value.param.id  # id параметра
-        param_to_values[param_id]= param_value.value
-    return param_to_values
+        if len(results) == 0:
+            return
+
+        for result in results:
+            parameter = new_parameters.get(result['parameter'], None)
+            if not parameter:
+                parameter = []
+            parameter.append(result['value'])
+            new_parameters[result['parameter']] = parameter
+        once_more = add_params_to_session(session_parameters, new_parameters)
 
 
-def scan_rules(param_dict):
-    # проверяет все правила и возвращает атрибуты, которые надо применить
-    rules = Rule.objects.all()
+def get_attributes(session_parameters):
+    # возвращает атрибуты
     attrs = {}
+    results = scan_rules(session_parameters)
+    for result in results:
+        attrs[result['attribute']] = result['values']
+    return attrs
+
+
+def add_params_to_session(session_params, new_params):
+    #  возвращает были ли добавлены новые параметры в сессию
+    new = False
+    for param, values in new_params.iterkeys():
+        session_param_values = session_params.get(param, None)
+        if not session_param_values:
+            session_param_values = []
+        for value in values:
+            try:
+                session_param_values.index(value)
+            except ValueError:
+                new = True
+                session_param_values.append(value)
+        session_params[param] = session_param_values
+    return new
+
+
+def scan_rules(param_dict, type=Rule.ATTR_RULE):
+    # проверяет все правила и возвращает результат
+    rules = Rule.objects.filter(type=type)
+    results = []
     for rule in rules:
         condition = json.loads(rule.condition)
         literals = condition['literals']
         logic = condition['logic']
         results_list = []  # будет храниться результат выражений литералов
         for literal in literals:
-            value_from_map = param_dict.get(literal['param'], None)
-            if value_from_map:
-                results_list.append(compare_param_values(literal['relation'], value_from_map, literal['value']))
-            else:
-                results_list.append(False)
+            values_from_map = param_dict.get(literal['param'], None)
+            result = False
+            for value_from_map in values_from_map:
+                if not result:
+                    result = compare_param_values(literal['relation'], value_from_map, literal['value'])
+                else:
+                    break
+            results_list.append(result)
         if process_logic_expression(logic, results_list):
-            results = json.loads(rule.result)
-            for result in results:
-                attrs[result['attribute']] = result['values']
-    return attrs
+            results.append(json.loads(rule.result))
+    return results
 
 
 def compare_param_values(relation, v1, v2):
