@@ -24,7 +24,7 @@ def recreate():
         cur.execute("DELETE FROM rule")
         cur.execute("SET foreign_key_checks = 1")
 
-    user = User.objects.create(username="admin", email="admin@admin.admin")
+    user = User.objects.create(username="admin", email="admin@admin.admin", is_superuser=True, is_staff=True)
     user.set_password("admin")
     user.save()
     user2 = User.objects.create(username="maxmyalkin", email="max@myalkin.black")

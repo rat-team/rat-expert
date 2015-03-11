@@ -11,6 +11,9 @@ class System(models.Model):
     class Meta:
         db_table = "system"
 
+    def __unicode__(self):
+        return self.name + " by " + self.user.username
+
 
 class Attribute(models.Model):
     name = models.CharField(max_length=50)
@@ -30,6 +33,9 @@ class Parameter(models.Model):
     class Meta:
         db_table = "parameter"
 
+    def __unicode__(self):
+        return self.name
+
 
 class Question(models.Model):
     SELECT = 0
@@ -46,6 +52,9 @@ class Question(models.Model):
 
     class Meta:
         db_table = "question"
+
+    def __unicode__(self):
+        return "Question #" + str(self.id) + " in system: " + self.system.name
 
 
 class ParameterValue(models.Model):
@@ -64,6 +73,9 @@ class Answer(models.Model):
 
     class Meta:
         db_table = "answer"
+
+    def __unicode__(self):
+        return "Answer #" + str(self.id) + " to question #" + str(self.question.id)
 
 
 class AttributeValue(models.Model):
