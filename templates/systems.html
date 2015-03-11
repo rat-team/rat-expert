@@ -10,12 +10,14 @@
       <div class="caption">
         <h3 class="thumbnail__title">{{system.name}}</h3>
         <p class="thumbnail__text">Попробуйте лучшее из всего, что Вы когда-либо видели! <br/>
-         <b>{{system.name}}!</b> <br/>
-          Так как эта система, никто вам не поможет выбрать!</p>
+          Так как эта система, никто вам не поможет выбрать!<br/>
+            Автор: <b>{{system.user.username}} {% if system.user.last_name and system.user.first_name %}
+                ({{ system.user.last_name }} {{ system.user.first_name }}){% endif %}</b><br/></p>
         <p><a href="/index?system_id={{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Попробовать бесплатно!</a></p>
 
-          <p><a href="/add_system/{{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Редактировать</a></p>
-
+          {% if system.user_id == user_id %}
+        <p><a href="/add_system/{{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Редактировать</a></p>
+          {% endif %}
       </div>
     </div>
   </div>
