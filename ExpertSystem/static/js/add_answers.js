@@ -7,8 +7,6 @@ $(document).ready(function () {
         var $target = $(evt.target).closest('button'),
             id = $target.data('id'),
             $answer = $target.closest('.answer');
-
-        alert('Удаление ответа ' + id );
         if(id != '') {
             $.ajax({
                 type: 'POST',
