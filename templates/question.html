@@ -7,11 +7,17 @@
 		<form action="{% url 'answer' %}" method="POST">
 			{% csrf_token %}
 			<input id="question_id" name="question_id" value="{{ question.id }}" type="hidden"/>
+
+            {% if question.type == 0 %}
 			{% for answer in answers %}
-			<div class="answer">
-				<h3><input id="{{ answer.body }}" type="radio" name="answer" value="{{ answer.id }}"> <label for="{{ answer.body }}"> {{ answer.body }} </label></h3>
-			</div>
+                <div class="answer">
+                    <h3><input id="{{ answer.body }}" type="radio" name="answer" value="{{ answer.id }}"> <label for="{{ answer.body }}"> {{ answer.body }} </label></h3>
+                </div>
+
 			{% endfor %}
+            {% else %}
+                <h3>Введите ответ<input type="text" name="answer"></h3>
+            {% endif %}
 			<button type="submit" class="question__submit-button btn btn-success btn-lg">Далее</button>
 			<a href="/skip/{{ question.id }}" class="question__submit-button btn btn-link btn-lg">Пропустить вопрос</a>
 			<a href="{%  url "main_menu" %}" class="question__submit-button btn btn-link btn-lg">Главное меню</a>
