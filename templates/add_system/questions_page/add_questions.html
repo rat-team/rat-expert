@@ -1,275 +1,36 @@
 {% extends "add_system/add_system_base.html" %}
 {% block add_page %}
     <div class="page-header">
-    <h1>Добавление вопросов и ответов</h1>
-</div>
+        <h1>Добавление вопросов</h1>
+    </div>
 
-<div class="row js-row_question-template hide">
-            <div class="col-md-6">
-                <div class="row js-parameters">
-                    <div class="js-parameters__item attributes__item col-md-10" data-id="0">
-                        <div class="form-group form-group_title">
-                            <label for="inputEmail3" class="col-md-3"><h3 class="item__title">Вопрос:</h3></label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="Крыса" name="body">
-                            </div>
-                        </div>
-                        <div class="form-group attributes__item__value">
-                            <label for="inputEmail3" class="col-md-3 control-label">Параметр:</label>
-                            <div class="col-md-9">
-                                <select class="js-question__param form-control" name="param">
-                                    {% for param in parameters %}
-                                        <option class="form-control" value="{{ param.id }}">{{ param.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row button-block">
-                    <div class="col-md-11 button-block_question-add">
-                        <button type="button" class="js-questions__add-item btn btn-warning btn-lg"><i class="glyphicon-plus glyphicon"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 answers__column">
-                <div class="row js-answers">
-                    <h3 class="column__subtitle">Ответы:</h3>
-                    <div class="js-answers__wrapper">
-                        <div class="row js-answers__item attributes__item">
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-md-3 control-label">Ответ:</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="Крыса">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-md-3 control-label">Значение параметра:</label>
-                                <div class="col-md-9">
-                                    <select class="js-answer-select form-control">
-                                        <!-- FIXME -->
-                                        {% for param in parameters %}
-                                            {% if param.id == 4 %}
-                                                {% for value in param.values %}
-                                                <option class="form-control" value="{{ value.id }}">{{ value.value }}</option>
-                                                {% endfor %}
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 button-block button-block_answer-add">
-                            <button type="button" class="js-answers__add-item btn btn-warning"><i class="glyphicon-plus glyphicon"></i></button>
-                        </div>
-                    </div>
+    <div class="parameter__question_formgroup_template hide col-md-5">
+        {% include "add_system/questions_page/question_element.html" %}
+    </div>
+
+    <form id="add_questions_form" action="{% url 'insert_questions' %}" method="POST" class="form-horizontal">
+        <input name="form_data" type="hidden">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row parameters__questions">
+                    {% for parameter in parameters %}
+                        {% include "add_system/questions_page/parameter_questions_element.html" %}
+                    {% empty %}
+
+                    {% endfor %}
+
                 </div>
             </div>
         </div>
-
-
-<div class="row js-answers__item-template attributes__item hide">
-    <div class="form-group">
-        <label for="inputEmail3" class="col-md-3 control-label">Ответ:</label>
-        <div class="col-md-9">
-            <input type="text" class="form-control" placeholder="Крыса" name="body">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputEmail3" class="col-md-3 control-label">Значение параметра:</label>
-        <div class="col-md-9">
-            <select class="js-answer-select form-control">
-                <!-- FIXME -->
-                {% for param in parameters %}
-                    {% if param.id == 4 %}
-                        {% for value in param.values %}
-                        <option class="form-control" value="{{ value.id }}">{{ value.value }}</option>
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-</div>
-
-<form action="/add_system/2" method="POST" class="form-horizontal">
-    <input name="form_data" type="hidden">
-    {% csrf_token %}
-    <div class="js-question-rows__wrapper">
-        <div class="row js-row_question row_question">
-            <div class="col-md-6">
-                <div class="row js-parameters">
-                    <div class="js-parameters__item attributes__item col-md-10" data-id="0">
-                        <div class="form-group form-group_title">
-                            <label for="inputEmail3" class="col-md-3"><h3 class="item__title">Вопрос:</h3></label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="Крыса" name="body">
-                            </div>
-                        </div>
-                        <div class="form-group attributes__item__value">
-                            <label for="inputEmail3" class="col-md-3 control-label">Параметр:</label>
-                            <div class="col-md-9">
-                                <select class="js-question__param form-control" name="param">
-                                    {% for param in parameters %}
-                                        <option class="form-control" value="{{ param.id }}">{{ param.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row button-block">
-                    <div class="col-md-11 button-block_question-add">
-                        <button type="button" class="js-questions__add-item btn btn-warning btn-lg"><i class="glyphicon-plus glyphicon"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 answers__column">
-                <div class="row js-answers">
-                    <h3 class="column__subtitle">Ответы:</h3>
-                    <div class="js-answers__wrapper">
-                        <div class="row js-answers__item attributes__item">
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-md-3 control-label">Ответ:</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="Крыса" name="body">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-md-3 control-label">Значение параметра:</label>
-                                <div class="col-md-9">
-                                    <select class="js-answer-select form-control">
-                                        <!-- FIXME -->
-                                        {% for param in parameters %}
-                                            {% if param.id == 4 %}
-                                                {% for value in param.values %}
-                                                <option class="form-control" value="{{ value.id }}">{{ value.value }}</option>
-                                                {% endfor %}
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 button-block button-block_answer-add">
-                            <button type="button" class="js-answers__add-item btn btn-warning"><i class="glyphicon-plus glyphicon"></i></button>
-                        </div>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success btn-lg">Сабмит!</button>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2 col-md-offset-10 button-block button-block_questions-submit">
-            <button type="submit" class="btn btn-success btn-lg">Сабмит!</button></button>
-        </div>
-    </div>
-</form>
-<script>
-
-    var parameterIdToValues = {
-        {% for param in parameters %}
-        {{ param.id }} : {
-            {% for value in param.values %}
-                 {{ value.id }}: '{{ value.value }}',
-            {% endfor %}
-        },
-        {% endfor %}
-    }
-
-    $('.js-question-rows__wrapper').on('click', '.js-questions__add-item', function (evt) {
-        var $blockClone = $('.js-row_question-template')
-                            .clone()
-                            .removeClass('hide')
-                            .removeClass('js-row_question-template')
-                            .addClass('row_question')
-                            .addClass('js-row_question');
-
-        $(evt.target).closest('.js-questions__add-item').remove();
-        $('.js-question-rows__wrapper').append($blockClone);
-    });
-
-    $('.js-question-rows__wrapper').on('click', '.js-answers__add-item', function(evt) {
-        var $blockClone = $('.js-answers__item-template')
-                            .clone()
-                            .removeClass('hide')
-                            .removeClass('js-answers__item-template')
-                            .addClass('js-answers__item');
-
-        $(evt.target).closest('.js-answers').find('.js-answers__wrapper').append($blockClone);
-
-    });
-
-    $('.js-question-rows__wrapper').on('click', '.js-question__param', function(evt) {
-        var $target = $(evt.target),
-            paramValues = parameterIdToValues[$target.val()];
-            optionTemplate = _.template('<option class="form-control" value="<%= id %>"><%= value %></option>'),
-            $select = $target.closest('.js-row_question').find('.js-answer-select').html('');
-        _.each(paramValues, function(paramValueValue, paramValueId) {
-            $select.append(
-                optionTemplate({
-                    id: paramValueId,
-                    value: paramValueValue
-                })
-            )
-        })
-
-    })
-
-    $('form').on('submit', function(evt) {
-        evt.preventDefault();
-        var questionItems = $('.js-row_question');
-        var questions = [];
-        _.each(questionItems, function(questionItem) {
-            var $questionItem = $(questionItem),
-                quesionJSON = {
-                    body: $questionItem.find('input[name=body]').val(),
-                    answers: []
-                };
-            _.each($questionItem.find('.js-answers__item'), function(answersItem) {
-                var $answersItem = $(answersItem),
-                    answer = {
-                        body: $answersItem.find('input[name=body]').val(),
-                        'param_value': $answersItem.find('select').val()
-                    }
-                quesionJSON.answers.push(answer);
-            })  
-            questions.push(quesionJSON);
-        })
-        $('form').find('input[name=form_data]').val(JSON.stringify(questions));
-        console.warn("формат вывода:", JSON.stringify(questions));
-        console.info('а внизу шаблона еще и с табуляцией!')
-    });
-
-    /*
-    * формат сабмита поля form_data:
-    *
-    [
-        {
-            "body":"q",
-            "answers":[
-                {
-                    "body":"a",
-                    "param_value":"9"
-                },
-                {
-                    "body":"b",
-                    "param_value":"9"
-                }
-            ]
-        },
-        {
-            "body":"s",
-            "answers":[
-                {"param_value":"9"},
-                {"body":"d","param_value":"9"}
-            ]
-        }
-    ] 
-    */
-</script>
+    </form>
+{% endblock %}
+{% block scripts %}
+    {% load staticfiles %}
+    <script src="{% static "js/add_questions.js" %}"></script>
 {% endblock %}

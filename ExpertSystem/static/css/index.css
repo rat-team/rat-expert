@@ -56,14 +56,7 @@
 	/*margin-top: 10px;*/
 }
 .attributes__add-item__wrapper{
-	text-align: right;
-}
-.add-item__wrapper_answer{
-	padding-right: 20px;
-}
-
-.answers__column{
-	border-left: 1px solid #ddd;
+	/*text-align: right;*/
 }
 
 textarea {
@@ -120,28 +113,4 @@ textarea {
 .rules__add-buttons{
 	margin: 30px 100px;
 	text-align: center;
-}
-.row_question{
-	border-bottom: 1px solid #bbb;
-	padding-bottom: 25px;
-	margin-bottom: 30px;
-}
-.button-block {
-	text-align: right;
-}
-.button-block_question-add {
-	padding-right: 25px;
-}
-.button-block_questions-submit {
-	margin-top: 25px;
-}
-.button-block_answer-add{
-	padding-right: 35px;
-}
-.column__subtitle{
-	margin: 0 0 20px 20px;
-}
-.item__title{
-	margin: 0;
-	text-align: right;
 }
