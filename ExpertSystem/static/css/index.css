@@ -114,3 +114,12 @@ textarea {
 	margin: 30px 100px;
 	text-align: center;
 }
+
+.objects-page__control-buttons-block{
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+}
+.objects-page__control-buttons-row{
+	height: 100px;
+}
