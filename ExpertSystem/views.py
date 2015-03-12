@@ -22,6 +22,10 @@ from scripts.recreate import recreate
 
 @login_required(login_url="/login/")
 def index(request):
+
+    if sessions.SESSION_ES_CREATE_KEY in request.session:
+        del request.session[sessions.SESSION_ES_CREATE_KEY]
+
     if sessions.SESSION_KEY not in request.session:
         system_id = request.GET.get("system_id", None)
         if not system_id:
