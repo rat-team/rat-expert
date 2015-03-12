@@ -4,7 +4,7 @@
 
     <div class="select__object_new_attribute_value col-md-6">
 
-        <select name="object__attribute_value">
+        <select class="form-control" name="object__attribute_value">
             {% for attr_value in attribute_values %}
                 {% ifequal attr_value.id attribute_value.id %}
                     <option value="{{attribute_value.id}}" selected="selected">{{attr_value.attr.name}}: {{attr_value.value}}</option>
