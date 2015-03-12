@@ -84,6 +84,7 @@ $(document).ready(function () {
             success: function(data){
                 if (data["code"] == 0) {
                     toastr.success('Объекты обновлены', 'Успех!');
+                    location.reload();
                 }else{
                     toastr.error(data["msg"]);
                 }
