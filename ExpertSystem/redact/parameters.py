@@ -4,7 +4,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
-from ExpertSystem.models import System, Parameter, Rule, ParameterValue
+from ExpertSystem.models import System, Parameter, Rule, ParameterValue, Answer, Question
 from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_creation_session, require_post_params
 
@@ -17,10 +17,16 @@ def add_parameters(request):
 
     params = []
     for param in all_params:
+        questions = Question.objects.filter(parameter=param)
+        all_answers = Answer.objects.filter(question__in=questions)
+        values = []
+        for answer in all_answers:
+            values.append(answer.parameter_value)
+
         params.append({
             "id": param.id,
             "name": param.name,
-            "values": list(value[0] for value in ParameterValue.objects.filter(param=param).values_list('value'))
+            "values": values,
         })
 
     return render(request, "add_system/add_parameters.html", {"params": params})
