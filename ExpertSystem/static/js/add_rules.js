@@ -16,6 +16,7 @@ $(document).ready(function () {
         $blockClone.find(".rule__delete_result").click(deleteResult);
 
         $blockClone.find(".rule__delete").click(deleteRule);
+        $blockClone.data("dddemplate", "1");
 
         $('.rules').append($blockClone);
     }
@@ -34,7 +35,7 @@ $(document).ready(function () {
         $blockClone.find(".rule__delete_result").click(deleteResult);
 
         $blockClone.find(".rule__delete").click(deleteRule);
-
+        $blockClone.data("dddemplate", "1");
         $('.rules').append($blockClone);
     }
 

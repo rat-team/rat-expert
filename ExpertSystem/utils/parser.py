@@ -11,9 +11,7 @@ RELATION_GE = '>='
 RELATION_LE = '<='
 
 
-def get_parameters(request):
-    session_dict = request.session.get(sessions.SESSION_KEY)
-    session_parameters = session_dict["selected_params"]
+def get_parameters(session_parameters):
     # добавляет в сессию параметры, пока находятся новые
     once_more = True
     while once_more:
@@ -24,18 +22,15 @@ def get_parameters(request):
             return
 
         for result in results:
-            parameter = new_parameters.get(result['parameter'], None)
+            parameter = new_parameters.get(int(result['parameter']), None)
             if not parameter:
                 parameter = []
-            parameter.append(result['value'])
+            parameter.append(result['values'])
             new_parameters[result['parameter']] = parameter
         once_more = add_params_to_session(session_parameters, new_parameters)
 
 
-def get_attributes(request):
-    session_dict = request.session.get(sessions.SESSION_KEY)
-    session_parameters = session_dict["selected_params"]
-
+def get_attributes(session_parameters):
     # возвращает атрибуты
     attrs = {}
     results = scan_rules(session_parameters)
@@ -71,7 +66,7 @@ def scan_rules(param_dict, type=Rule.ATTR_RULE):
         logic = condition['logic']
         results_list = []  # будет храниться результат выражений литералов
         for literal in literals:
-            values_from_map = param_dict.get(literal['param'], None)
+            values_from_map = param_dict.get(literal['param'], [])
             result = False
             for value_from_map in values_from_map:
                 if not result:
@@ -80,7 +75,8 @@ def scan_rules(param_dict, type=Rule.ATTR_RULE):
                     break
             results_list.append(result)
         if process_logic_expression(logic, results_list):
-            results.append(json.loads(rule.result))
+            for rule_result in json.loads(rule.result):
+                results.append(rule_result)
     return results
 
 
