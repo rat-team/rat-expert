@@ -44,10 +44,12 @@ $(document).ready(function () {
     add_condition_btn.click(addCondition);
     function addCondition(event){
         $target = $(event.target).closest('.btn');
+
         $conditionFormgroup = $target.parent('.condition_formgroup');
         $block = $('.rule_condition_template').eq(0).children().first();
         $blockClone = $block.clone();
         $blockClone.find(".rule__delete_condition").click(deleteCondition);
+        $blockClone.find('.js-rule__condition__remove-btn').removeClass('hide');
         $blockClone.insertBefore($target);
     }
 
@@ -75,6 +77,9 @@ $(document).ready(function () {
         }
         $blockClone = $block.clone();
         $blockClone.find(".rule__delete_result").click(deleteResult);
+
+        $blockClone.find(".js-rule__result__remove-btn").removeClass('hide');
+
         $blockClone.insertBefore($target);
     }
 
@@ -97,4 +102,80 @@ $(document).ready(function () {
         $rule_block = $target.closest('.rule_formgroup');
         $rule_block.remove();
     }
+
+//ALI G INDAHOUSE
+    $('form').on('submit', function(evt) {
+        var $rules = $('.js-rule[data-template=0]'),
+            rules = [];
+        _.each($rules, function($rule) {
+            var rule = {
+                    condition: {
+                        literals: [],
+                        logic: []
+                    },
+                    result: [],
+                    type: undefined
+                },
+                $conditions = $($rule).find('.js-rule__condition');
+                $results = $($rule).find('.rule__result__select-block');
+
+            //type
+            rule.type = $($rule).find('input[name=type]').val();
+
+
+            //condition
+            _.each($conditions, function(condition) {
+                var $condition = $(condition),
+                    $logic = $condition.find('.js-rule__condition__literal-select_logic'),
+                    literal = {};
+
+                if ($logic.length) {
+                    rule.condition.logic.push($logic.val())
+                }
+
+                literal.param = $condition.find('.js-rule__condition__literal-select_param1').val();
+                literal.relation = $condition.find('.js-rule__condition__literal-select_relation').val();
+                literal.value = $condition.find('.js-rule__condition__literal-select_param2').val();
+
+                rule.condition.literals.push(literal);
+                
+            })
+
+            //result
+            _.each($results, function(result) {
+                var $result = $(result);
+                var resultObject = (rule.type == '0') ? 
+                    {
+                        'parameter': $result.find('.js-rule__result__select').val(),//id модели Parameter,
+                        'values': $result.find('.js-rule__result__input').val()//текстовое значение параметра
+                    }
+                    : $result.find('.rule__result__select').val()
+                rule.result.push(resultObject);
+            })
+
+            rules.push(rule);
+        })
+        $('form').find('input[name=form_data]').val(JSON.stringify(rules));
+
+        var formdata = new FormData($(this)[0]);
+        $.ajax({
+            type: 'POST',
+            url: this.action,
+            data: formdata,
+            processData: false,
+            contentType: false,
+            success: function(data){
+                if (data["code"] == 0) {
+                    toastr.success('Правила обновлены', 'Успех!');
+                }else{
+                    toastr.error(data["msg"]);
+                }
+            },
+            error: function(msg){
+                toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
+            }
+        });
+        return false;
+    })
+
 });

@@ -1,17 +1,35 @@
-<div class="rule_result col-md-9">
-<label class="col-md-3 control-label">ТО: </label>
-    <div class="result_parameter_block">
-        <select name="select_result_parameter">
+<div class="js-rule__result rule__result   col-md-9 rule_result ">
+<label class="col-md-1 control-label">
+    {% if not template %}
+    ТО: 
+    {% endif %} 
+</label>
+    <div class="js-rule__result__select-block rule__result__select-block col-md-11 result_parameter_block">
+        <select 
+            name=""
+            class="js-rule__result__select rule__result__select form-control">
             {% for parameter in parameters %}
                 <option value="{{ parameter.id }}" {% ifequal res.parameter parameter.id %}selected="selected"{% endifequal %}>
                     {{ parameter.name }}
                 </option>
             {% endfor %}
         </select>
-        <input name="result_parameter_value" value="{{ res.values }}">
+        <input 
+            name="result_parameter_value" 
+            value="{{ res.values }}"
+            class="js-rule__result__input rule__result__input form-control"
+        >
     </div>
 
-    <button type="button" class="btn btn-danger rule__delete_result"
+    <button type="button" 
+            class="
+                hide
+                js-rule__result__remove-btn 
+                rule__result__remove-btn 
+                btn 
+                btn-danger 
+                rule__delete_result
+            "
             data-id="{{ question.id }}"
             data-href="{% url "delete_question" %}">
         <i class="glyphicon glyphicon-remove"></i>

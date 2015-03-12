@@ -55,5 +55,57 @@ def add_rules(request):
     })
 
 
+@require_creation_session()
+@require_http_methods(["POST"])
+@require_post_params("form_data")
+@transaction.atomic
 def insert_rules(request):
-    pass
+    session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
+    system = System.objects.get(id=session["system_id"])
+
+    Rule.objects.all().delete()
+
+    form_data = request.POST.get("form_data")
+    for rule_data in json.loads(form_data):
+        condition  = rule_data["condition"]
+        literals = []
+        for literal in condition["literals"]:
+            literals.append({
+                "relation": literal["relation"],
+                "value": literal["value"],
+                "param": int(literal["param"])
+            })
+        condition["literals"] = literals
+        if len(condition["logic"]) == len(condition["literals"]):
+            del(condition["logic"])
+        type = rule_data["type"]
+        result = rule_data["result"]
+        if int(type) == 1:
+            result_map = {}
+            # Нужно найти AttributeValue
+            for attr_value_id in result:
+                attribute_value = AttributeValue.objects.get(id=attr_value_id)
+                attr_id = attribute_value.attr.id
+                if not result_map.has_key(attr_id):
+                    result_map[attr_id] = []
+                result_map[attr_id].extend([attribute_value.id])
+
+            result = []
+            for key in result_map.iterkeys():
+                result_elem = {
+                    "attribute": key,
+                    "values": result_map[key],
+                }
+                result.append(result_elem)
+
+        Rule.objects.create(
+            condition=json.dumps(condition),
+            result=json.dumps(result),
+            type=int(type),
+            system=system
+        )
+
+    response = {
+        "code": 0,
+    }
+    return HttpResponse(json.dumps(response), content_type="application/json")

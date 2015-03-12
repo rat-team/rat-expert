@@ -25,8 +25,8 @@ from scripts.recreate import recreate
 def index(request):
     if sessions.SESSION_KEY not in request.session:
         if "system_id" not in request.GET:
-            systems = System.objects.filter(user=request.user)
-            return render(request, "systems.html", {"systems": systems})
+            systems = System.objects.all()
+            return render(request, "systems.html", {"systems": systems, "user_id": request.user.id})
         else:
             system_id = request.GET.get("system_id")
             sessions.init_session(request, system_id)

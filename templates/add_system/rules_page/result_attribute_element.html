@@ -1,7 +1,11 @@
-<div class="rule_result col-md-9">
-<label class="col-md-3 control-label">ТО: </label>
-    <div class="result_attribute_block">
-        <select name="select_result_attribute">
+<div class="js-rule__result rule__result  col-md-9  rule_result ">
+    <label class="col-md-1 control-label">
+        {% if not template %}
+        ТО: 
+        {% endif %}
+    </label>
+    <div class="js-rule__result__select-block rule__result__select-block  result_attribute_block col-md-11">
+        <select class="js-rule__result__select rule__result__select form-control">
             {% for attribute_value in attribute_values %}
                 <option value="{{ attribute_value.id }}" {% ifequal res.id attribute_value.id %}selected="selected"{% endifequal %}>
                     {{ attribute_value.attr.name }} - {{ attribute_value.value }}
@@ -9,9 +13,17 @@
             {% endfor %}
         </select>
     </div>
-    <button type="button" class="btn btn-danger rule__delete_result"
-            data-id="{{ question.id }}"
-            data-href="{% url "delete_question" %}">
+    <button 
+        type="button" 
+        class="
+            hide
+            js-rule__result__remove-btn
+            rule__result__remove-btn
+            btn btn-danger
+            rule__delete_result"
+        data-id="{{ question.id }}"
+        data-href="{% url "delete_question" %}"
+    >
         <i class="glyphicon glyphicon-remove"></i>
     </button>
 </div>
