@@ -1,6 +1,12 @@
 $(document).ready(function () {
     setupAjaxDjango();
 
+    var $rules = $('.js-rule[data-template=0]');
+    _.each($rules, function(rule) {
+        $(rule).find('.js-rule__condition:first-child').find('.js-rule__condition__remove-btn').remove();
+        $(rule).find('.js-rule__result:first-child').find('.js-rule__result__remove-btn').remove();
+    })
+
     //Добавляем правило параметр->параметр
     var add_parameter_rule = $('.rules__add_parameter_rule');
     add_parameter_rule.click(addParameterRule);
