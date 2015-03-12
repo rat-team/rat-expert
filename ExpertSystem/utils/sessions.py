@@ -16,7 +16,7 @@ def init_session(request, system_id):
         })
     session = {
         "system_id": system_id,
-        "selected_params": [],
+        "selected_params": {},
         "asked_questions": [],
         "objects": objects
     }
@@ -24,11 +24,14 @@ def init_session(request, system_id):
     request.session[SESSION_KEY] = session
 
 
-def add_to_session(request, asked_questions=None):
+def add_to_session(request, asked_questions=None, selected_params=None):
     session = request.session.get(SESSION_KEY)
 
     if asked_questions:
         session["asked_questions"] += asked_questions
+
+    if selected_params:
+        session["selected_params"] = selected_params
 
     request.session[SESSION_KEY] = session
 

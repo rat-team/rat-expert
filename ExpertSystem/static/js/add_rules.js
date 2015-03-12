@@ -22,6 +22,7 @@ $(document).ready(function () {
         $blockClone.find(".rule__delete_result").click(deleteResult);
 
         $blockClone.find(".rule__delete").click(deleteRule);
+        $blockClone.data("dddemplate", "1");
 
         $blockClone.attr('data-template', 0);
 
@@ -42,7 +43,6 @@ $(document).ready(function () {
         $blockClone.find(".rule__delete_result").click(deleteResult);
 
         $blockClone.find(".rule__delete").click(deleteRule);
-
         $blockClone.attr('data-template', 0);
 
         $('.rules').append($blockClone);

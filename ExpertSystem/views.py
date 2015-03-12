@@ -138,17 +138,15 @@ def answer(request):
     session_dict = request.session.get(sessions.SESSION_KEY, None)
     selected_params = session_dict['selected_params']
     param_id = answer.question.parameter.id
-    param_values = selected_params.get(param_id, None)
-    if not param_values:
-        param_values = []
+    param_values = selected_params.get(param_id, [])
     param_values.append(answer.parameter_value)
     selected_params[param_id] = param_values
 
-    get_parameters(request)
+    get_parameters(selected_params)
 
-    attrs = get_attributes(request)
+    attrs = get_attributes(selected_params)
 
-    sessions.add_to_session(request, asked_questions=[int(question_id), ])
+    sessions.add_to_session(request, asked_questions=[int(question_id), ], selected_params=selected_params)
 
     request.session[sessions.SESSION_KEY] = update_session_attributes(
         request.session.get(sessions.SESSION_KEY), attrs
