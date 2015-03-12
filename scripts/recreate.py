@@ -35,18 +35,18 @@ def recreate():
 
     # Параметр шерсть
     fur_param = Parameter.objects.create(system=system, name="Предпочтение в типе шерсти")
-    long_fur = ParameterValue.objects.create(system=system, param=fur_param, value="Длинношерстный")
-    short_fur = ParameterValue.objects.create(system=system, param=fur_param, value="Короткошерстный")
+    long_fur = "длинная"
+    short_fur = "короткая"
 
     # Параметр цвет
     color_param = Parameter.objects.create(system=system, name="Предпочтения в цвете")
-    warm_color = ParameterValue.objects.create(system=system, param=color_param, value="Теплые цвета")
-    cold_color = ParameterValue.objects.create(system=system, param=color_param, value="Холодные цвета")
+    warm_color = "теплые"
+    cold_color = "холодные"
 
     # Параметр аллергия (!!!! для правила параметр-параметр !!!!)
     allerg_param = Parameter.objects.create(system=system, name="Склонность к аллергии")
-    not_prone = ParameterValue.objects.create(system=system, param=allerg_param, value="Не склонен")
-    prone = ParameterValue.objects.create(system=system, param=allerg_param, value="Склонен")
+    not_prone = "не склонен"
+    prone = "склонен"
 
     # Атрибуты шерсти
     fur_length_attr = Attribute.objects.create(system=system, name="Длина шерсти")
@@ -103,7 +103,7 @@ def recreate():
     # правило - короткая шерсть
     condition = {
         "literals": [
-            {"param": fur_param.id, "relation": "=", 'value': short_fur.value}
+            {"param": fur_param.id, "relation": "=", 'value': short_fur}
         ],
         'logic': []
     }
@@ -124,7 +124,7 @@ def recreate():
     # правило - длинная шерсть
     condition = {
         "literals": [
-            {"param": fur_param.id, "relation": "=", 'value': long_fur.value}
+            {"param": fur_param.id, "relation": "=", 'value': long_fur}
         ],
         'logic': []
     }
@@ -141,7 +141,7 @@ def recreate():
     # правило - черный цвет - холодный
     condition = {
         "literals": [
-            {"param": color_param.id, "relation": "=", 'value': cold_color.value}
+            {"param": color_param.id, "relation": "=", 'value': cold_color}
         ],
         'logic': []
     }
@@ -160,7 +160,7 @@ def recreate():
     # правило - белый цвет - теплый
     condition = {
         "literals": [
-            {"param": color_param.id, "relation": "=", 'value': warm_color.value}
+            {"param": color_param.id, "relation": "=", 'value': warm_color}
         ],
         'logic': []
     }
@@ -179,8 +179,8 @@ def recreate():
 
     condition = {
         "literals": [
-            {"param": fur_param.id, "relation": "=", 'value': long_fur.value},
-            {"param": fur_param.id, "relation": "<=", 'value': short_fur.value},
+            {"param": fur_param.id, "relation": "=", 'value': long_fur},
+            {"param": fur_param.id, "relation": "<=", 'value': short_fur},
         ],
         'logic': ["or"]
     }
@@ -188,7 +188,7 @@ def recreate():
 
     result = [{
         'parameter': allerg_param.id,
-        'values': not_prone.value
+        'values': not_prone
     }]
     result = json.dumps(result)
 
