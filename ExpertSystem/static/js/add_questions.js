@@ -9,7 +9,6 @@ $(document).ready(function () {
         var $target = $(event.target).closest('.btn');
         id = $target.data('id');
         $formgroup = $target.parent('.parameter__question_formgroup');
-        alert('Удаление значения ' + id );
         if(id != '') {
             $.ajax({
                 type: 'POST',
