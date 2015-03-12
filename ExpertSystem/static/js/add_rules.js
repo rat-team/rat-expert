@@ -110,7 +110,6 @@ $(document).ready(function () {
 
 //ALI G INDAHOUSE
     $('form').on('submit', function(evt) {
-        evt.preventDefault();
         var $rules = $('.js-rule[data-template=0]'),
             rules = [];
         _.each($rules, function($rule) {
@@ -141,7 +140,7 @@ $(document).ready(function () {
 
                 literal.param = $condition.find('.js-rule__condition__literal-select_param1').val();
                 literal.relation = $condition.find('.js-rule__condition__literal-select_relation').val();
-                literal.values = $condition.find('.js-rule__condition__literal-select_param2').val();
+                literal.value = $condition.find('.js-rule__condition__literal-select_param2').val();
 
                 rule.condition.literals.push(literal);
                 
@@ -153,7 +152,7 @@ $(document).ready(function () {
                 var resultObject = (rule.type == '0') ? 
                     {
                         'parameter': $result.find('.js-rule__result__select').val(),//id модели Parameter,
-                        'value': $result.find('.js-rule__result__input').val()//текстовое значение параметра
+                        'values': $result.find('.js-rule__result__input').val()//текстовое значение параметра
                     }
                     : $result.find('.rule__result__select').val()
                 rule.result.push(resultObject);
@@ -162,7 +161,26 @@ $(document).ready(function () {
             rules.push(rule);
         })
         $('form').find('input[name=form_data]').val(JSON.stringify(rules));
-        console.log(JSON.stringify(rules));
+
+        var formdata = new FormData($(this)[0]);
+        $.ajax({
+            type: 'POST',
+            url: this.action,
+            data: formdata,
+            processData: false,
+            contentType: false,
+            success: function(data){
+                if (data["code"] == 0) {
+                    toastr.success('Правила обновлены', 'Успех!');
+                }else{
+                    toastr.error(data["msg"]);
+                }
+            },
+            error: function(msg){
+                toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
+            }
+        });
+        return false;
     })
 
 });

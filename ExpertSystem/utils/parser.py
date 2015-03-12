@@ -1,6 +1,7 @@
 # coding=utf-8
 import json
 from ExpertSystem.models import Rule
+from ExpertSystem.utils import sessions
 
 RELATION_E = '='
 RELATION_NE = '!='
@@ -10,7 +11,9 @@ RELATION_GE = '>='
 RELATION_LE = '<='
 
 
-def get_parameters(session_parameters):
+def get_parameters(request):
+    session_dict = request.session.get(sessions.SESSION_KEY)
+    session_parameters = session_dict["selected_params"]
     # добавляет в сессию параметры, пока находятся новые
     once_more = True
     while once_more:
@@ -29,7 +32,10 @@ def get_parameters(session_parameters):
         once_more = add_params_to_session(session_parameters, new_parameters)
 
 
-def get_attributes(session_parameters):
+def get_attributes(request):
+    session_dict = request.session.get(sessions.SESSION_KEY)
+    session_parameters = session_dict["selected_params"]
+
     # возвращает атрибуты
     attrs = {}
     results = scan_rules(session_parameters)

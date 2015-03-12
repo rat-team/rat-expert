@@ -25,8 +25,8 @@ from scripts.recreate import recreate
 def index(request):
     if sessions.SESSION_KEY not in request.session:
         if "system_id" not in request.GET:
-            systems = System.objects.filter(user=request.user)
-            return render(request, "systems.html", {"systems": systems})
+            systems = System.objects.all()
+            return render(request, "systems.html", {"systems": systems, "user_id": request.user.id})
         else:
             system_id = request.GET.get("system_id")
             sessions.init_session(request, system_id)
@@ -102,8 +102,10 @@ def next_question(request):
     # Берем все параметры
     for param in all_parameters:
 
+        param_values = selected_params.get(param.id, None)
+
         # Находим, какие еще не выясняли
-        if param.id not in selected_params:
+        if not param_values:
 
             questions = Question.objects.filter(parameter=param)
 
@@ -133,10 +135,20 @@ def answer(request):
 
     answer = Answer.objects.get(id=answer_id)
 
-    attrs = get_attributes(answer)
+    session_dict = request.session.get(sessions.SESSION_KEY, None)
+    selected_params = session_dict['selected_params']
+    param_id = answer.question.parameter.id
+    param_values = selected_params.get(param_id, None)
+    if not param_values:
+        param_values = []
+    param_values.append(answer.parameter_value)
+    selected_params[param_id] = param_values
 
-    sessions.add_to_session(request, asked_questions=[int(question_id), ],
-                            selected_params=[answer.parameter_value.id, ])
+    get_parameters(request)
+
+    attrs = get_attributes(request)
+
+    sessions.add_to_session(request, asked_questions=[int(question_id), ])
 
     request.session[sessions.SESSION_KEY] = update_session_attributes(
         request.session.get(sessions.SESSION_KEY), attrs
