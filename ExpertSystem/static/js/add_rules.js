@@ -17,6 +17,8 @@ $(document).ready(function () {
 
         $blockClone.find(".rule__delete").click(deleteRule);
 
+        $blockClone.attr('data-template', 0);
+
         $('.rules').append($blockClone);
     }
     //Параметр->атрибут
@@ -35,6 +37,8 @@ $(document).ready(function () {
 
         $blockClone.find(".rule__delete").click(deleteRule);
 
+        $blockClone.attr('data-template', 0);
+
         $('.rules').append($blockClone);
     }
 
@@ -50,6 +54,7 @@ $(document).ready(function () {
         $blockClone = $block.clone();
         $blockClone.find(".rule__delete_condition").click(deleteCondition);
         $blockClone.find('.js-rule__condition__remove-btn').removeClass('hide');
+
         $blockClone.insertBefore($target);
     }
 
