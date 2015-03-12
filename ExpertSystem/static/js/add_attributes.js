@@ -8,7 +8,6 @@ $(document).ready(function () {
             id = $target.data('id'),
             $attribute = $target.closest('.js-attributes__item');
 
-        alert('Удаление атрибута ' + id );
         if(id != '') {
             $.ajax({
                 type: 'POST',
@@ -38,7 +37,6 @@ $(document).ready(function () {
         var $target = $(evt.target).closest('button'),
             id = $target.data('id'),
             $value = $target.closest('.attributes__item__value');
-        alert('Удаление значения ' + id );
         if(id != '') {
             $.ajax({
                 type: 'POST',
