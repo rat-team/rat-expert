@@ -20,15 +20,14 @@ from ExpertSystem.utils.parser import *
 from ExpertSystem.utils.decorators import require_post_params
 from scripts.recreate import recreate
 
-
 @login_required(login_url="/login/")
 def index(request):
     if sessions.SESSION_KEY not in request.session:
-        if "system_id" not in request.GET:
+        system_id = request.GET.get("system_id", None)
+        if not system_id:
             systems = System.objects.all()
             return render(request, "systems.html", {"systems": systems, "user_id": request.user.id})
         else:
-            system_id = request.GET.get("system_id")
             sessions.init_session(request, system_id)
 
     return next_question(request)
@@ -38,8 +37,9 @@ def reset(request):
     """
     Очищает сессию, стартует тестирование заново
     """
+    system_id = request.GET.get('system_id')
     clear_session(request)
-    return HttpResponseRedirect("/index")
+    return HttpResponseRedirect("/index/?system_id=" + system_id)
 
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
@@ -120,18 +120,13 @@ def next_question(request):
                     }
                     return render(request, "question.html", ctx)
 
-    return render(request, "final.html", {"table": session_dict["objects"]})
+    return render(request, "final.html", {"system_id": system.id, "table": session_dict["objects"]})
 
 @require_session()
 @require_post_params("answer", "question_id")
 def answer(request):
     answer_id = request.POST.get("answer")
     question_id = request.POST.get("question_id")
-
-    if answer_id == "dont_know":
-        sessions.add_to_session(request,
-                                asked_questions=[int(question_id), ])
-        return HttpResponseRedirect("/index")
 
     answer = Answer.objects.get(id=answer_id)
 
@@ -164,3 +159,18 @@ def creators(request):
 def logout_view(request):
     logout(request)
     return redirect("/login/")
+
+
+@login_required(login_url="/login/")
+def main_menu(request):
+    sessions.clear_session(request)
+    return redirect('ExpertSystem.views.index')
+
+
+@login_required(login_url="/login/")
+def skip_question(request, question_id):
+    try:
+        sessions.add_to_session(request, asked_questions=[int(question_id)])
+    except ValueError:
+        pass
+    return HttpResponseRedirect("/index")

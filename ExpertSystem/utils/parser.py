@@ -22,9 +22,7 @@ def get_parameters(session_parameters):
             return
 
         for result in results:
-            parameter = new_parameters.get(int(result['parameter']), None)
-            if not parameter:
-                parameter = []
+            parameter = new_parameters.get(int(result['parameter']), [])
             parameter.append(result['values'])
             new_parameters[result['parameter']] = parameter
         once_more = add_params_to_session(session_parameters, new_parameters)
@@ -42,14 +40,10 @@ def get_attributes(session_parameters):
 def add_params_to_session(session_params, new_params):
     #  возвращает были ли добавлены новые параметры в сессию
     new = False
-    for param, values in new_params.iterkeys():
-        session_param_values = session_params.get(param, None)
-        if not session_param_values:
-            session_param_values = []
+    for param, values in new_params.iteritems():
+        session_param_values = session_params.get(param, [])
         for value in values:
-            try:
-                session_param_values.index(value)
-            except ValueError:
+            if value not in session_param_values:
                 new = True
                 session_param_values.append(value)
         session_params[param] = session_param_values

@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+    <h1 class="page-header">Результаты</h1>
 <table class="table table-striped table-hover table-condensed" border="0" cellspacing="0" cellpadding="0">
     <thead>
         <tr>
             <th>Имя</th>
-            <th>Вес</th>
+            <th>Приоритет</th>
         </tr>
     </thead>
     <tbody>
@@ -16,4 +17,6 @@
     {% endfor %}
     </tbody>
 </table>
+    <a href="{%  url "main_menu" %}" class="question__submit-button btn btn-link btn-lg">Главное меню</a>
+    <a href="{%  url "reset" %}?system_id={{ system_id }}" class="question__submit-button btn btn-link btn-lg">Пройти заново</a>
 {% endblock %}
