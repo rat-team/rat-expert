@@ -8,7 +8,7 @@ SESSION_ES_CREATE_KEY = "ExpertSystem_create"
 def init_session(request, system_id):
     system = System.objects.filter(id=system_id)
     sys_objects = SysObject.objects.filter(system=system)
-    objects=[]
+    objects = []
     for object in sys_objects:
         objects.append({
             "name": object.name,
@@ -37,9 +37,8 @@ def add_to_session(request, asked_questions=None, selected_params=None):
 
 
 def clear_session(request):
-    # if request.session.has_key(SESSION_KEY):
-    #     del request.session[SESSION_KEY]
-    request.session.clear()
+    if SESSION_KEY in request.session:
+        del request.session[SESSION_KEY]
 
 
 def init_es_create_session(request, system_id):

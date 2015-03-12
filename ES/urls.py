@@ -10,7 +10,8 @@ from ExpertSystem.redact.parameters import add_parameters, insert_parameters, de
 from ExpertSystem.redact.questions import add_questions, insert_questions, delete_question
 from ExpertSystem.redact.rules import add_rules, insert_rules
 from ExpertSystem.redact.system import create_db, add_system, insert_system
-from ExpertSystem.views import index, login_view, registration, creators, answer, reset, logout_view
+from ExpertSystem.views import index, login_view, registration, creators, answer, reset, logout_view, main_menu, \
+    skip_question
 
 admin.autodiscover()
 
@@ -25,6 +26,9 @@ urlpatterns = patterns('',
 
     url(r'^$', index, name="index"),
     url(r'^index/$', index, name="index"),
+    url(r'^main/$', main_menu, name="main_menu"),
+    url(r'^skip/(?P<question_id>[0-9]+)/$', skip_question, name="skip_question"),
+
 
     url(r'^creators/$', creators, name="creators"),
     url(r'^answer/$', answer, name="answer"),
