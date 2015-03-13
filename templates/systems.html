@@ -6,7 +6,7 @@
   {% cycle '<div class="row">' '' %}
   <div id="system{{ system.id }}" class="col-sm-6 col-md-4 {% cycle 'col-md-offset-1' 'col-md-offset-2' %}">
     <div class="thumbnail">
-      <img src="{% static "img/system.jpeg" %}" class="thumbnail__avatar" alt="...">
+      <img src="{{ system.pic_thumbnail.url }}" class="thumbnail__avatar" alt="...">
       <div class="caption">
         <h3 class="thumbnail__title">{{system.name}}</h3>
         <p class="thumbnail__text">
@@ -36,4 +36,9 @@
       	</a>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "js/lib/bootstrap-confirmation.js" %}"></script>
+    <script src="{% static "js/index.js" %}"></script>
 {% endblock %}

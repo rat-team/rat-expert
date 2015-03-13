@@ -7,18 +7,17 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from ExpertSystem.models import System, SysObject
+
+from ExpertSystem.models import System
 from ExpertSystem.utils.sessions import clear_session
 from ExpertSystem.queries import update_session_attributes
-from scripts.database import run
 from ExpertSystem.models import Question
 from ExpertSystem.models import Answer
 from ExpertSystem.models import Parameter
-from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_session
 from ExpertSystem.utils.parser import *
 from ExpertSystem.utils.decorators import require_post_params
-from scripts.recreate import recreate
+
 
 @login_required(login_url="/login/")
 def index(request):

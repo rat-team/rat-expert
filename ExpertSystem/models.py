@@ -3,13 +3,26 @@ import hashlib
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+from imagekit.models.fields import ImageSpecField
+from pilkit.processors import ResizeToFill
+import os
+
+
+def default_photo():
+    return os.path.join("images", "no_img.png")
 
 
 class System(models.Model):
+    def photo_upload(self, *args):
+        return os.path.join("media", "system", hashlib.md5(str(self.id)).hexdigest() + ".jpg")
+
     name = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     about = models.TextField(max_length=1000, blank=True, null=True, default='')
     date_created = models.DateField(default=timezone.now(), blank=True, null=True)
+    photo = models.ImageField(upload_to=photo_upload, default=default_photo(), null=True, blank=True)
+    pic_thumbnail = ImageSpecField([ResizeToFill(200, 200)], source='photo',
+                                   format='JPEG', options={'quality': 90})
 
     class Meta:
         db_table = "system"
@@ -17,8 +30,7 @@ class System(models.Model):
     def __unicode__(self):
         return self.name + " by " + self.user.username
 
-    def get_avatar_url(self):
-        return "http://rat-expert.icantdance.ru/media/" + hashlib.md5(str(self.id) + self.name) + ".jpg"
+
 
 
 class Attribute(models.Model):
@@ -61,15 +73,6 @@ class Question(models.Model):
 
     def __unicode__(self):
         return "Question #" + str(self.id) + " in system: " + self.system.name
-
-
-class ParameterValue(models.Model):
-    system = models.ForeignKey(System, on_delete=models.CASCADE)
-    param = models.ForeignKey(Parameter, on_delete=models.CASCADE)
-    value = models.CharField(max_length=50)
-
-    class Meta:
-        db_table = "parameter_value"
 
 
 class Answer(models.Model):

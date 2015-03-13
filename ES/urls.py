@@ -1,8 +1,12 @@
 from django.conf.urls import patterns
 from django.conf.urls import include
 from django.conf.urls import url
+from django.conf.urls.static import static
 
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from ES import settings
+from ES.settings import DEBUG, MEDIA_ROOT, MEDIA_URL
 from ExpertSystem.redact.answers import add_answers, insert_answers, delete_answer
 from ExpertSystem.redact.attributes import add_attributes, insert_attributes, delete_attribute_value, delete_attribute
 from ExpertSystem.redact.objects import add_objects, insert_objects
@@ -66,3 +70,11 @@ urlpatterns = patterns('',
     url(r'^delete_system/(?P<system_id>[a-zA-Z0-9._-]+)/$', delete_system, name="delete_system")
 
 )
+
+if DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+    'document_root': MEDIA_ROOT}))
+
+    urlpatterns += static(MEDIA_URL, document_root=settings.MEDIA_ROOT) + staticfiles_urlpatterns()

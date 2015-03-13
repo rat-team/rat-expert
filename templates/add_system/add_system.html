@@ -11,9 +11,16 @@
             </div>
             <br/>
             <div class="row">
-                <h4><label for="inputEmail4" class="col-sm-2 control-label">О системе</label></h4>
+                <h4><label for="inputEmail4" class="info-label col-sm-2 control-label">О системе</label></h4>
                 <div class="col-sm-10">
                   <textarea name="system_about" class="form-control" id="inputEmail4" >{{ system.about }}</textarea>
+                </div>
+            </div>
+            <div class="row">
+                <h4><label for="inputEmail5" class="info-label col-sm-2 control-label">Картинка</label></h4>
+                <div class="col-sm-10">
+                  <img src="{{ system.pic_thumbnail.url }}" alt="" class="img-thumbnail">
+                    <input name="system_pic" id="inputEmail5" type="file">
                 </div>
             </div>
         </div>

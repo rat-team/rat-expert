@@ -1,5 +1,16 @@
 
-$(".delete-system").click(function(){
+var deleteSystem = $('.delete-system');
+
+var optionsRemoveSystem = {
+    'title': "Удалить систему?",
+    'singletone': true,
+    'popout': true,
+    'btnOkLabel': "Да",
+    'btnCancelLabel': "Нет"
+};
+deleteSystem.confirmation(optionsRemoveSystem);
+
+deleteSystem.on('click', function(){
     var system_id = $(this).data('id');
     $.get('/delete_system/' + system_id, function() {})
         .done(function(data) {

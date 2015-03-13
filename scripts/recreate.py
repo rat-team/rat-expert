@@ -17,7 +17,6 @@ def recreate():
         cur.execute("DELETE FROM attribute")
         cur.execute("DELETE FROM parameter")
         cur.execute("DELETE FROM question")
-        cur.execute("DELETE FROM parameter_value")
         cur.execute("DELETE FROM answer")
         cur.execute("DELETE FROM attribute_value")
         cur.execute("DELETE FROM sys_object")
