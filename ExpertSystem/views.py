@@ -103,7 +103,7 @@ def next_question(request):
     # Берем все параметры
     for param in all_parameters:
 
-        param_values = selected_params.get(param.id, None)
+        param_values = selected_params.get(str(param.id), None)
 
         # Находим, какие еще не выясняли
         if not param_values:
@@ -138,6 +138,8 @@ def answer(request):
 
     if question.type == 0:
         answer = Answer.objects.get(id=answer_id)
+        if not answer.parameter_value or answer.parameter_value == "":
+            return redirect('ExpertSystem.views.skip_question')
         param_values.append(answer.parameter_value)
     else:
         # Здесь answer_id - текст ответа
