@@ -21,7 +21,7 @@ def add_parameters(request):
         all_answers = Answer.objects.filter(question__in=questions)
         values = []
         for answer in all_answers:
-            if not values.__contains__(answer.parameter_value):
+            if not values.__contains__(answer.parameter_value) and not answer.parameter_value == "":
                 values.append(answer.parameter_value)
 
         params.append({
