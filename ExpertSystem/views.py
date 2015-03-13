@@ -139,7 +139,7 @@ def answer(request):
     if question.type == 0:
         answer = Answer.objects.get(id=answer_id)
         if not answer.parameter_value or answer.parameter_value == "":
-            return redirect('ExpertSystem.views.skip_question')
+            return skip_question(request, question_id)
         param_values.append(answer.parameter_value)
     else:
         # Здесь answer_id - текст ответа
