@@ -15,7 +15,10 @@
 	margin-top: 25px;
 }
 .thumbnail{
-	min-height: 630px;
+	min-height: 635px;
+	padding-top: 20px;
+	background: #f8f8f8;
+	border-radius: 15px;
 }
 .thumbnail__add{
 	text-align: center;
@@ -23,11 +26,27 @@
 	color: #2ecc71;
 }
 .thumbnail__add__link{
-	/*vertical-align: middle;
-	line-height: 580px;*/
+	font-size: 55px;
+	position: fixed;
+	right: 20px;
+	bottom: 15px;
+	border-radius: 100%;
+	border: 1px solid;
+	width: 98px;
+	height: 98px;
+	background: #2ecc71;
+	border-color: #2ecc71;
+}
+.thumbnail__add__link:hover{
+	background: #27ae60;
+	border-color: #27ae60;
 }
 .thumbnail__add__icon{
-	/*width: 185px;*/
+	width: 100px;
+	display: inline-block;
+	text-align: center;
+	line-height: 92px;
+	color: #fff;
 }
 .page-header{
 	margin-top: 20px;
