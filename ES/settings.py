@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ExpertSystem',
-    'south'
+    'south',
+    'imagekit'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -100,3 +101,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 QUERIES_DEBUG = False
+
+_PATH = os.path.abspath(os.path.dirname(__file__))
+
+MEDIA_ROOT = os.path.join(_PATH, 'media')
+MEDIA_URL = '/media/'
