@@ -65,7 +65,7 @@ def insert_answers(request):
                 pass
         else:
             # удалить все ответы для этого вопроса
-            Answer.objects.delete(question=question)
+            Answer.objects.filter(question=question).delete()
     response = {
         "code": 0,
     }
