@@ -10,7 +10,7 @@
 
 {% elif type == 0 %}
     {% for res in rule.result %}
-        {% include "add_system/rules_page/result_parameter_element.html" %}
+        {% include "add_system/rules_page/result_parameter_element.html" with res=res%}
 
         {% empty %}
         {% include "add_system/rules_page/result_parameter_element.html" %}

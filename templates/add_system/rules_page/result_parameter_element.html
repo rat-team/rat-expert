@@ -5,11 +5,12 @@
     {% endif %} 
 </label>
     <div class="js-rule__result__select-block rule__result__select-block col-md-11 result_parameter_block">
-        <select 
+
+        <select
             name=""
             class="js-rule__result__select rule__result__select form-control">
             {% for parameter in parameters %}
-                <option value="{{ parameter.id }}" {% ifequal res.parameter parameter.id %}selected="selected"{% endifequal %}>
+                <option value="{{ parameter.id }}" {% if res.parameter == parameter.id %}selected="selected"{% endif %}>
                     {{ parameter.name }}
                 </option>
             {% endfor %}

@@ -157,7 +157,7 @@ $(document).ready(function () {
                 var $result = $(result);
                 var resultObject = (rule.type == '0') ? 
                     {
-                        'parameter': $result.find('.js-rule__result__select').val(),//id модели Parameter,
+                        'parameter': parseInt($result.find('.js-rule__result__select').val()),//id модели Parameter,
                         'values': $result.find('.js-rule__result__input').val()//текстовое значение параметра
                     }
                     : $result.find('.rule__result__select').val()
