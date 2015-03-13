@@ -17,7 +17,7 @@ class System(models.Model):
 
 class Attribute(models.Model):
     name = models.CharField(max_length=50)
-    system = models.ForeignKey(System)
+    system = models.ForeignKey(System, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "attribute"
@@ -28,7 +28,7 @@ class Attribute(models.Model):
 
 class Parameter(models.Model):
     name = models.CharField(max_length=50)
-    system = models.ForeignKey(System)
+    system = models.ForeignKey(System, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "parameter"
@@ -45,9 +45,9 @@ class Question(models.Model):
         (NUMBER, "Напишите число"),
     )
     # Параметр, к которому привязан вопрос
-    parameter = models.ForeignKey(Parameter)
+    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
     body = models.TextField()
-    system = models.ForeignKey(System)
+    system = models.ForeignKey(System, on_delete=models.CASCADE)
     type = models.IntegerField(choices=CHOICES)
 
     class Meta:
@@ -58,8 +58,8 @@ class Question(models.Model):
 
 
 class ParameterValue(models.Model):
-    system = models.ForeignKey(System)
-    param = models.ForeignKey(Parameter)
+    system = models.ForeignKey(System, on_delete=models.CASCADE)
+    param = models.ForeignKey(Parameter, on_delete=models.CASCADE)
     value = models.CharField(max_length=50)
 
     class Meta:
@@ -67,7 +67,7 @@ class ParameterValue(models.Model):
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question, related_name='answers')
+    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
     body = models.TextField()
     parameter_value = models.TextField()
 
@@ -79,8 +79,8 @@ class Answer(models.Model):
 
 
 class AttributeValue(models.Model):
-    system = models.ForeignKey(System)
-    attr = models.ForeignKey(Attribute, on_delete=CASCADE)
+    system = models.ForeignKey(System, on_delete=models.CASCADE)
+    attr = models.ForeignKey(Attribute, on_delete=models.CASCADE)
     value = models.CharField(max_length=50)
 
     class Meta:
@@ -94,7 +94,7 @@ class SysObject(models.Model):
     name = models.TextField()
     #Список атрибутов и их значений у объекта
     attributes = models.ManyToManyField(AttributeValue, null=True, blank=True, related_name='sys_objects')
-    system = models.ForeignKey(System)
+    system = models.ForeignKey(System, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "sys_object"
@@ -113,7 +113,7 @@ class Rule(models.Model):
     condition = models.TextField()
     result = models.TextField()
     type = models.IntegerField(choices=CHOICES)
-    system = models.ForeignKey(System)
+    system = models.ForeignKey(System, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "rule"

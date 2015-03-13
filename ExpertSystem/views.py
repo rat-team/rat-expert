@@ -189,3 +189,24 @@ def skip_question(request, question_id):
 @login_required(login_url="/login/")
 def presentation(request):
     return render(request, "presentation.html")
+
+
+@require_http_methods(["GET"])
+@login_required(login_url="/login/")
+def delete_system(request, system_id=None):
+    if system_id:
+        try:
+            system = System.objects.get(id=system_id)
+            user_id = User.objects.get(id=system.user_id).id
+        except System.DoesNotExist:
+            return HttpResponse(json.dumps({'error': 'System doesn\'t exist'}), content_type='application/json')
+        except User.DoesNotExist:
+            return HttpResponse(json.dumps({'error': 'User doesn\'t exist'}), content_type='application/json')
+
+        if request.user.id == user_id:
+            system.delete()
+            return HttpResponse(json.dumps({'OK': 'Deleted'}), content_type='application/json')
+        else:
+            return HttpResponse(json.dumps({'error': 'You can\'t delete this system'}), content_type='application/json')
+    else:
+        return HttpResponse(json.dumps({'error': 'No system id'}), content_type='application/json')

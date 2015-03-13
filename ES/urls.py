@@ -11,7 +11,7 @@ from ExpertSystem.redact.questions import add_questions, insert_questions, delet
 from ExpertSystem.redact.rules import add_rules, insert_rules
 from ExpertSystem.redact.system import create_db, add_system, insert_system
 from ExpertSystem.views import index, login_view, registration, creators, answer, reset, logout_view, main_menu, \
-    skip_question, presentation
+    skip_question, presentation, delete_system
 
 admin.autodiscover()
 
@@ -62,5 +62,6 @@ urlpatterns = patterns('',
     url(r'^delete_parameter/$', delete_parameter, name="delete_parameter"),
     url(r'^delete_answer/$', delete_answer, name="delete_answer"),
     url(r'^delete_question/$', delete_question, name="delete_question"),
+    url(r'^delete_system/(?P<system_id>[a-zA-Z0-9._-]+)/$', delete_system, name="delete_system")
 
 )

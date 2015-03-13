@@ -4,7 +4,7 @@
 
 <div class="row">
 	{% for system in systems %}
-  <div class="col-sm-6 col-md-4 {% cycle 'col-md-offset-1' 'col-md-offset-2' %}">
+  <div id="system{{ system.id }}" class="col-sm-6 col-md-4 {% cycle 'col-md-offset-1' 'col-md-offset-2' %}">
     <div class="thumbnail">
       <img src="{% static "img/system.jpeg" %}" class="thumbnail__avatar" alt="...">
       <div class="caption">
@@ -16,7 +16,8 @@
         <p><a href="/index?system_id={{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Попробовать бесплатно!</a></p>
 
           {% if system.user_id == user_id %}
-        <p><a href="/add_system/{{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Редактировать</a></p>
+            <p><a href="/add_system/{{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Редактировать</a></p>
+            <p><a data-id="{{ system.id }}" class="btn btn-danger btn-block btn-lg delete-system" role="button">Удалить</a></p>
           {% endif %}
       </div>
     </div>
