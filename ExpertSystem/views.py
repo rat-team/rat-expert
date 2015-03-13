@@ -183,3 +183,7 @@ def skip_question(request, question_id):
     except ValueError:
         pass
     return HttpResponseRedirect("/index")
+
+@login_required(login_url="/login/")
+def presentation(request):
+    return render(request, "presentation.html")
