@@ -13,6 +13,7 @@ $(document).ready(function () {
             success: function(data){
                 if (data["code"] == 0) {
                     toastr.success('Система добавлена', 'Успех!');
+                    location.reload();
                 }else{
                     toastr.error(data["msg"]);
                 }
@@ -21,6 +22,7 @@ $(document).ready(function () {
                 toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
             }
         });
+
         return false;
     })
 });

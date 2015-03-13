@@ -22,10 +22,7 @@ from scripts.recreate import recreate
 
 @login_required(login_url="/login/")
 def index(request):
-
-    if sessions.SESSION_ES_CREATE_KEY in request.session:
-        del request.session[sessions.SESSION_ES_CREATE_KEY]
-
+    sessions.clear_es_create_session(request)
     if sessions.SESSION_KEY not in request.session:
         system_id = request.GET.get("system_id", None)
         if not system_id:
@@ -132,13 +129,20 @@ def answer(request):
     answer_id = request.POST.get("answer")
     question_id = request.POST.get("question_id")
 
-    answer = Answer.objects.get(id=answer_id)
-
     session_dict = request.session.get(sessions.SESSION_KEY, None)
     selected_params = session_dict['selected_params']
-    param_id = answer.question.parameter.id
+
+    question = Question.objects.get(id=question_id)
+    param_id = question.parameter.id
     param_values = selected_params.get(param_id, [])
-    param_values.append(answer.parameter_value)
+
+    if question.type == 0:
+        answer = Answer.objects.get(id=answer_id)
+        param_values.append(answer.parameter_value)
+    else:
+        # Здесь answer_id - текст ответа
+        param_values.append(answer_id)
+
     selected_params[param_id] = param_values
 
     get_parameters(selected_params)
@@ -172,6 +176,7 @@ def main_menu(request):
 
 
 @login_required(login_url="/login/")
+@require_session()
 def skip_question(request, question_id):
     try:
         sessions.add_to_session(request, asked_questions=[int(question_id)])

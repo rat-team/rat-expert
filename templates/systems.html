@@ -22,15 +22,10 @@
     </div>
   </div>
   {% endfor %}
-  <div class="col-sm-6 col-md-4 col-md-offset-1">
-    <div class="thumbnail">
-      <div class="thumbnail__add">
-      	<a class="thumbnail__add__link" href="{% url "add_system" %}">
+  
+      	<a class="thumbnail__add__link" href="{% url "add_system" %}" style=" font-size: 100px; position: fixed; right: 0; bottom: 0; ">
       		<span class="thumbnail__add__icon glyphicon glyphicon-plus"></span>
       	</a>
-      </div>
-    </div>
-  </div>
 </div>
 
 {% endblock %}

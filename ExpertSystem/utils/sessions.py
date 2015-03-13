@@ -49,3 +49,8 @@ def init_es_create_session(request, system_id):
     }
 
     request.session[SESSION_ES_CREATE_KEY] = session
+
+
+def clear_es_create_session(request):
+    if SESSION_ES_CREATE_KEY in request.session:
+        del request.session[SESSION_ES_CREATE_KEY]

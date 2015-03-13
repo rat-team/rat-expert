@@ -11,6 +11,14 @@ RELATION_GE = '>='
 RELATION_LE = '<='
 
 
+def represents_int(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+
 def get_parameters(session_parameters):
     # добавляет в сессию параметры, пока находятся новые
     once_more = True
@@ -76,16 +84,28 @@ def scan_rules(param_dict, type=Rule.ATTR_RULE):
 
 def compare_param_values(relation, v1, v2):
     if relation == RELATION_E:
+        if represents_int(v1) and represents_int(v2):
+            return int(v1) == int(v2)
         return v1 == v2
     if relation == RELATION_G:
+        if represents_int(v1) and represents_int(v2):
+            return int(v1) > int(v2)
         return v1 > v2
     if relation == RELATION_L:
+        if represents_int(v1) and represents_int(v2):
+            return int(v1) < int(v2)
         return v1 < v2
     if relation == RELATION_GE:
+        if represents_int(v1) and represents_int(v2):
+            return int(v1) >= int(v2)
         return v1 >= v2
     if relation == RELATION_LE:
+        if represents_int(v1) and represents_int(v2):
+            return int(v1) <= int(v2)
         return v1 <= v2
     if relation == RELATION_NE:
+        if represents_int(v1) and represents_int(v2):
+            return int(v1) != int(v2)
         return v1 != v2
 
 

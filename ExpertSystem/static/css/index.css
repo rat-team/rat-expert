@@ -15,7 +15,7 @@
 	margin-top: 25px;
 }
 .thumbnail{
-	min-height: 580px;
+	min-height: 630px;
 }
 .thumbnail__add{
 	text-align: center;
@@ -23,11 +23,11 @@
 	color: #2ecc71;
 }
 .thumbnail__add__link{
-	vertical-align: middle;
-	line-height: 580px;
+	/*vertical-align: middle;
+	line-height: 580px;*/
 }
 .thumbnail__add__icon{
-	width: 185px;
+	/*width: 185px;*/
 }
 .page-header{
 	margin-top: 20px;
@@ -113,4 +113,13 @@ textarea {
 .rules__add-buttons{
 	margin: 30px 100px;
 	text-align: center;
+}
+
+.objects-page__control-buttons-block{
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+}
+.objects-page__control-buttons-row{
+	height: 100px;
 }
