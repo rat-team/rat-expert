@@ -79,11 +79,11 @@ def insert_rules(request):
         if len(condition["logic"]) == len(condition["literals"]):
             del(condition["logic"])
         type = rule_data["type"]
-        result = rule_data["result"]
+        result_data = rule_data["result"]
         if int(type) == 1:
             result_map = {}
             # Нужно найти AttributeValue
-            for attr_value_id in result:
+            for attr_value_id in result_data:
                 attribute_value = AttributeValue.objects.get(id=attr_value_id)
                 attr_id = attribute_value.attr.id
                 if not result_map.has_key(attr_id):
@@ -97,6 +97,15 @@ def insert_rules(request):
                     "values": result_map[key],
                 }
                 result.append(result_elem)
+
+        else:
+            result = []
+            for res in result_data:
+                resJSON = {
+                    "parameter": int(res["parameter"]),
+                    "values": res["values"]
+                }
+                result.append(resJSON)
 
         Rule.objects.create(
             condition=json.dumps(condition),
