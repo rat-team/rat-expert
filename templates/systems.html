@@ -2,8 +2,8 @@
 {% block content %}
 {% load staticfiles %}
 
-<div class="row">
-	{% for system in systems %}
+  {% for system in systems %}
+  {% cycle '<div class="row">' '' %}
   <div id="system{{ system.id }}" class="col-sm-6 col-md-4 {% cycle 'col-md-offset-1' 'col-md-offset-2' %}">
     <div class="thumbnail">
       <img src="{% static "img/system.jpeg" %}" class="thumbnail__avatar" alt="...">
@@ -28,6 +28,7 @@
       </div>
     </div>
   </div>
+  {% cycle '' '</div>' %}
   {% endfor %}
   
       	<a class="thumbnail__add__link" href="{% url "add_system" %}" style="">

@@ -190,6 +190,8 @@ def skip_question(request, question_id):
 def presentation(request):
     return render(request, "presentation.html")
 
+def faq(request):
+    return render(request, "FAQ.html")
 
 @require_http_methods(["GET"])
 @login_required(login_url="/login/")

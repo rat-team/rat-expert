@@ -1,0 +1,172 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Shower Presentation Engine</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="{% static "css/lib/shower.css" %}">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Как пользоваться системой</h1>
+		<p>ИУ5-82</p>
+	</header>
+	<section class="slide cover" id="Cover"><div>
+		<h2>Rat Expert</h2>
+		<p>Абашин, Мялкин, Павлов, Чернобровкин</p>
+		<img src="{% static "pictures/cover.jpg" %}" alt="">
+
+		<style>
+			#Cover h2 {
+				margin:30px 0 0;
+				color:#FFF;
+				text-align:center;
+				font-size:70px;
+				}
+			#Cover p {
+				margin:10px 0 0;
+				text-align:center;
+				color:#FFF;
+				font-style:italic;
+				font-size:20px;
+				}
+				#Cover p a {
+					color:#FFF;
+					}
+		</style>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Краткое описание</h2>
+		<ul>
+			<li>Есть эксперт, который может помочь человеку выбрать наиболее подходящий объект.</li>
+			<img src="{% static "img/variants.jpeg" %}" style="width: 50%" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Краткое описание</h2>
+		<ul>
+			<li>Есть много <b>Объектов</b>, среди которых нужно выбрать наиболее подходящий</li>
+			<img src="{% static "img/many.jpg" %}" style="width: 50%" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Краткое описание</h2>
+		<ul>
+			<li>У Объектов есть <b>Атрибуты:</b></li>
+			<img src="{% static "img/attrs.jpg" %}" style="width: 75%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Краткое описание</h2>
+		<ul>
+			<li>Есть пользователи экспертной системы</li>
+			<img src="{% static "img/podrostok.jpg" %}" style="width: 75%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Краткое описание</h2>
+		<ul>
+			<li>У пользователей есть параметры</li>
+			<img src="{% static "img/params.jpg" %}" style="width: 75%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Краткое описание</h2>
+		<ul>
+			<li>Эксперт обладает великим знанием преобразования параметров пользователя в атрибуты объектов.</li>
+			<img src="{% static "img/rules.jpg" %}" style="width: 55%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Что делать? Внести в систему:</h2>
+		<ul>
+			<li>Объекты с атрибутами</li>
+			<li>Параметры</li>
+			<li>Вопросы с ответами (для выяснения параметров пользователя)</li>
+			<li>Правила получения атрибутов из правил (великое знание)</li>
+			<li>* Еще можно задать правила получения новых параметров из выясненных</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Как вносить:</h2>
+		<ul>
+			<li>Нажать на большой плюс</li>
+			<img src="{% static "img/step_1.png" %}" style="width: 80%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Как вносить:</h2>
+		<ul>
+			<li>Заполнить название и описание системы, нажать "САБМИТ!"</li>
+			<img src="{% static "img/step_2.png" %}" style="width: 80%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Как вносить:</h2>
+		<ul>
+			<li>На вкладке "Атрибуты" заполнить атрибуты, "Сабмит!"</li>
+			<img src="{% static "img/step_3.png" %}" style="width: 80%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Как вносить:</h2>
+		<ul>
+			<li>На вкладке "Объекты" добавить объекты и атрибуты, "Сабмит!"</li>
+			<img src="{% static "img/step_4.png" %}" style="width: 80%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Как вносить:</h2>
+		<ul>
+			<li>На вкладке "Параметры" добавить параметры, "Сабмит!"</li>
+			<img src="{% static "img/step_5.png" %}" style="width: 80%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Как вносить:</h2>
+		<ul>
+			<li>Добавить параметрам вопросы (2 типа), "Сабмит!"</li>
+			<img src="{% static "img/step_6.png" %}" style="width: 80%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Как вносить:</h2>
+		<ul>
+			<li>Добавить ответы, каждый ответ задает значение параметра, "Сабмит!"</li>
+			<img src="{% static "img/step_7.png" %}" style="width: 80%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Как вносить:</h2>
+		<ul>
+			<li>Добавить правила, "Сабмит!"</li>
+			<!-- <li>"если <b>параметр</b>, то <b>атрибут</b>" или "если <b>параметр</b>, то <b>параметр</b>"</li> -->
+			<img src="{% static "img/step_8.png" %}" style="width: 67%;" alt="">
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+			<img src="{% static "img/success.jpeg" %}" style="" alt="">
+	</div></section>
+	
+
+	<section class="slide shout"><div>
+		<h2><a href="http://rat-expert.icantdance.ru">Попробовать</a></h2>
+		<style>
+			#Picture h2 {
+				color:#FFF;
+				}
+			#SeeMore h2 {
+				font-size:100px
+				}
+			#SeeMore img {
+				width:0.72em;
+				height:0.72em;
+				}
+		</style>
+	</div></section>
+	<div class="progress"><div></div></div>
+	<script src="{% static "js/lib/shower.min.js" %}"></script>
+</body>
+</html>
