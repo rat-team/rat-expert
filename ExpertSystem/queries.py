@@ -29,7 +29,7 @@ def update_session_attributes(session, attributes):
         add_weight_to_objects(session, session['objects'], attr, attributes[attr])
     session['objects'] = sorted(
         session['objects'],
-        key=lambda k: round(k['weight'], 2),
+        key=lambda k: round(float(k['weight']), 2),
         reverse=True
     )
     return session
