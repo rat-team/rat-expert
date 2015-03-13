@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=792, user-scalable=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+	<link rel="stylesheet" href="{% static "css/lib/shower.css" %}">
 </head>
 <body class="list">
 	<header class="caption">
@@ -15,7 +16,7 @@
 	<section class="slide cover" id="Cover"><div>
 		<h2>Rat Expert</h2>
 		<p>Абашин И. Мялкин М. Павлов М. Чернобровкин С.</p>
-		<img src="pictures/cover.jpg" alt="">
+		<img src="{% static "pictures/cover.jpg" %}" alt="">
 
 		<style>
 			#Cover h2 {
@@ -57,7 +58,7 @@
 		<h2>Принцип работы</h2>
 		<ul>
 			<li>Пользователь создает систему и заполняет данные о ней
-				<img src="pictures/creation.png" style="width: 80%" alt="">
+				<img src="{% static "pictures/creation.png" %}" style="width: 80%" alt="">
 			</li>	
 		</ul>
 	</div></section>
@@ -66,7 +67,7 @@
 		<h2>Принцип работы</h2>
 		<ul>
 			<li>После этого система доступна для прохождения
-				<img src="pictures/run.png" style="width: 80%" alt="">
+				<img src="{% static "pictures/run.png" %}" style="width: 80%" alt="">
 			</li>
 		</ul>
 		
@@ -115,13 +116,7 @@
 				}
 		</style>
 	</div></section>
-	<!--
-		To hide progress bar from entire presentation
-		just remove “progress” element.
-		-->
 	<div class="progress"><div></div></div>
-	<script src="shower/shower.min.js"></script>
-	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
-	<!-- Photos by John Carey, fiftyfootshadows.net -->
+	<script src="{% static "js/lib/shower.min.js" %}"></script>
 </body>
 </html>
