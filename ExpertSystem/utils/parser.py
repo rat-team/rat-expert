@@ -1,5 +1,6 @@
 # coding=utf-8
 import json
+import re
 from ExpertSystem.models import Rule
 from ExpertSystem.utils import sessions
 
@@ -83,6 +84,10 @@ def scan_rules(param_dict, type=Rule.ATTR_RULE):
 
 
 def compare_param_values(relation, v1, v2):
+
+    v1 = v1.replace(' ', '').upper()
+    v2 = v2.replace(' ', '').upper()
+
     if relation == RELATION_E:
         if represents_int(v1) and represents_int(v2):
             return int(v1) == int(v2)

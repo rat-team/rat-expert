@@ -27,5 +27,9 @@ def add_weight_to_objects(session, objects, attribute_id, values_ids):
 def update_session_attributes(session, attributes):
     for attr in attributes:
         add_weight_to_objects(session, session['objects'], attr, attributes[attr])
-    session['objects'] = sorted(session['objects'], key=lambda k: k['weight'], reverse=True)
+    session['objects'] = sorted(
+        session['objects'],
+        key=lambda k: round(float(k['weight']), 2),
+        reverse=True
+    )
     return session
