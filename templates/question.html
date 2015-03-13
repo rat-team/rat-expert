@@ -16,7 +16,7 @@
 
 			{% endfor %}
             {% else %}
-                <h3>Введите ответ<input type="text" name="answer"></h3>
+                <h3>Введите ответ: <input style="display: inline-block; width: auto" class="form-control" type="text" name="answer"></h3>
             {% endif %}
 			<button type="submit" class="question__submit-button btn btn-success btn-lg">Далее</button>
 			<a href="/skip/{{ question.id }}" class="question__submit-button btn btn-link btn-lg">Пропустить вопрос</a>
