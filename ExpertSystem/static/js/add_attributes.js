@@ -92,12 +92,13 @@ $(document).ready(function () {
 		var submitData = [];
 		var attrItems = $('.js-attributes__item');
 		var attrs = [];
-		_.each(attrItems, function(item) {
-			var attrJSON = {
-				id: $(item).find('input[name=id]').val(),
-				name: $(item).find('input[name=name]').val(),
-				values: []
-			};
+        $('button[type=submit]').addClass('disabled')
+        _.each(attrItems, function(item) {
+            var attrJSON = {
+                id: $(item).find('input[name=id]').val(),
+                name: $(item).find('input[name=name]').val(),
+                values: []
+            };
 
             _.each($(item).find('.attributes__item__value'), function(attributeValue){
                 var attributeValueJSON = {
@@ -106,12 +107,12 @@ $(document).ready(function () {
                 };
                 attrJSON.values.push(attributeValueJSON);
             });
-			//_.each($(item).find('input[name=value]'), function(attrValueInput) {
-			//	attrJSON.values.push($(attrValueInput).val());
-			//});
-			attrs.push(attrJSON);
-		});
-		$('#add_attributes_form').find('input[name=form_data]').val(JSON.stringify(attrs));
+            //_.each($(item).find('input[name=value]'), function(attrValueInput) {
+            //  attrJSON.values.push($(attrValueInput).val());
+            //});
+            attrs.push(attrJSON);
+        });
+        $('#add_attributes_form').find('input[name=form_data]').val(JSON.stringify(attrs));
         var formdata = new FormData($(this)[0]);
         $.ajax({
             type: 'POST',
@@ -125,9 +126,11 @@ $(document).ready(function () {
                     location.reload();
                 }else{
                     toastr.error(data["msg"]);
+                    $('button[type=submit]').removeClass('disabled')
                 }
             },
             error: function(msg){
+                $('button[type=submit]').removeClass('disabled')
                 toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
             }
         });
