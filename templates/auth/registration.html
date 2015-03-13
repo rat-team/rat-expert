@@ -15,21 +15,41 @@
     <div class="container">
         <form id="reg-form" method="post" class="form-signin form-reg">
             <h2 class="form-signin-heading">Регистрация</h2>
-            <label for="inputEmail" class="sr-only">Email</label>
-            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required="" autofocus="">
-            <label for="inputUsername" class="sr-only">Username</label>
-            <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Никнейм" required="" autofocus="">
+            <div class="form-group">
+                <label for="inputEmail" class="sr-only">Email</label>
+                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required="" autofocus="">
+            </div>
 
-            <label for="inputLastName" class="sr-only">Last name</label>
-            <input type="text" name="last_name" id="inputLastName" class="form-control" placeholder="Фамилия">
-            <label for="inputFirstName" class="sr-only">First name</label>
-            <input type="text" name="first_name" id="inputFirstName" class="form-control" placeholder="Имя">
-            <br/>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Пароль" required="">
-            <br/>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Сабмит</button>
-            <a href="/login/" class="btn btn-danger btn-block">Логин</a>
+            <div class="form-group">
+                <label for="inputUsername" class="sr-only">Username</label>
+                <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Никнейм" required="" autofocus="">
+            </div>
+
+
+            <div class="form-group">
+                <label for="inputLastName" class="sr-only">Last name</label>
+                <input type="text" name="last_name" id="inputLastName" class="form-control" placeholder="Фамилия">
+            </div>
+
+
+            <div class="form-group">
+                <label for="inputFirstName" class="sr-only">First name</label>
+                <input type="text" name="first_name" id="inputFirstName" class="form-control" placeholder="Имя">
+            </div>
+
+
+            <div class="form-group">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Пароль" required="">
+            </div>
+
+
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Сабмит</button>
+            </div>
+            <div class="form-group">
+                <a href="/login/" class="btn btn-danger btn-lg btn-block">Логин</a>
+            </div>
             <p id="auth-error" style="display: none">Ошибочка вышла</p>
         </form>
     </div>
