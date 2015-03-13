@@ -45,6 +45,7 @@ $(document).ready(function () {
 		var submitData = [];
 		var questionItems = $('.question');
 		var questions = [];
+        $('button[type=submit]').addClass('disabled')
 		_.each(questionItems, function(item) {
 			var questionJSON = {
 				id: $(item).find('input[name=id]').val(),
@@ -74,10 +75,12 @@ $(document).ready(function () {
                     toastr.success('Данные обновлены', 'Успех!');
                     location.reload();
                 }else{
+                    $('button[type=submit]').removeClass('disabled')
                     toastr.error(data["msg"]);
                 }
             },
             error: function(msg){
+                $('button[type=submit]').removeClass('disabled')
                 toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
             }
         });

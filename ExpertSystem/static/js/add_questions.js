@@ -53,6 +53,7 @@ $(document).ready(function () {
     add_questions_form.submit(function(){
         var parametersItems = $('.parameter_questions_element');
 		var parametersQuestions = [];
+        $('button[type=submit]').addClass('disabled');
 		_.each(parametersItems, function(item) {
 			var parameterJSON = {
 				id: $(item).find('input[name=id]').val(),
@@ -89,10 +90,12 @@ $(document).ready(function () {
                     toastr.success('Вопросы обновлены', 'Успех!');
                     location.reload();
                 }else{
+                    $('button[type=submit]').removeClass('disabled')
                     toastr.error(data["msg"]);
                 }
             },
             error: function(msg){
+                $('button[type=submit]').removeClass('disabled')
                 toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
             }
         });

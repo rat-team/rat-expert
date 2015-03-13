@@ -54,6 +54,7 @@ $(document).ready(function () {
     add_objects_form.submit(function(){
         var objectItems = $('.system_object');
 		var objects = [];
+        $('button[type=submit]').addClass('disabled');
 		_.each(objectItems, function(item) {
 			var objectJSON = {
 				id: $(item).find('input[name=id]').val(),
@@ -86,10 +87,12 @@ $(document).ready(function () {
                     toastr.success('Объекты обновлены', 'Успех!');
                     location.reload();
                 }else{
+                    $('button[type=submit]').removeClass('disabled')
                     toastr.error(data["msg"]);
                 }
             },
             error: function(msg){
+                $('button[type=submit]').removeClass('disabled')
                 toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
             }
         });

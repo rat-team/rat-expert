@@ -118,6 +118,7 @@ $(document).ready(function () {
     $('form').on('submit', function(evt) {
         var $rules = $('.js-rule[data-template=0]'),
             rules = [];
+        $('button[type=submit]').addClass('disabled');
         _.each($rules, function($rule) {
             var rule = {
                     condition: {
@@ -157,7 +158,7 @@ $(document).ready(function () {
                 var $result = $(result);
                 var resultObject = (rule.type == '0') ? 
                     {
-                        'parameter': parseInt($result.find('.js-rule__result__select').val()),//id модели Parameter,
+                        'parameter': $result.find('.js-rule__result__select').val(),//id модели Parameter,
                         'values': $result.find('.js-rule__result__input').val()//текстовое значение параметра
                     }
                     : $result.find('.rule__result__select').val()
@@ -180,10 +181,12 @@ $(document).ready(function () {
                     toastr.success('Правила обновлены', 'Успех!');
                     location.reload();
                 }else{
+                    $('button[type=submit]').removeClass('disabled')
                     toastr.error(data["msg"]);
                 }
             },
             error: function(msg){
+                $('button[type=submit]').removeClass('disabled')
                 toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
             }
         });
