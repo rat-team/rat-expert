@@ -1,18 +1,24 @@
 # coding=utf-8
+import hashlib
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import CASCADE
+from django.utils import timezone
 
 
 class System(models.Model):
     name = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    about = models.TextField(max_length=1000, blank=True, null=True, default='')
+    date_created = models.DateField(default=timezone.now(), blank=True, null=True)
 
     class Meta:
         db_table = "system"
 
     def __unicode__(self):
         return self.name + " by " + self.user.username
+
+    def get_avatar_url(self):
+        return "http://rat-expert.icantdance.ru/media/" + hashlib.md5(str(self.id) + self.name) + ".jpg"
 
 
 class Attribute(models.Model):
@@ -117,4 +123,3 @@ class Rule(models.Model):
 
     class Meta:
         db_table = "rule"
-

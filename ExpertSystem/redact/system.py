@@ -45,13 +45,15 @@ def insert_system(request):
     }
 
     system_name = request.POST.get("system_name")
+    system_about = request.POST.get("system_about")
     session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
     if session:
         system = System.objects.get(id=session["system_id"])
         system.name = system_name
+        system.about = system_about
         system.save()
         return HttpResponse(json.dumps(response), content_type="application/json")
 
-    system = System.objects.create(name=system_name, user=request.user)
+    system = System.objects.create(name=system_name, user=request.user, about=system_about)
     sessions.init_es_create_session(request, system.id)
     return HttpResponse(json.dumps(response), content_type="application/json")
