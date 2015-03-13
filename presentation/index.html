@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Shower Presentation Engine</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Оболочка для создания экспертных систем</h1>
+		<p>ИУ5-82</p>
+	</header>
+	<section class="slide cover" id="Cover"><div>
+		<h2>Rat Expert</h2>
+		<p>Абашин И. Мялкин М. Павлов М. Чернобровкин С.</p>
+		<img src="pictures/cover.jpg" alt="">
+
+		<style>
+			#Cover h2 {
+				margin:30px 0 0;
+				color:#FFF;
+				text-align:center;
+				font-size:70px;
+				}
+			#Cover p {
+				margin:10px 0 0;
+				text-align:center;
+				color:#FFF;
+				font-style:italic;
+				font-size:20px;
+				}
+				#Cover p a {
+					color:#FFF;
+					}
+		</style>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Описание Rat Expert</h2>
+		<p>Проект представляет собой веб-сервис, позволяющий любому человеку создавать и изменять свои экспертные системы, либо испытать системы других пользователей. Суть экспертной системы состоит в том, чтобы подобрать наиболее подходящие для пользователя объекты, узнав как можно больше параметров о нём. Для создания использовался фреймворк <a href="https://www.djangoproject.com/">Django</a></p>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Основные сущности системы</h2>
+			<ul>
+				<li>Пользователь</li>
+				<li>Система</li>
+				<li>Вопрос</li>
+				<li>Ответ</li>
+				<li>Параметр</li>
+				<li>Атрибут</li>
+				<li>Значение атрибута</li>
+				<li>Правило</li>
+			</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Принцип работы</h2>
+		<ul>
+			<li>Пользователь создает систему и заполняет данные о ней
+				<img src="pictures/creation.png" style="width: 80%" alt="">
+			</li>	
+		</ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Принцип работы</h2>
+		<ul>
+			<li>После этого система доступна для прохождения
+				<img src="pictures/run.png" style="width: 80%" alt="">
+			</li>
+		</ul>
+		
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Принцип работы</h2>
+		<ul>
+			<li>Данные о параметрах пользователя, приоритетах объектов хранятся в сессии у пользователя</li>
+			<li>Каждым ответом пользователь отправляет выбранный парметр на сервер</li>
+			<li>На сервере для уже известных параметров пользователя проверяются правила</li>
+			<li>Существует 2 вида правил:
+				<ol>
+					<li>параметр-параметр</li>
+					<li>параметр-атрибут</li>
+				</ol>
+			</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Принцип работы</h2>
+		<ul>
+			<li>После проверки правил происходит обновление приоритетов объектов по имеющимся у них атрибутам</li>
+			<li>Вопрос может быть пропущен, тогда будет задан другой вопрос (при его наличии) на тот же параметр</li>
+			<li>Опрос заканчивается, когда будут известны все заданные параметры для этой системы</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Области применения</h2>
+		<p>Данная оболочка может применяться для создания систем, которые не предполагают отсеивания результатов. Также в системах обязательно наличие правил. Система не предполагает наличие жесткой логики задавания вопросов.
+		При наличии соответствующих правил "параметр - параметр", возможны случаи, когда для одного параметра будут установлены несколько значений, либо вопросы для некоторых параметров не будут заданы - предполагается, что эксперт понимает, какие правила он создает.</p>
+		</div></section>
+
+	<section class="slide shout"><div>
+		<h2><a href="http://rat-expert.icantdance.ru">Попробовать</a></h2>
+		<style>
+			#Picture h2 {
+				color:#FFF;
+				}
+			#SeeMore h2 {
+				font-size:100px
+				}
+			#SeeMore img {
+				width:0.72em;
+				height:0.72em;
+				}
+		</style>
+	</div></section>
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
