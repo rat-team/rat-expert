@@ -5,31 +5,17 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from ExpertSystem.models import System, Attribute, AttributeValue, SysObject, Rule
+from ExpertSystem.redact.utils import get_system
 from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_creation_session, require_post_params
 from ExpertSystem.utils.log_manager import log
-
-
-def check_system(session):
-    try:
-        system_id = session.get("system_id")
-        if not system_id:
-            log.warning("No system id in session.")
-            return False
-
-        system = System.objects.get(id=system_id, is_deleted=False)
-    except System.DoesNotExist:
-        log.warning("System doesn\'t exist or is deleted")
-        return False
-
-    return system
 
 
 @require_creation_session()
 def add_attributes(request):
     session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
 
-    system = check_system(session)
+    system = get_system(session, request.user.id)
     if not system:
         return redirect("/reset/")
 
@@ -74,9 +60,14 @@ def insert_attributes(request):
     :return:
     """
     session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
-    system = check_system(session)
+    system = get_system(session, request.user.id)
     if not system:
-        return redirect("/reset/")
+        response = {
+            "code": 1,
+            "msg": u"Что-то пошло не так. Попробуйте обновить страницу."
+        }
+
+        return HttpResponse(json.dumps(response), content_type="application/json")
 
     form_data = json.loads(request.POST.get("form_data"))
     for attr_json in form_data:
@@ -93,6 +84,7 @@ def insert_attributes(request):
             attribute.name = attr_json["name"]
             attribute.save()
             #Обновляем значения:
+            added_values = []
             for val in attr_json["values"]:
                 if val["id"] and int(val["id"]) != -1:
                     attribute_value = AttributeValue.objects.get(id=val["id"])
@@ -103,6 +95,11 @@ def insert_attributes(request):
                     attribute_value = AttributeValue(system=system, attr=attribute)
                     if not val["value"]:
                         continue
+
+                if val["value"] in added_values:
+                    continue
+
+                added_values.append(val["value"])
                 attribute_value.value = val["value"]
                 attribute_value.save()
 
