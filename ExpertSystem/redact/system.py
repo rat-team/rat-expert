@@ -57,6 +57,13 @@ def insert_system(request):
         system.save()
         return HttpResponse(json.dumps(response), content_type="application/json")
 
-    system = System.objects.create(name=system_name, user=request.user, about=system_about, photo=system_pic)
+    params = {
+        "name": system_name,
+        "user": request.user,
+        "about": system_about,
+    }
+    if system_pic:
+        params.update({"photo": system_pic})
+    system = System.objects.create(**params)
     sessions.init_es_create_session(request, system.id)
     return HttpResponse(json.dumps(response), content_type="application/json")
