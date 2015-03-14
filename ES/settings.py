@@ -115,6 +115,7 @@ DEPLOY_ROOT = "/var/www/projects/rat-expert/"
 
 LOG_FILE = os.path.join(_PATH, PROJECT_NAME + ".log")
 if DEPLOY:
+    DEPLOY_LOG_ADDRESS = "/serega/special/rat/folder/"  # TODO: if SEREGA: change
     DEBUG = False
     TEMPLATE_DEBUG = True
     ALLOWED_HOSTS = ['*']
@@ -135,7 +136,7 @@ if DEPLOY:
         'ExpertSystem',
         'imagekit'
     )
-    LOG_FILE = DEPLOY_ROOT + PROJECT_NAME + ".log"
+    LOG_FILE = DEPLOY_LOG_ADDRESS + PROJECT_NAME + ".log"
 
 
 if not os.path.exists(LOG_FILE):

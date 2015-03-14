@@ -131,7 +131,8 @@ def delete_attribute_value(request):
     """
     attribute_value_id = request.POST.get("id")
 
-    _delete_attribute_value(attribute_value_id)
+    if attribute_value_id:
+        _delete_attribute_value(attribute_value_id)
 
     response = {
         "code": 0,
@@ -141,9 +142,16 @@ def delete_attribute_value(request):
 
 
 def _delete_attribute_value(attribute_value_id):
-    attribute_value = AttributeValue.objects.get(id=attribute_value_id)
+    try:
+        attribute_value_id = int(attribute_value_id)
+        attribute_value = AttributeValue.objects.get(id=attribute_value_id)
+    except ValueError as e:
+        log.exception(e)
+        return
+    except AttributeValue.DoesNotExist:
+        return
 
-    rules = Rule.objects.all()
+    rules = Rule.objects.filter(type=Rule.ATTR_RULE)
     for rule in rules:
         results = json.loads(rule.result)
         for result in results:
@@ -151,13 +159,19 @@ def _delete_attribute_value(attribute_value_id):
             updated_values = []
 
             for value in result["values"]:
-                if value != int(attribute_value_id):
+                if value != attribute_value_id:
                     updated_values.append(value)
 
-            result["values"] = updated_values
+            if not updated_values:
+                results[:] = [d for d in results if d != result]
+            else:
+                result["values"] = updated_values
 
-        rule.result = json.dumps(results)
-        rule.save()
+        if not results:
+            rule.delete()
+        else:
+            rule.result = json.dumps(results)
+            rule.save()
 
     attribute_value.delete()
 
@@ -172,33 +186,21 @@ def delete_attribute(request):
     :param request: id атрибута
     :return:
     """
-    attribute_id = request.POST.get("id")
-    attribute = Attribute.objects.get(id=attribute_id)
-    attribute_values = attribute.attributevalue_set.all()
-    attribute_values_ids = []
+    try:
+        attribute_id = int(request.POST.get("id"))
+        attribute = Attribute.objects.get(id=attribute_id)
+        attribute_values = attribute.attributevalue_set.all()
+    except (ValueError, Attribute.DoesNotExist) as e:
+        log.exception(e)
+        response = {
+            "code": 1,
+            "msg": u"Что-то пошло не так. Попробуйте обновить страницу."
+        }
+
+        return HttpResponse(json.dumps(response), content_type="application/json")
+
     for attr_val in attribute_values:
-        attribute_values_ids.append(attr_val.id)
-
-    rules = Rule.objects.all()
-    for rule in rules:
-
-        updated_results = []
-        results = json.loads(rule.result)
-        for result in results:
-            if result.has_key("attribute") and result["attribute"] != attribute_id:
-                updated_results.append(result)
-
-        for result in updated_results:
-            updated_values = []
-            
-            for value in result["values"]:
-                if value not in attribute_values_ids:
-                    updated_values.append(value)
-
-            result["values"] = updated_values
-
-        rule.result = json.dumps(updated_results)
-        rule.save()
+        _delete_attribute_value(attr_val.id)
 
     attribute.delete()
 
