@@ -25,7 +25,7 @@ def index(request):
     if sessions.SESSION_KEY not in request.session:
         system_id = request.GET.get("system_id", None)
         if not system_id:
-            systems = System.objects.all()
+            systems = System.objects.filter(is_deleted=False)
             return render(request, "systems.html", {"systems": systems, "user_id": request.user.id})
         else:
             sessions.init_session(request, system_id)
@@ -33,6 +33,7 @@ def index(request):
     return next_question(request)
 
 
+@login_required(login_url="/login/")
 def reset(request):
     """
     Очищает сессию, стартует тестирование заново
@@ -43,6 +44,7 @@ def reset(request):
     if system_id:
         redirect_url += '?system_id=' + system_id
     return HttpResponseRedirect(redirect_url)
+
 
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
@@ -162,7 +164,6 @@ def answer(request):
     return HttpResponseRedirect("/index")
 
 
-@login_required(login_url="/login/")
 def creators(request):
     return render(request, "creators.html")
 
@@ -188,19 +189,22 @@ def skip_question(request, question_id):
         pass
     return HttpResponseRedirect("/index")
 
-@login_required(login_url="/login/")
+
 def presentation(request):
     return render(request, "presentation.html")
 
+
+@login_required(login_url="/login/")
 def faq(request):
     return render(request, "FAQ.html")
+
 
 @require_http_methods(["GET"])
 @login_required(login_url="/login/")
 def delete_system(request, system_id=None):
     if system_id:
         try:
-            system = System.objects.get(id=system_id)
+            system = System.objects.get(id=system_id, is_deleted=False)
             user_id = User.objects.get(id=system.user_id).id
         except System.DoesNotExist:
             return HttpResponse(json.dumps({'error': 'System doesn\'t exist'}), content_type='application/json')
@@ -208,7 +212,8 @@ def delete_system(request, system_id=None):
             return HttpResponse(json.dumps({'error': 'User doesn\'t exist'}), content_type='application/json')
 
         if request.user.id == user_id:
-            system.delete()
+            system.is_deleted = True
+            system.save()
             return HttpResponse(json.dumps({'OK': 'Deleted'}), content_type='application/json')
         else:
             return HttpResponse(json.dumps({'error': 'You can\'t delete this system'}), content_type='application/json')

@@ -18,6 +18,7 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data["code"] == 0) {
                         $attribute.remove();
+                        toastr.success("Атрибут удален", "Успех!");
                     } else {
                         toastr.error(data["msg"]);
                     }
@@ -130,7 +131,7 @@ $(document).ready(function () {
                 }
             },
             error: function(msg){
-                $('button[type=submit]').removeClass('disabled')
+                $('button[type=submit]').removeClass('disabled');
                 toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
             }
         });

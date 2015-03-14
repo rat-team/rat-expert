@@ -9,17 +9,18 @@ import os
 
 
 def default_photo():
-    return os.path.join("media", "system", "no_img.png")
+    return os.path.join("images", "no_img.png")
 
 
 class System(models.Model):
     def photo_upload(self, *args):
-        return os.path.join("media", "system", hashlib.md5(str(self.id)).hexdigest() + ".jpg")
+        return os.path.join("system", hashlib.md5(str(self.id)).hexdigest() + ".jpg")
 
     name = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     about = models.TextField(max_length=1000, blank=True, null=True, default='')
-    date_created = models.DateField(default=timezone.now(), blank=True, null=True)
+    date_created = models.DateField(blank=True, null=True, default=timezone.now())
+    is_deleted = models.BooleanField(blank=True, default=False)
     photo = models.ImageField(upload_to=photo_upload, default=default_photo(), null=True, blank=True)
     pic_thumbnail = ImageSpecField([ResizeToFill(200, 200)], source='photo',
                                    format='JPEG', options={'quality': 90})

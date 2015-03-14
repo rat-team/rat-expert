@@ -10,7 +10,11 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
+PROJECT_NAME = "es"
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -39,7 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ExpertSystem',
-    # 'south',
+    'south',
     'imagekit'
 )
 
@@ -104,20 +108,20 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 QUERIES_DEBUG = False
 
-_PATH = os.path.abspath(os.path.dirname(__file__))
-
 MEDIA_ROOT = os.path.join(_PATH, 'media')
 MEDIA_URL = '/media/'
 
+DEPLOY_ROOT = "/var/www/projects/rat-expert/"
 
+LOG_FILE = os.path.join(_PATH, PROJECT_NAME + ".log")
 if DEPLOY:
     DEBUG = False
     TEMPLATE_DEBUG = True
     ALLOWED_HOSTS = ['*']
-    MEDIA_ROOT = "/var/www/projects/rat-expert/media"
+    MEDIA_ROOT = DEPLOY_ROOT + "media"
     MEDIA_URL = '/media'
 
-    STATIC_ROOT = "/var/www/projects/rat-expert/static"
+    STATIC_ROOT = DEPLOY_ROOT + "static"
     STATIC_URL = '/static/'
 
     INSTALLED_APPS = (
@@ -131,3 +135,58 @@ if DEPLOY:
         'ExpertSystem',
         'imagekit'
     )
+    LOG_FILE = DEPLOY_ROOT + PROJECT_NAME + ".log"
+
+
+if not os.path.exists(LOG_FILE):
+    try:
+        os.makedirs(os.path.dirname(LOG_FILE))
+        open(LOG_FILE, 'a').close()
+    except OSError as e:
+        LOG_FILE = "/dev/null"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'null': {
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'logfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': LOG_FILE,
+            'maxBytes': 50000,
+            'backupCount': 2,
+            'formatter': 'standard',
+        },
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers':['console'],
+            'propagate': True,
+            'level':'WARN',
+        },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'ExpertSystem': {
+            'handlers': ['console', 'logfile'],
+            'level': 'DEBUG',
+        },
+    }
+}

@@ -16,12 +16,12 @@ $(document).ready(function () {
                     toastr.success('Система добавлена', 'Успех!');
                     location.reload();
                 }else{
-                    $('button[type=submit]').removeClass('disabled')
+                    $('button[type=submit]').removeClass('disabled');
                     toastr.error(data["msg"]);
                 }
             },
             error: function(msg){
-                $('button[type=submit]').removeClass('disabled')
+                $('button[type=submit]').removeClass('disabled');
                 toastr.error('Что-то пошло не так, попоробуйте отправить заново', 'Ошибка!');
             }
         });
