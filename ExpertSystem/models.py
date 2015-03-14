@@ -9,7 +9,7 @@ import os
 
 
 def default_photo():
-    return os.path.join("images", "no_img.png")
+    return os.path.join("media", "system", "no_img.png")
 
 
 class System(models.Model):
