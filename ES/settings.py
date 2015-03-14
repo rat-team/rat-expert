@@ -22,6 +22,8 @@ SECRET_KEY = 'dpp#zd_v1hqcy*fm7lxc3xush6uvij1m*7l#4ydxeobv_b^3!5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+DEPLOY = False
+
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -106,3 +108,26 @@ _PATH = os.path.abspath(os.path.dirname(__file__))
 
 MEDIA_ROOT = os.path.join(_PATH, 'media')
 MEDIA_URL = '/media/'
+
+
+if DEPLOY:
+    DEBUG = False
+    TEMPLATE_DEBUG = True
+    ALLOWED_HOSTS = ['*']
+    MEDIA_ROOT = "/var/www/projects/rat-expert/media"
+    MEDIA_URL = '/media'
+
+    STATIC_ROOT = "/var/www/projects/rat-expert/static"
+    STATIC_URL = '/static/'
+
+    INSTALLED_APPS = (
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'south',
+        'ExpertSystem',
+        'imagekit'
+    )

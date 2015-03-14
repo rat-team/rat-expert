@@ -63,7 +63,7 @@ def insert_rules(request):
     session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
     system = System.objects.get(id=session["system_id"])
 
-    Rule.objects.all().delete()
+    Rule.objects.filter(system=system).delete()
 
     form_data = request.POST.get("form_data")
     for rule_data in json.loads(form_data):
