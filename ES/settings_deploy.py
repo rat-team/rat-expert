@@ -7,10 +7,10 @@ DEPLOY_ROOT = os.environ("rat_expert_root")
 
 LOG_FILE = os.path.join(DEPLOY_ROOT, "log",  PROJECT_NAME + ".log")
 
-MEDIA_ROOT = DEPLOY_ROOT + "media"
+MEDIA_ROOT = os.path.join(DEPLOY_ROOT, "media")
 MEDIA_URL = '/media'
 
-STATIC_ROOT = DEPLOY_ROOT + "static"
+STATIC_ROOT = os.path.join(DEPLOY_ROOT, "static")
 STATIC_URL = '/static/'
 
 if not os.path.exists(LOG_FILE):
