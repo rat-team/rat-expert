@@ -39,7 +39,10 @@ def reset(request):
     """
     system_id = request.GET.get('system_id')
     clear_session(request)
-    return HttpResponseRedirect("/index/?system_id=" + system_id)
+    redirect_url = "/index/"
+    if system_id:
+        redirect_url += '?system_id=' + system_id
+    return HttpResponseRedirect(redirect_url)
 
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
