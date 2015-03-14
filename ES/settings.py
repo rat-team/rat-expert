@@ -152,12 +152,12 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers':['console'],
+            'handlers':['logfile'],
             'propagate': True,
             'level':'WARN',
         },
         'django.db.backends': {
-            'handlers': ['console'],
+            'handlers': ['logfile'],
             'level': 'DEBUG',
             'propagate': False,
         },
@@ -167,8 +167,6 @@ LOGGING = {
         },
     }
 }
-
-
 
 try:
     from settings_local import *
