@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Ratus Expertus</title>
-    {% load staticfiles %}
-
-    <script src="{% static "js/lib/jquery.min.js" %}"></script>
-    <script src="{% static "js/auth.js" %}"></script>
-
-    <link rel="stylesheet" type="text/css" href="{% static "css/lib/bootstrap.min.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "css/auth.css" %}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
     <div class="container">
         <form id="reg-form" method="post" class="form-signin form-reg">
             <h2 class="form-signin-heading">Регистрация</h2>
@@ -53,5 +41,9 @@
             <p id="auth-error" style="display: none">Ошибочка вышла</p>
         </form>
     </div>
-</body>
-</html>
+{% endblock %}
+{% block scripts %}
+    {% load staticfiles %}
+    <script src="{% static "js/auth.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "css/auth.css" %}">
+{% endblock %}
