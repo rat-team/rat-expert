@@ -61,22 +61,23 @@ def insert_system(request):
     system_about = request.POST.get("system_about")
     system_pic = request.FILES.get('system_pic')
 
-    try:
-        trial_image = Image.open(system_pic)
-        trial_image.verify()
-    except IOError:
-        response = {
-            'code': 1,
-            'msg': u'Загрузите корректную картинку.'
-        }
-        return HttpResponse(json.dumps(response), content_type="application/json")
-    except Exception as e:
-        log.exception(e)
-        response = {
-            'code': 1,
-            'msg': u'Загрузите корректную картинку.'
-        }
-        return HttpResponse(json.dumps(response), content_type="application/json")
+    if system_pic:
+        try:
+            trial_image = Image.open(system_pic)
+            trial_image.verify()
+        except IOError:
+            response = {
+                'code': 1,
+                'msg': u'Загрузите корректную картинку.'
+            }
+            return HttpResponse(json.dumps(response), content_type="application/json")
+        except Exception as e:
+            log.exception(e)
+            response = {
+                'code': 1,
+                'msg': u'Загрузите корректную картинку.'
+            }
+            return HttpResponse(json.dumps(response), content_type="application/json")
 
     session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
     if session:
