@@ -24,11 +24,13 @@ _PATH = os.path.abspath(os.path.dirname(__file__))
 SECRET_KEY = 'dpp#zd_v1hqcy*fm7lxc3xush6uvij1m*7l#4ydxeobv_b^3!5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+DEPLOY_ROOT = os.environ.get("rat_expert_root", _PATH)
 
 
 # Application definition
@@ -88,8 +90,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
-
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
     os.path.join(BASE_DIR,  'templates/add_system'),
@@ -106,5 +106,73 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 QUERIES_DEBUG = False
 
-MEDIA_ROOT = os.path.join(_PATH, 'media')
+LOG_FILE = os.path.join(DEPLOY_ROOT, "log",  PROJECT_NAME + ".log")
+
+MEDIA_ROOT = os.path.join(DEPLOY_ROOT, "media")
 MEDIA_URL = '/media/'
+
+STATIC_ROOT = os.path.join(DEPLOY_ROOT, "static")
+STATIC_URL = '/static/'
+
+
+if not os.path.exists(LOG_FILE):
+    try:
+        os.makedirs(os.path.dirname(LOG_FILE))
+        open(LOG_FILE, 'a').close()
+    except OSError as e:
+        LOG_FILE = "/dev/null"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+        'standard': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'handlers': {
+        'null': {
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'logfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': LOG_FILE,
+            'maxBytes': 50000,
+            'backupCount': 2,
+            'formatter': 'standard',
+        },
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers':['logfile'],
+            'propagate': True,
+            'level':'WARN',
+        },
+        'django.db.backends': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'ExpertSystem': {
+            'handlers': ['console', 'logfile'],
+            'level': 'DEBUG',
+        },
+    }
+}
+
+try:
+    from settings_local import *
+except ImportError:
+    pass

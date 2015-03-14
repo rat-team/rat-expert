@@ -26,12 +26,12 @@
 			        {% if user.is_authenticated %}<li class="{% active request "index" %}"><a href="/reset">Системы</a></li>{% endif %}
 			        <li class="{% active request "creators" %}"><a href="/creators/">Создатели</a></li>
 			        <li><a href="/presentation/">Презентация</a></li>
-			        {% if user.is_authenticated %}<li><a href="/faq/">Как сделать лабу</a></li>{% endif %}
+			        <li><a href="/faq/">Как сделать лабу</a></li>
 			      </ul>
 			      
 			      <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">{{ user.username }}</a></li>
-			        <li><a href="/logout/">Выйти</a></li>
+			        {% if user.is_authenticated %}<li><a href="/logout/">Выйти</a></li>{% endif %}
 			      </ul>
 			    </div>
 			  </div>
