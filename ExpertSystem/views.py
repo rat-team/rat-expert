@@ -194,7 +194,6 @@ def presentation(request):
     return render(request, "presentation.html")
 
 
-@login_required(login_url="/login/")
 def faq(request):
     return render(request, "FAQ.html")
 
