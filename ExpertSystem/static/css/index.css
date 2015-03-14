@@ -42,6 +42,7 @@
 	height: 98px;
 	background: #2ecc71;
 	border-color: #2ecc71;
+    box-shadow: 4px 4px 2px grey;
 }
 .thumbnail__add__link:hover{
 	background: #27ae60;
@@ -53,6 +54,7 @@
 	text-align: center;
 	line-height: 92px;
 	color: #fff;
+
 }
 .page-header{
 	margin-top: 20px;
