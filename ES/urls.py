@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^create/', create_db),
+    # url(r'^create/', create_db),
     url(r'^reset', reset, name="reset"),
 
     url(r'^$', index, name="index"),
