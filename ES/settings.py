@@ -26,8 +26,6 @@ SECRET_KEY = 'dpp#zd_v1hqcy*fm7lxc3xush6uvij1m*7l#4ydxeobv_b^3!5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-DEPLOY = False
-
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -110,83 +108,3 @@ QUERIES_DEBUG = False
 
 MEDIA_ROOT = os.path.join(_PATH, 'media')
 MEDIA_URL = '/media/'
-
-DEPLOY_ROOT = "/var/www/projects/rat-expert/"
-
-LOG_FILE = os.path.join(_PATH, PROJECT_NAME + ".log")
-if DEPLOY:
-    DEBUG = False
-    TEMPLATE_DEBUG = True
-    ALLOWED_HOSTS = ['*']
-    MEDIA_ROOT = DEPLOY_ROOT + "media"
-    MEDIA_URL = '/media'
-
-    STATIC_ROOT = DEPLOY_ROOT + "static"
-    STATIC_URL = '/static/'
-
-    INSTALLED_APPS = (
-        'django.contrib.admin',
-        'django.contrib.auth',
-        'django.contrib.contenttypes',
-        'django.contrib.sessions',
-        'django.contrib.messages',
-        'django.contrib.staticfiles',
-        'south',
-        'ExpertSystem',
-        'imagekit'
-    )
-    LOG_FILE = DEPLOY_ROOT + PROJECT_NAME + ".log"
-
-
-if not os.path.exists(LOG_FILE):
-    try:
-        os.makedirs(os.path.dirname(LOG_FILE))
-        open(LOG_FILE, 'a').close()
-    except OSError as e:
-        LOG_FILE = "/dev/null"
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'standard': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt' : "%d/%b/%Y %H:%M:%S"
-        },
-    },
-    'handlers': {
-        'null': {
-            'level':'DEBUG',
-            'class':'django.utils.log.NullHandler',
-        },
-        'logfile': {
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename': LOG_FILE,
-            'maxBytes': 50000,
-            'backupCount': 2,
-            'formatter': 'standard',
-        },
-        'console':{
-            'level':'INFO',
-            'class':'logging.StreamHandler',
-            'formatter': 'standard'
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers':['console'],
-            'propagate': True,
-            'level':'WARN',
-        },
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'ExpertSystem': {
-            'handlers': ['console', 'logfile'],
-            'level': 'DEBUG',
-        },
-    }
-}
