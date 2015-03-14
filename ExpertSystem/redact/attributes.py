@@ -71,6 +71,12 @@ def insert_attributes(request):
 
     form_data = json.loads(request.POST.get("form_data"))
     for attr_json in form_data:
+        try:
+            attr_id = int(attr_json.get("id"))
+        except ValueError as e:
+            log.exception(e)
+            continue
+
         if not attr_json["name"]:
             response = {
                 "code": 1,
@@ -78,12 +84,14 @@ def insert_attributes(request):
             }
 
             return HttpResponse(json.dumps(response), content_type="application/json")
-        elif attr_json["id"] and int(attr_json["id"]) != -1:
-            #Редактируем атрибут
-            attribute = Attribute.objects.get(id=attr_json["id"])
+
+        elif attr_id != -1:
+            # Редактируем атрибут
+            attribute = Attribute.objects.get(id=attr_id)
             attribute.name = attr_json["name"]
             attribute.save()
-            #Обновляем значения:
+            # Обновляем значения:
+            # TODO: добавить проверку values
             added_values = []
             for val in attr_json["values"]:
                 if val["id"] and int(val["id"]) != -1:

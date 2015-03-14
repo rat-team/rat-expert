@@ -2,17 +2,22 @@
 import json
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from ExpertSystem.models import System, Parameter, Rule, Answer, Question
+from ExpertSystem.redact.utils import get_system
 from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_creation_session, require_post_params
+from ExpertSystem.utils.log_manager import log
 
 
 @require_creation_session()
 def add_parameters(request):
     session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
-    system = System.objects.get(id=session["system_id"])
+    system = get_system(session, request.user.id)
+    if not system:
+        return redirect("/reset/")
+
     all_params = Parameter.objects.filter(system=system)
 
     params = []
@@ -21,7 +26,7 @@ def add_parameters(request):
         all_answers = Answer.objects.filter(question__in=questions)
         values = []
         for answer in all_answers:
-            if not values.__contains__(answer.parameter_value) and not answer.parameter_value == "":
+            if answer.parameter_value not in values and not answer.parameter_value == "":
                 values.append(answer.parameter_value)
 
         params.append({
@@ -52,14 +57,35 @@ def insert_parameters(request):
     :return:
     """
     session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
-    system = System.objects.get(id=session["system_id"])
+    system = get_system(session, request.user.id)
+    if not system:
+        response = {
+            "code": 1,
+            "msg": u"Что-то пошло не так. Попробуйте обновить страницу."
+        }
+
+        return HttpResponse(json.dumps(response), content_type="application/json")
 
     form_data = json.loads(request.POST.get("form_data"))
     for param_json in form_data:
-        if param_json["id"] and int(param_json["id"]) != -1:
+        try:
+            param_id = int(param_json.get("id"))
+        except ValueError as e:
+            log.exception(e)
+            continue
+
+        if not param_json["name"]:
+            response = {
+                "code": 1,
+                "msg": u"Заполните названия всех параметров, пожалуйста"
+            }
+
+            return HttpResponse(json.dumps(response), content_type="application/json")
+
+        if param_id != -1:
             # Редактируем параметр
             try:
-                parameter = Parameter.objects.get(id=param_json["id"])
+                parameter = Parameter.objects.get(id=param_id)
             except Parameter.DoesNotExist:
                 parameter = None
 
@@ -88,15 +114,18 @@ def delete_parameter(request):
     :param request: id параметра
     :return:
     """
+
+    response = {
+        "code": 0,
+    }
+
     param_id = request.POST.get("id")
+    if not param_id:
+        return HttpResponse(json.dumps(response), content_type="application/json")
+
     try:
         parameter = Parameter.objects.get(id=param_id)
-        if not parameter:
-            raise Parameter.DoesNotExist
     except Parameter.DoesNotExist:
-        response = {
-            "code": 0,
-        }
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     rules = Rule.objects.all()
@@ -126,7 +155,4 @@ def delete_parameter(request):
 
     parameter.delete()
 
-    response = {
-        "code": 0,
-    }
     return HttpResponse(json.dumps(response), content_type="application/json")
