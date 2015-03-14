@@ -63,15 +63,6 @@ class Question(models.Model):
         return "Question #" + str(self.id) + " in system: " + self.system.name
 
 
-class ParameterValue(models.Model):
-    system = models.ForeignKey(System, on_delete=models.CASCADE)
-    param = models.ForeignKey(Parameter, on_delete=models.CASCADE)
-    value = models.CharField(max_length=50)
-
-    class Meta:
-        db_table = "parameter_value"
-
-
 class Answer(models.Model):
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
     body = models.TextField()

@@ -4,7 +4,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
-from ExpertSystem.models import System, Parameter, Rule, ParameterValue, Answer, Question
+from ExpertSystem.models import System, Parameter, Rule, Answer, Question
 from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_creation_session, require_post_params
 
